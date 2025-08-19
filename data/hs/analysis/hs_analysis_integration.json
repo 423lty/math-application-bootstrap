@@ -1,0 +1,114 @@
+{
+  "questions": [
+    {
+      "id": "hs_analysis_int_001",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "定積分 ∫₀² (2x) dx の値は？",
+      "choices": ["4", "6", "8", "2"],
+      "answer": 2,
+      "explanation": "∫ 2x dx = x^2。0から2までの値は 2^2 = 4。よって計算は 4。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_002",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "定積分 ∫₁³ (3x^2) dx の値は？",
+      "choices": ["26", "26", "24", "18"],
+      "answer": 2,
+      "explanation": "∫ 3x^2 dx = x^3。 3^3 - 1^3 = 27 - 1 = 26。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_003",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "不定積分 ∫ x dx の結果は？",
+      "choices": ["x^2/2 + C", "x^2 + C", "2x + C", "1/x + C"],
+      "answer": 0,
+      "explanation": "∫ x dx = x^2/2 + C。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_004",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "不定積分 ∫ cos x dx は？",
+      "choices": ["sin x + C", "-sin x + C", "cos x + C", "-cos x + C"],
+      "answer": 0,
+      "explanation": "∫ cos x dx = sin x + C。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_005",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "定積分 ∫₀^π sin x dx の値は？",
+      "choices": ["2", "0", "1", "π"],
+      "answer": 0,
+      "explanation": "∫ sin x dx = -cos x。0からπまでの値は -cos π + cos 0 = 2。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_006",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "定積分 ∫₀^1 (3x^2 + 2x) dx の値は？",
+      "choices": ["2", "1", "3", "4"],
+      "answer": 0,
+      "explanation": "∫ 3x^2 dx = x^3、∫ 2x dx = x^2。計算は 1^3 + 1^2 = 2。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_007",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "不定積分 ∫ e^x dx は？",
+      "choices": ["e^x + C", "x e^x + C", "e^(x+1) + C", "1 + C"],
+      "answer": 0,
+      "explanation": "∫ e^x dx = e^x + C。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_008",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "定積分 ∫₁^2 (1/x) dx の値は？",
+      "choices": ["ln 2", "2", "1/2", "1"],
+      "answer": 0,
+      "explanation": "∫ 1/x dx = ln|x|。1から2までの値は ln 2。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_009",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "不定積分 ∫ 0 dx の結果は？",
+      "choices": ["C", "0", "1", "x"],
+      "answer": 0,
+      "explanation": "∫ 0 dx = 定数 C。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_analysis_int_010",
+      "level": "高等数学",
+      "area": "解析",
+      "category": "微積分入門",
+      "question": "定積分 ∫₀^2 (4x - 1) dx の値は？",
+      "choices": ["6", "8", "4", "2"],
+      "answer": 0,
+      "explanation": "∫ (4x -1) dx = 2x^2 - x。0から2までの値は 8 - 2 = 6。",
+      "type": "選択式"
+    }
+  ]
+}

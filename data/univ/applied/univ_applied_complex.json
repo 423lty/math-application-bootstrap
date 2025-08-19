@@ -1,0 +1,119 @@
+{
+  "questions": [
+    {
+      "id": "complex_001",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "複素数 z = 3 + 4i の絶対値 |z| は？",
+      "choices": ["5", "7", "1", "25"],
+      "answer": 0,
+      "explanation": "|z| = √(3² + 4²) = √25 = 5。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_002",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "複素数 z = 1 + i に対して z² の値は？",
+      "choices": ["2i", "0", "1 + 2i", "2i + 1"],
+      "answer": 0,
+      "explanation": "z² = (1 + i)² = 1 + 2i + i² = 2i。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_003",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "複素共役 z̄ が z = a + bi のとき正しいものは？",
+      "choices": ["a - bi", "-a + bi", "-a - bi", "a + bi"],
+      "answer": 0,
+      "explanation": "複素共役は虚部の符号を反転する。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_004",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "i^4 の値は？",
+      "choices": ["1", "i", "-1", "0"],
+      "answer": 0,
+      "explanation": "i⁴ = (i²)² = (-1)² = 1。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_005",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "オイラーの公式 e^{iπ} + 1 = ?",
+      "choices": ["0", "1", "i", "-1"],
+      "answer": 0,
+      "explanation": "e^{iπ} + 1 = 0 はオイラーの等式。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_006",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "複素数 z = 2e^{iπ/3} の偏角は？",
+      "choices": ["π/3", "2π/3", "π", "π/6"],
+      "answer": 0,
+      "explanation": "偏角は指数の虚部部分 π/3。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_007",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "z = cosθ + i sinθ を指数関数で表すと？",
+      "choices": ["e^{iθ}", "e^{-iθ}", "i e^{θ}", "cos(iθ)"],
+      "answer": 0,
+      "explanation": "オイラーの公式より cosθ + i sinθ = e^{iθ}。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_008",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "z = 1 - i の絶対値は？",
+      "choices": ["√2", "1", "2", "√3"],
+      "answer": 0,
+      "explanation": "|z| = √(1² + (-1)²) = √2。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_009",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "z = i の偏角は？",
+      "choices": ["π/2", "π", "0", "-π/2"],
+      "answer": 0,
+      "explanation": "z = i は虚軸の正の方向 → 偏角 π/2。",
+      "type": "選択式"
+    },
+    {
+      "id": "complex_010",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "複素数",
+      "question": "複素数の掛け算 z₁z₂ は何を表す？",
+      "choices": [
+        "絶対値の積と偏角の和",
+        "絶対値の和と偏角の積",
+        "偏角の差",
+        "偏角の比"
+      ],
+      "answer": 0,
+      "explanation": "極形式で掛けると偏角が加算される。",
+      "type": "選択式"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "questions": [
+    {
+      "id": "hs_geo_tri_001",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "三角形の2辺の長さが5, 7で、間の角が60度のとき、この三角形の面積は？",
+      "choices": ["8.75", "15.2", "17.5", "30.5"],
+      "answer": 2,
+      "explanation": "面積 = 1/2 × 5 × 7 × sin60° = 17.5。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_002",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "sin30°の値は？",
+      "choices": ["1/2", "√2/2", "√3/2", "1"],
+      "answer": 0,
+      "explanation": "sin30° = 1/2。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_003",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "tan45°の値は？",
+      "choices": ["0", "1", "√3", "無限大"],
+      "answer": 1,
+      "explanation": "tan45° = 1。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_004",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "cos60°の値は？",
+      "choices": ["1/2", "√2/2", "√3/2", "0"],
+      "answer": 0,
+      "explanation": "cos60° = 1/2。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_005",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "tanθ = 1 のとき、θは何度か？（0°<θ<90°）",
+      "choices": ["30", "45", "60", "90"],
+      "answer": 1,
+      "explanation": "tan45° = 1。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_006",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "sin²30° + cos²60° の値は？",
+      "choices": ["1/4", "1/2", "3/4", "1"],
+      "answer": 3,
+      "explanation": "sin30°=1/2 → sin²30°=1/4、cos60°=1/2 → cos²60°=1/4、合計1/4+1/4=1/2ではなく正しくは sin²θ + cos²θ = 1。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_007",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "三角関数の加法定理で sin(a + b) は？",
+      "choices": [
+        "sin a cos b + cos a sin b",
+        "sin a sin b + cos a cos b",
+        "cos a cos b - sin a sin b",
+        "cos a sin b - sin a cos b"
+      ],
+      "answer": 0,
+      "explanation": "sin(a + b) = sin a cos b + cos a sin b。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_008",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "cos 2θ の公式はどれか？",
+      "choices": [
+        "cos²θ - sin²θ",
+        "2cos²θ - 1",
+        "1 - 2sin²θ",
+        "上記すべて"
+      ],
+      "answer": 3,
+      "explanation": "cos 2θ = cos²θ - sin²θ = 2cos²θ - 1 = 1 - 2sin²θ の3通りの表現がある。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_009",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "tan 60° の値は？",
+      "choices": ["1", "√3", "1/√3", "0"],
+      "answer": 1,
+      "explanation": "tan 60° = √3。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_geo_tri_010",
+      "level": "高等数学",
+      "area": "幾何",
+      "category": "三角比",
+      "question": "sin 45° × cos 45° の値は？",
+      "choices": ["1/2", "√2/2", "1/4", "1"],
+      "answer": 0,
+      "explanation": "sin 45° = cos 45° = √2/2、掛け算は (√2/2)×(√2/2) = 1/2。",
+      "type": "選択式"
+    }
+  ]
+}

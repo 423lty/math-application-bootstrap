@@ -1,0 +1,164 @@
+{
+  "questions": [
+    {
+      "id": "univ_summary_001",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "常微分方程式×線形代数",
+      "question": "次の微分方程式の一般解は？\\ny'' - 3y' + 2y = 0",
+      "choices": [
+        "y = C₁e^x + C₂e^{2x}",
+        "y = C₁e^{2x} + C₂e^{x}",
+        "y = C₁e^{x} + C₂e^{3x}",
+        "y = C₁e^{x} + C₂xe^{2x}"
+      ],
+      "answer": 1,
+      "explanation": "特徴方程式は r² - 3r + 2=0 → r=1,2 よって一般解は y = C₁e^{r₁x} + C₂e^{r₂x} = C₁e^{x} + C₂e^{2x}",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_002",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "偏微分×複素数",
+      "question": "ラプラス方程式 ∂²u/∂x² + ∂²u/∂y² = 0 の解として正しいのは？",
+      "choices": [
+        "u(x,y) = Re(f(z)) （ただし f は正則関数）",
+        "u(x,y) = e^{x+y}",
+        "u(x,y) = sin(xy)",
+        "u(x,y) = |z|^2"
+      ],
+      "answer": 0,
+      "explanation": "ラプラス方程式の解は正則関数の実部または虚部。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_003",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "確率論×線形代数",
+      "question": "確率変数の共分散行列が正定値行列である理由は？",
+      "choices": [
+        "分散が非負でかつ固有値が正だから",
+        "行列のランクが0だから",
+        "対角成分が負だから",
+        "すべての成分が0だから"
+      ],
+      "answer": 0,
+      "explanation": "共分散行列は対称かつ正定値で、分散が非負で固有値は非負。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_004",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "複素数×群・環・体",
+      "question": "複素数全体はどの代数構造を持つか？",
+      "choices": [
+        "体",
+        "群",
+        "環だが体ではない",
+        "ベクトル空間ではない"
+      ],
+      "answer": 0,
+      "explanation": "複素数体は加法と乗法で体の構造を持つ。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_005",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "偏微分×確率論",
+      "question": "熱方程式 ∂u/∂t = α∂²u/∂x² はどの確率過程と関連するか？",
+      "choices": [
+        "ブラウン運動",
+        "ベルヌーイ過程",
+        "ポアソン過程",
+        "マルコフ連鎖"
+      ],
+      "answer": 0,
+      "explanation": "熱方程式はブラウン運動の確率密度関数の時間発展を表す。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_006",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "常微分方程式×群・環・体",
+      "question": "線形常微分方程式の解の集合はどの代数構造を持つか？",
+      "choices": [
+        "ベクトル空間",
+        "群",
+        "環",
+        "体"
+      ],
+      "answer": 0,
+      "explanation": "線形微分方程式の解の集合はベクトル空間を形成する。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_007",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "線形代数×位相空間",
+      "question": "ノルム空間が完備かつ内積を誘導する場合、何空間となるか？",
+      "choices": [
+        "ヒルベルト空間",
+        "バナッハ空間",
+        "距離空間",
+        "トポロジー空間"
+      ],
+      "answer": 0,
+      "explanation": "ヒルベルト空間は完備な内積空間。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_008",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "複素数×微積分",
+      "question": "複素関数 f(z) = z^2 の微分は？",
+      "choices": [
+        "2z",
+        "z",
+        "2",
+        "0"
+      ],
+      "answer": 0,
+      "explanation": "複素微分は通常の微分と同様に扱える。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_009",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "確率論×集合・論理",
+      "question": "独立な2事象A, Bの和事象の確率 P(A ∪ B) は？",
+      "choices": [
+        "P(A) + P(B) - P(A)P(B)",
+        "P(A) + P(B)",
+        "P(A)P(B)",
+        "P(A) - P(B)"
+      ],
+      "answer": 0,
+      "explanation": "独立なら P(A ∩ B) = P(A)P(B) を用いる。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_summary_010",
+      "level": "大学数学",
+      "area": "まとめ",
+      "category": "偏微分×位相空間",
+      "question": "偏微分方程式の解の連続性を議論する際重要な概念は？",
+      "choices": [
+        "位相空間における収束",
+        "群の単位元",
+        "複素数の絶対値",
+        "確率変数の期待値"
+      ],
+      "answer": 0,
+      "explanation": "偏微分の解析では位相空間の収束概念が重要。",
+      "type": "選択式"
+    }
+  ]
+}

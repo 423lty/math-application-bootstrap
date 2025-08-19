@@ -1,0 +1,124 @@
+{
+  "questions": [
+    {
+      "id": "hs_alg_explog_001",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "log₁₀(1000) の値は？",
+      "choices": ["1", "2", "3", "4"],
+      "answer": 2,
+      "explanation": "10の3乗が1000なので、log₁₀(1000) = 3。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_002",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "2^5 の値は？",
+      "choices": ["10", "16", "32", "64"],
+      "answer": 2,
+      "explanation": "2の5乗は32。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_003",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "log₂(8) の値は？",
+      "choices": ["1", "2", "3", "4"],
+      "answer": 2,
+      "explanation": "2の3乗が8なので、log₂(8) = 3。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_004",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "次のうち指数法則として正しいものはどれか？",
+      "choices": [
+        "a^m × a^n = a^{m+n}",
+        "a^m + a^n = a^{m+n}",
+        "a^{m} ÷ a^{n} = a^{m×n}",
+        "a^{m} × a^{n} = a^{m×n}"
+      ],
+      "answer": 0,
+      "explanation": "指数法則：掛け算のときは指数を足す。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_005",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "log₁₀(0.01) の値は？",
+      "choices": ["-2", "-1", "1", "2"],
+      "answer": 0,
+      "explanation": "0.01 = 10^{-2}なので、log₁₀(0.01) = -2。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_006",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "2^{x} = 16 のとき、x の値は？",
+      "choices": ["2", "3", "4", "5"],
+      "answer": 2,
+      "explanation": "16 = 2^{4}なので、x=4。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_007",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "log₅(25) の値は？",
+      "choices": ["1", "2", "3", "5"],
+      "answer": 1,
+      "explanation": "5^2 = 25 なので log₅(25) = 2。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_008",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "次のうち、対数の定義として正しいものはどれか？",
+      "choices": [
+        "log_a(b) = x ⇔ a^x = b",
+        "log_a(b) = a^x × b",
+        "log_a(b) = a + b",
+        "log_a(b) = x / a^b"
+      ],
+      "answer": 0,
+      "explanation": "対数の定義は「a^x = b ⇔ log_a(b) = x」。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_009",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "log₁₀(1) の値は？",
+      "choices": ["0", "1", "10", "100"],
+      "answer": 0,
+      "explanation": "10^0 = 1 なので log₁₀(1) = 0。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_alg_explog_010",
+      "level": "高等数学",
+      "area": "代数",
+      "category": "指数対数",
+      "question": "2^{3} × 2^{4} の値は？",
+      "choices": ["2^{7}", "2^{12}", "2^{1}", "2^{0}"],
+      "answer": 0,
+      "explanation": "指数法則により、2^{3} × 2^{4} = 2^{3+4} = 2^{7}。",
+      "type": "選択式"
+    }
+  ]
+}

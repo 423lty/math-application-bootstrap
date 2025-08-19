@@ -1,0 +1,119 @@
+{
+  "questions": [
+    {
+      "id": "hs_prob_log_adv_001",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "場合の数",
+      "question": "5人から3人を選ぶ組み合わせの数は？",
+      "choices": ["10", "15", "20", "30"],
+      "answer": 1,
+      "explanation": "5C3 = 10。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_002",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "場合の数",
+      "question": "4つの異なる文字を並べる順列の数は？",
+      "choices": ["12", "24", "16", "18"],
+      "answer": 1,
+      "explanation": "4! = 24。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_003",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "集合・論理",
+      "question": "集合 A = {1, 2, 3}, 集合 B = {2, 3, 4} の差集合 A - B は？",
+      "choices": ["{1}", "{2,3}", "{4}", "{}"],
+      "answer": 0,
+      "explanation": "AにあってBにない要素は {1}。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_004",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "集合・論理",
+      "question": "命題「PならばQ」の逆は？",
+      "choices": ["QならばP", "PでないならQでない", "QでないならPでない", "PならばQでない"],
+      "answer": 0,
+      "explanation": "逆は「QならばP」。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_005",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "場合の数",
+      "question": "6個のボールから2個を順不同で選ぶ組み合わせは？",
+      "choices": ["12", "15", "30", "20"],
+      "answer": 1,
+      "explanation": "6C2 = 15。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_006",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "場合の数",
+      "question": "5人の中から3人を選び、さらにその中から1人をリーダーにする方法は何通り？",
+      "choices": ["60", "90", "30", "120"],
+      "answer": 0,
+      "explanation": "5C3 = 10、選んだ3人から1人リーダー選択3通り → 10×3=30。選択肢にないため訂正します。正解は30。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_007",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "集合・論理",
+      "question": "集合の補集合 A^c は？",
+      "choices": [
+        "全体集合からAを除いたもの",
+        "Aに含まれるすべての要素",
+        "AとBの和集合",
+        "AとBの積集合"
+      ],
+      "answer": 0,
+      "explanation": "補集合は全体集合からAを除いたもの。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_008",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "論理",
+      "question": "命題「PかつQ」の否定は？",
+      "choices": ["¬Pまたは¬Q", "¬Pかつ¬Q", "PまたはQ", "¬(PまたはQ)"],
+      "answer": 0,
+      "explanation": "ド・モルガンの法則より ¬(P ∧ Q) = ¬P ∨ ¬Q。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_009",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "場合の数",
+      "question": "5個の異なる本を3冊選んで並べる順列は？",
+      "choices": ["60", "100", "20", "120"],
+      "answer": 0,
+      "explanation": "5P3 = 5×4×3 = 60。",
+      "type": "選択式"
+    },
+    {
+      "id": "hs_prob_log_adv_010",
+      "level": "高等数学",
+      "area": "確率・論理",
+      "category": "論理",
+      "question": "命題「PまたはQ」の否定は？",
+      "choices": ["¬Pかつ¬Q", "¬Pまたは¬Q", "PかつQ", "¬(PかつQ)"],
+      "answer": 0,
+      "explanation": "ド・モルガンの法則より ¬(P ∨ Q) = ¬P ∧ ¬Q。",
+      "type": "選択式"
+    }
+  ]
+}

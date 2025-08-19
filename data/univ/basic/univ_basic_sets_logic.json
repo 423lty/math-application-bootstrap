@@ -1,0 +1,119 @@
+{
+  "questions": [
+    {
+      "id": "univ_sets_001",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "集合 \(A=\{1,2,3\}, B=\{2,3,4\}\) の和集合 \(A \cup B\) は？",
+      "choices": ["\{1,2,3,4\}", "\{2,3\}", "\{1,4\}", "\{1,2,3\}"],
+      "answer": 0,
+      "explanation": "和集合は両方の集合の要素をまとめたもの。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_002",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "集合 \(A=\{1,2,3\}, B=\{2,3,4\}\) の積集合 \(A \cap B\) は？",
+      "choices": ["\{2,3\}", "\{1,2\}", "\{1,4\}", "\{4\}"],
+      "answer": 0,
+      "explanation": "積集合は両方に共通する要素。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_003",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "集合の補集合とは？",
+      "choices": [
+        "全集合からの除外",
+        "集合の部分集合",
+        "集合の交わり",
+        "集合の和集合"
+      ],
+      "answer": 0,
+      "explanation": "補集合は全集合からその集合の要素を除いたもの。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_004",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "命題「PならばQ」の逆とは？",
+      "choices": ["QならばP", "PでないならQでない", "QでないならPでない", "PならばQでない"],
+      "answer": 0,
+      "explanation": "逆は「QならばP」。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_005",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "命題「PかつQ」の否定は？",
+      "choices": ["¬Pまたは¬Q", "¬Pかつ¬Q", "PまたはQ", "¬(PまたはQ)"],
+      "answer": 0,
+      "explanation": "ド・モルガンの法則により ¬(P ∧ Q) = ¬P ∨ ¬Q。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_006",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "命題「PまたはQ」の否定は？",
+      "choices": ["¬Pかつ¬Q", "¬Pまたは¬Q", "PかつQ", "¬(PかつQ)"],
+      "answer": 0,
+      "explanation": "ド・モルガンの法則により ¬(P ∨ Q) = ¬P ∧ ¬Q。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_007",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "論理積の記号は？",
+      "choices": ["∧", "∨", "¬", "→"],
+      "answer": 0,
+      "explanation": "論理積は ∧。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_008",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "論理和の記号は？",
+      "choices": ["∨", "∧", "¬", "→"],
+      "answer": 0,
+      "explanation": "論理和は ∨。",
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_009",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "命題 \(P\) と \(Q\) が共に真ならば、命題「\(P \to Q\)」は？",
+      "choices": ["真", "偽", "不定", "論理的矛盾"],
+      "answer": 0,
+      "explanation": "真ならば真は真。", 
+      "type": "選択式"
+    },
+    {
+      "id": "univ_sets_010",
+      "level": "大学数学",
+      "area": "基礎",
+      "category": "集合・論理",
+      "question": "命題「PならばQ」の対偶は？",
+      "choices": ["¬Qならば¬P", "QならばP", "¬Pならば¬Q", "Pならば¬Q"],
+      "answer": 0,
+      "explanation": "対偶は「¬Qならば¬P」。",
+      "type": "選択式"
+    }
+  ]
+}

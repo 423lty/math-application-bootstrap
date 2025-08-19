@@ -1,0 +1,114 @@
+{
+  "questions": [
+    {
+      "id": "prob_001",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "サイコロを1回振るとき、3の倍数が出る確率は？",
+      "choices": ["1/3", "1/2", "1/6", "2/3"],
+      "answer": 0,
+      "explanation": "3, 6 の2通り → 2/6 = 1/3。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_002",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "ベルヌーイ試行とは？",
+      "choices": ["成功か失敗の2つだけの試行", "試行回数が無限", "成功確率が常に変化する", "結果が連続値を取る"],
+      "answer": 0,
+      "explanation": "ベルヌーイ試行は成功と失敗の2つの結果を持つ。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_003",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "期待値 E[X] の定義は？",
+      "choices": ["ΣxP(X=x)", "Σx²P(X=x)", "P(X>0)", "P(X=0)"],
+      "answer": 0,
+      "explanation": "期待値は値 × 確率の総和。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_004",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "確率変数Xの分散 Var(X) は？",
+      "choices": ["E[(X - E[X])²]", "E[X]", "E[X²]", "P(X)^2"],
+      "answer": 0,
+      "explanation": "分散は平均からのずれの2乗の期待値。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_005",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "コーシー分布の期待値は？",
+      "choices": ["存在しない", "0", "1", "∞"],
+      "answer": 0,
+      "explanation": "コーシー分布は期待値が定義されない。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_006",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "独立な事象A, Bに対して正しいものは？",
+      "choices": ["P(A∩B) = P(A)P(B)", "P(A∩B) = 0", "P(A|B) = 0", "P(B) = 1 - P(A)"],
+      "answer": 0,
+      "explanation": "独立なら積の法則が成り立つ。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_007",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "正規分布の特徴は？",
+      "choices": ["平均と分散で決まる", "歪んだ分布", "離散分布", "全て負の値"],
+      "answer": 0,
+      "explanation": "正規分布は連続型・対称で平均と分散に依存。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_008",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "P(A ∪ B) の公式は？",
+      "choices": ["P(A) + P(B) - P(A∩B)", "P(A)P(B)", "P(A) + P(B)", "P(A) - P(B)"],
+      "answer": 0,
+      "explanation": "和の法則：重複を引く必要がある。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_009",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "ベイズの定理における条件付き確率の形は？",
+      "choices": ["P(A|B) = P(B|A)P(A)/P(B)", "P(A|B) = P(A)P(B)", "P(A|B) = P(B|A)", "P(A|B) = 1 - P(B)"],
+      "answer": 0,
+      "explanation": "ベイズの定理の基本形。",
+      "type": "選択式"
+    },
+    {
+      "id": "prob_010",
+      "level": "大学数学",
+      "area": "応用",
+      "category": "確率論",
+      "question": "サンプル空間が有限のとき、全事象の確率の和は？",
+      "choices": ["1", "0", "∞", "任意の値"],
+      "answer": 0,
+      "explanation": "確率全体の和は常に1である。",
+      "type": "選択式"
+    }
+  ]
+}

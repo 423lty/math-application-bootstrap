@@ -5,10 +5,10 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "関数 \(f(x) = x^3 - 3x^2 + 2\) の極値は？",
-      "choices": ["\(x=1\) 極小, \(x=2\) 極大", "\(x=1\) 極大, \(x=2\) 極小", "極値なし", "両方極小"],
+      "question": "関数 (f(x) = x^3 - 3x^2 + 2) の極値は？",
+      "choices": ["(x=1) 極小, (x=2) 極大", "(x=1) 極大, (x=2) 極小", "極値なし", "両方極小"],
       "answer": 1,
-      "explanation": "微分 \(f'(x) = 3x^2 - 6x = 3x(x-2)\)、符号変化で判定。",
+      "explanation": "微分 (f'(x) = 3x^2 - 6x = 3x(x-2))、符号変化で判定。",
       "type": "選択式"
     },
     {
@@ -16,10 +16,10 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "定積分 \(\int_0^1 (3x^2 + 2x) dx\) の値は？",
+      "question": "定積分 (int_0^1 (3x^2 + 2x) dx) の値は？",
       "choices": ["2", "1", "3", "4"],
       "answer": 0,
-      "explanation": "\(\int 3x^2 dx = x^3, \int 2x dx = x^2\) より \(1^3 + 1^2 = 2\)。",
+      "explanation": "(int 3x^2 dx = x^3, int 2x dx = x^2) より (1^3 + 1^2 = 2)。",
       "type": "選択式"
     },
     {
@@ -27,8 +27,8 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "不定積分 \(\int e^{2x} dx\) の答えは？",
-      "choices": ["\(\frac{e^{2x}}{2} + C\)", "\(2e^{2x} + C\)", "\(e^{2x} + C\)", "\(\frac{e^{x}}{2} + C\)"],
+      "question": "不定積分 (int e^{2x} dx) の答えは？",
+      "choices": ["(frac{e^{2x}}{2} + C)", "(2e^{2x} + C)", "(e^{2x} + C)", "(frac{e^{x}}{2} + C)"],
       "answer": 0,
       "explanation": "指数関数の積分で、係数で割る。", 
       "type": "選択式"
@@ -38,10 +38,10 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "関数 \(f(x) = \sin x\) の2階導関数は？",
-      "choices": ["\(-\sin x\)", "\(\cos x\)", "\(-\cos x\)", "\(\sin x\)"],
+      "question": "関数 (f(x) = sin x) の2階導関数は？",
+      "choices": ["(-sin x)", "(cos x)", "(-cos x)", "(sin x)"],
       "answer": 0,
-      "explanation": "1階導関数は \(\cos x\)、2階はその導関数で \(-\sin x\)。",
+      "explanation": "1階導関数は (cos x)、2階はその導関数で (-sin x)。",
       "type": "選択式"
     },
     {
@@ -49,10 +49,10 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "定積分 \(\int_0^{\pi} \sin^2 x dx\) の値は？",
-      "choices": ["\(\frac{\pi}{2}\)", "\(\pi\)", "\(0\)", "\(\frac{\pi}{4}\)"],
+      "question": "定積分 (int_0^{pi} sin^2 x dx) の値は？",
+      "choices": ["(frac{pi}{2})", "(pi)", "(0)", "(frac{pi}{4})"],
       "answer": 0,
-      "explanation": "積分公式 \(\int_0^{\pi} \sin^2 x dx = \frac{\pi}{2}\)。",
+      "explanation": "積分公式 (int_0^{pi} sin^2 x dx = frac{pi}{2})。",
       "type": "選択式"
     },
     {
@@ -60,10 +60,10 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "極限 \(\lim_{x \to 0} \frac{\sin 3x}{x}\) の値は？",
+      "question": "極限 (lim_{x to 0} frac{sin 3x}{x}) の値は？",
       "choices": ["3", "0", "1", "無限大"],
       "answer": 0,
-      "explanation": "\(\lim_{x \to 0} \frac{\sin ax}{x} = a\) より3。",
+      "explanation": "(lim_{x to 0} frac{sin ax}{x} = a) より3。",
       "type": "選択式"
     },
     {
@@ -71,8 +71,8 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "関数 \(f(x) = x e^x\) の導関数は？",
-      "choices": ["\(e^x + x e^x\)", "\(e^x - x e^x\)", "\(x e^x\)", "\(x e^{x-1}\)"],
+      "question": "関数 (f(x) = x e^x) の導関数は？",
+      "choices": ["(e^x + x e^x)", "(e^x - x e^x)", "(x e^x)", "(x e^{x-1})"],
       "answer": 0,
       "explanation": "積の微分法則を用いる。",
       "type": "選択式"
@@ -82,8 +82,8 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "不定積分 \(\int \frac{1}{x} dx\) の答えは？",
-      "choices": ["\(\ln|x| + C\)", "\(x + C\)", "\(\frac{1}{x} + C\)", "定義されない"],
+      "question": "不定積分 (int frac{1}{x} dx) の答えは？",
+      "choices": ["(ln|x| + C)", "(x + C)", "(frac{1}{x} + C)", "定義されない"],
       "answer": 0,
       "explanation": "基本的な対数関数の積分。",
       "type": "選択式"
@@ -93,10 +93,10 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "定積分 \(\int_1^e \frac{1}{x} dx\) の値は？",
-      "choices": ["1", "e", "0", "\(\ln e\)"],
+      "question": "定積分 (int_1^e frac{1}{x} dx) の値は？",
+      "choices": ["1", "e", "0", "(ln e)"],
       "answer": 0,
-      "explanation": "\(\int \frac{1}{x} dx = \ln|x| + C\)、区間で計算。",
+      "explanation": "(int frac{1}{x} dx = ln|x| + C)、区間で計算。",
       "type": "選択式"
     },
     {
@@ -104,8 +104,8 @@
       "level": "大学数学",
       "area": "基礎",
       "category": "微積",
-      "question": "関数 \(f(x) = \ln x\) の導関数は？",
-      "choices": ["\(\frac{1}{x}\)", "\(x\)", "\(\ln x\)", "\(-\frac{1}{x}\)"],
+      "question": "関数 (f(x) = ln x) の導関数は？",
+      "choices": ["(frac{1}{x})", "(x)", "(ln x)", "(-frac{1}{x})"],
       "answer": 0,
       "explanation": "基本的な対数関数の微分。",
       "type": "選択式"

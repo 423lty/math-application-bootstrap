@@ -18,6 +18,8 @@ const applicationMathLevel = Object.freeze({
  */
 class App {
 
+    static parentJsonFilePath = "../data/dataFiles.json";
+
     // 現在の状態
     static state = applicationState.title;
 
@@ -35,8 +37,13 @@ class App {
     /**高校数学の情報を格納する変数 */
     static hsJsonDatas = [];
 
+    static hsProblemDatas = [];
+
     /**大学数学の情報を格納する変数 */
     static univJsonDatas = [];
+
+    static univProblemDatas = [];
+
 
     /**コンストラクタ */
     constructor() {
@@ -52,7 +59,6 @@ class App {
 
     /**実行中の処理 */
     run() {
-
         this.titleUpdate();
         this.levelSelectUpdate();
         this.problemAnswerUpdate();
@@ -176,10 +182,10 @@ class App {
         try {
 
             //データの一覧を取得
-            const fileLists = await fetch("../data/dataFiles.json");
+            const res = await fetch(App.parentJsonFilePath);
 
             //json形式にして取得
-            const urls = await fileLists.json();
+            const urls = await res.json();
 
             // オブジェクトを返却する
             App.jsonDatas = urls;
@@ -189,7 +195,10 @@ class App {
         }
     }
 
-
+    /**
+     * json形式のオブジェクトを＠
+     * @returns 中断
+     */
     async #loacTargetData() {
 
         // 何も選択をされていない場合返す
@@ -197,8 +206,8 @@ class App {
             return;
 
         //選択した方のデータが格納されている場合返却
-        if (this.#mathLevel == applicationMathLevel.highSchool && !App.hsJsonDatas
-            || this.#mathLevel == applicationMathLevel.university && !App.univJsonDatas
+        if (this.#mathLevel == applicationMathLevel.highSchool && App.hsJsonDatas.length != 0
+            || this.#mathLevel == applicationMathLevel.university && App.univJsonDatas.length != 0
         ) {
             console.log("データが格納されています")
             return;
@@ -210,19 +219,85 @@ class App {
         //jsonの指定された要素以外を取り除く
         const targetJsonDataArray = jsonDatasArray.filter(object => object[0] == this.#mathLevel);
 
-        console.log(targetJsonDataArray);
-
+        // 高校
         if (this.#mathLevel == applicationMathLevel.highSchool) {
+
+            //それぞれの切り取った配列を格納
             App.hsJsonDatas = targetJsonDataArray;
-            console.log(App.hsJsonDatas);
+
+            //json形式のデータのみを取得
+            const jsons = App.hsJsonDatas[0][1];
+
+            //問題の生成
+            App.hsProblemDatas = this.#generateProblem(jsons);
+
+
+            console.log(App.hsProblemDatas);
         }
 
-        if (this.#mathLevel == applicationMathLevel.university){
+        //大学
+        if (this.#mathLevel == applicationMathLevel.university) {
+
+            // データの格納
             App.univJsonDatas = targetJsonDataArray;
-            console.log(App.univJsonDatas);
+
+            //jsonのデータを切り取って取得
+            const jsons = App.univJsonDatas[0][1];
+
+            //問題の生成
+            App.univProblemDatas = this.#generateProblem(jsons);
         }
 
         //
+    }
+
+    async #generateProblem(jsons) {
+
+        console.log(jsons);
+
+        //大門のキー取得
+        const mainKeys = Object.keys(jsons);
+
+        const returnObject = [];
+
+        for (const mainKey of mainKeys) {
+
+            // 小分類のキー (equation, sequence, exponent_log ...)
+            const subKeys = Object.keys(jsons[mainKey]);
+
+            const result = [];
+
+            for (const subKey of subKeys) {
+                const path = jsons[mainKey][subKey];
+                console.log(path);
+                // console.log(this.loadDataProblemFile(path));
+                result.push(this.loadDataProblemFile(path));
+            }
+
+            returnObject.push(result);
+        }
+        return returnObject;
+    }
+
+
+    async loadDataProblemFile(jsonData) {
+
+        let problemObject = [];
+
+        try {
+            //レスポンスを取得してjsonに変換
+            const res = await fetch(jsonData);
+            const json = await res.json();
+
+            problemObject = Object.entries(json);
+            //配列に格納
+
+        } catch (err) {
+            console.error(`json取得エラー${err}`);
+        }
+
+        return problemObject[0][1];
+
     }
 
     /**

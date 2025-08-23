@@ -1,40 +1,40 @@
 {
   "hs": {
     "algebra": {
-      "equation": "/data/hs/algebra/equation.json",
-      "sequence": "/data/hs/algebra/sequence.json",
-      "exponent_log": "/data/hs/algebra/exponent_log.json"
+      "equation": "../data/hs/algebra/equation.json",
+      "sequence": "../data/hs/algebra/sequence.json",
+      "exponent_log": "../data/hs/algebra/exponent_log.json"
     },
     "geometry": {
-      "figure": "/data/hs/geometry/figure.json",
-      "trig": "/data/hs/geometry/trig.json",
-      "vector": "/data/hs/geometry/vector.json"
+      "figure": "../data/hs/geometry/figure.json",
+      "trig": "../data/hs/geometry/trig.json",
+      "vector": "../data/hs/geometry/vector.json"
     },
     "analysis": {
-      "function": "/data/hs/analysis/function.json",
-      "calculus_intro": "/data/hs/analysis/calculus_intro.json"
+      "function": "../data/hs/analysis/function.json",
+      "calculus_intro": "../data/hs/analysis/calculus_intro.json"
     },
     "logic": {
-      "probability": "/data/hs/logic/probability.json",
-      "combinatorics": "/data/hs/logic/combinatorics.json",
-      "set_logic": "/data/hs/logic/set_logic.json"
+      "probability": "../data/hs/logic/probability.json",
+      "combinatorics": "../data/hs/logic/combinatorics.json",
+      "set_logic": "../data/hs/logic/set_logic.json"
     }
   },
   "univ": {
     "basic": {
-      "calculus": "/data/univ/applied/univ_basic_calculus.json",
-      "algebra": "/data/univ/applied/univ_basic_linear_algebra.json",
-      "logic": "/data/univ/applied/univ_basic_sets_logic.json"
+      "calculus": "../data/univ/applied/univ_basic_calculus.json",
+      "algebra": "../data/univ/applied/univ_basic_linear_algebra.json",
+      "logic": "../data/univ/applied/univ_basic_sets_logic.json"
     },
     "applied": {
-      "ode": "/data/univ/applied/univ_applied_ode.json",
-      "pde": "/data/univ/applied/univ_applied_pde.json",
-      "complex": "/data/univ/applied/univ_applied_complex.json",
+      "ode": "../data/univ/applied/univ_applied_ode.json",
+      "pde": "../data/univ/applied/univ_applied_pde.json",
+      "complex": "../data/univ/applied/univ_applied_complex.json",
       "probability": "/data/univ/applied/univ_applied_probability.json"
     },
     "abstract": {
-      "algebra": "/data/univ/applied/univ_abstract_algebra.json",
-      "topology": "/data/univ/applied/univ_abstract_topology.json"
+      "algebra": "../data/univ/applied/univ_abstract_algebra.json",
+      "topology": "../data/univ/applied/univ_abstract_topology.json"
     }
   }
 }

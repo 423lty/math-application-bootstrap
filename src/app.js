@@ -26,6 +26,9 @@ class App {
     //問題をランダム出題にするかどうか
     static isRandomProblem = false;
 
+    // 最大の大門の数
+    #maxAreaNum = 0;
+
     //数学の難易度
     #mathLevel = "";
 
@@ -42,8 +45,8 @@ class App {
     /**大学数学の情報を格納する変数 */
     static univJsonDatas = [];
 
-    static univProblemDatas = [];
 
+    static univProblemDatas = [];
 
     /**コンストラクタ */
     constructor() {
@@ -111,27 +114,29 @@ class App {
                 else if (this.#mathLevel == applicationMathLevel.university)
                     levelSelectTitleText.textContent = "大学数学";
 
-                //jsonのデータを取得
-
-                this.#loacTargetData();
+                //jsonのデータの初期化
+                this.#initJsonData();
 
                 // 更新
                 // this.checkState();
             })
-
-
         });
-
-
     }
 
     /**難易度の選択更新処理 */
     levelSelectUpdate() {
 
+        //レベルが選択されていない場合処理をしない
+        if (this.#mathLevel == "")
+            return;
+
         // 戻るボタンとランダムにするボタンを取得
         const backButton = document.querySelector(".back");
         const randomButton = document.querySelector(".random");
         const levelSelectTitleText = document.querySelector(".levelSelect");
+
+        // 動的にAreaとcategoryを作成する
+        this.#initAreaAndCategory("");
 
         // 戻る処理
         backButton.addEventListener("click", () => {
@@ -161,8 +166,6 @@ class App {
 
             console.log("問題生成ランダム:" + App.isRandomProblem);
         })
-
-
     }
 
     /**問題回答処理の更新処理 */
@@ -199,7 +202,7 @@ class App {
      * json形式のオブジェクトを＠
      * @returns 中断
      */
-    async #loacTargetData() {
+    async #initJsonData() {
 
         // 何も選択をされていない場合返す
         if (this.#mathLevel == "")
@@ -228,10 +231,17 @@ class App {
             //json形式のデータのみを取得
             const jsons = App.hsJsonDatas[0][1];
 
+            // promise型のオブジェクトを取得
+            const resultObjects = await this.#generateProblem(jsons);
+
             //問題の生成
-            App.hsProblemDatas = this.#generateProblem(jsons);
+            App.hsProblemDatas = this.#getAnalyzeProblemData(resultObjects);
 
+            //範囲の数を取得
+            this.#maxAreaNum = App.hsProblemDatas.length;
+            console.log(this.#maxAreaNum)
 
+            // ログの吐き出し
             console.log(App.hsProblemDatas);
         }
 
@@ -244,13 +254,24 @@ class App {
             //jsonのデータを切り取って取得
             const jsons = App.univJsonDatas[0][1];
 
+            // promise型のオブジェクトを取得
+            const resultObjects = await this.#generateProblem(jsons);
+
             //問題の生成
-            App.univProblemDatas = this.#generateProblem(jsons);
+            App.univProblemDatas = this.#getAnalyzeProblemData(resultObjects);
+
+            // ログの吐き出し
+            console.log(App.univProblemDatas);
         }
 
         //
     }
 
+    /**
+     * Promiseが返却される全ての問題オブジェクト
+     * @param {全てのファイルパスデータの取得} jsons 
+     * @returns 
+     */
     async #generateProblem(jsons) {
 
         console.log(jsons);
@@ -258,6 +279,7 @@ class App {
         //大門のキー取得
         const mainKeys = Object.keys(jsons);
 
+        // 返却するオブジェクトの作成
         const returnObject = [];
 
         for (const mainKey of mainKeys) {
@@ -265,13 +287,13 @@ class App {
             // 小分類のキー (equation, sequence, exponent_log ...)
             const subKeys = Object.keys(jsons[mainKey]);
 
+            //結果を格納する配列変数
             const result = [];
 
             for (const subKey of subKeys) {
                 const path = jsons[mainKey][subKey];
-                console.log(path);
-                // console.log(this.loadDataProblemFile(path));
-                result.push(this.loadDataProblemFile(path));
+                const res = this.loadDataProblemFile(path);
+                result.push(res);
             }
 
             returnObject.push(result);
@@ -279,7 +301,47 @@ class App {
         return returnObject;
     }
 
+    /**
+     * 取得したデータを解析する関数
+     * @param {解析するオブジェクト} results 
+     * @returns 
+     */
+    #getAnalyzeProblemData(results) {
 
+        // 返却するオブジェクト
+        const returnArrayObjects = [];
+
+        // 大門をひとつずつ取り出す処理
+        results.forEach(objects => {
+
+            // 一時的に格納する配列
+            const returnObjects = [];
+
+            //小門を一つずつ取り出す
+            objects.forEach(Object => {
+
+                //成功した場合としっぱ委した場合
+                Object.then(result => {
+                    returnObjects.push(result);
+                }).catch(err => {
+                    console.error(err);
+                })
+            });
+
+            //返却するオブジェクトに格納
+            returnArrayObjects.push(returnObjects);
+        });
+
+        // console.log(returnArrayObjects);
+
+        return returnArrayObjects;
+    }
+
+    /**
+     * 問題ファイルを読み込んでデータを返却する変数
+     * @param {読み込むjsonのパス} jsonData 
+     * @returns 
+     */
     async loadDataProblemFile(jsonData) {
 
         let problemObject = [];
@@ -324,8 +386,38 @@ class App {
         }
     }
 
-    #initCategory() {
+    #initAreaAndCategory(problems) {
 
+        //配置する箱を取得
+        const container = document.querySelector(".selectAreaAndCategory");
+
+        console.log(container)
+
+        //問題の数だけareaを付ける
+        for (let i = 0; i < this.#maxAreaNum; i++) {
+
+            //liのタグを動的に作成
+            const areaLi = document.createElement("li");
+
+            //最初のクラスを割り当てる
+            areaLi.className = "option btn btn-outline-secondary m-2";
+
+            //データを格納するdivタグを作成
+            const areaDiv = document.createElement("div");
+
+            //クラスの割り当て
+            areaDiv.className = "area";
+
+            //テキストの配置
+            areaDiv.textContent = `範囲:${i + 1}`;
+
+            //
+            areaLi.appendChild(areaDiv);
+
+
+
+            container.appendChild(area);
+        }
     }
 }
 

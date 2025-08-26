@@ -21,9 +21,9 @@
   },
   "univ": {
     "basic": {
-      "calculus": "../data/univ/applied/calculus.json",
-      "algebra": "../data/univ/applied/linear_algebra.json",
-      "logic": "../data/univ/applied/sets_logic.json"
+      "calculus": "../data/univ/basic/calculus.json",
+      "algebra": "../data/univ/basic/linear_algebra.json",
+      "logic": "../data/univ/basic/sets_logic.json"
     },
     "applied": {
       "ode": "../data/univ/applied/ode.json",

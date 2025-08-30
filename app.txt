@@ -1,18 +1,3 @@
-// import { loadJsonArrayFromURLs } from "./components/loadJsonData"
-import { objectData } from "./components/objectDatas.js"
-const applicationState = Object.freeze({
-    title: "title",
-    levelSelect: "levelSelect",
-    problemAnswer: "problemAnswer",
-    finish: "finish",
-});
-
-const applicationMathLevel = Object.freeze({
-    highSchool: "hs",
-    university: "univ"
-})
-
-
 /**
  * 実行クラス
  */
@@ -436,6 +421,3 @@ class App {
         }
     }
 }
-
-const app = new App();
-app.run();

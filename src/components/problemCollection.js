@@ -1,4 +1,4 @@
-export class objectData {
+export class ProblemCollection {
 
     /**コンストラクタ */
     constructor(){

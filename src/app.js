@@ -1,13 +1,22 @@
-// import { loadJsonArrayFromURLs } from "./components/loadJsonData"
-import { objectData } from "./components/objectDatas.js"
-const applicationState = Object.freeze({
+// import { JsonHandler } from "./components/jsonHandler.js"
+import { ProblemCollection } from "./components/problemCollection.js"
+// import { ProblemManager } from "./components/problemManager.js"
+// import { TitleManager } from "./components/titleManager.js";
+// import { ProblemAnserManager } from "./components/problemAnswerManager.js";
+// import { FinishManager } from "./components/FinishManager.js";
+
+/**アプリケーションの状態 */
+export const applicationState = Object.freeze({
+    noSelect: "",
     title: "title",
     levelSelect: "levelSelect",
     problemAnswer: "problemAnswer",
     finish: "finish",
 });
 
-const applicationMathLevel = Object.freeze({
+/**数学のレベル */
+export const applicationMathLevel = Object.freeze({
+    noSelect: "",
     highSchool: "hs",
     university: "univ"
 })
@@ -16,74 +25,40 @@ const applicationMathLevel = Object.freeze({
 /**
  * 実行クラス
  */
-class App {
-
-    static parentJsonFilePath = "../data/dataFiles.json";
-
-    // 現在の状態
-    static state = applicationState.title;
-
-    //問題をランダム出題にするかどうか
-    static isRandomProblem = false;
-
-    // 最大の大門の数
-    #maxAreaNum = 0;
-
-    //数学の難易度
-    #mathLevel = "";
-
-    // 回答の選択肢の数
-    static optionsNum = 4;
-
-    static jsonDatas = Object;
-
-    /**高校数学の情報を格納する変数 */
-    #hs = new objectData();
-
-    /**大学数学の情報を格納する変数 */
-    #univ = new objectData();
+export class App {
 
     /**コンストラクタ */
     constructor() {
-        //jsonファイルのすべてのリンクを取得
-        const res = this.#loadDataFile();
-        App.jsonDatas = this.getParseJsonResult(res);
-        console.log(App.jsonDatas)
-        // 選択肢の個数divタグを生成
-        this.#initOptions();
 
-        //現在の状態を取得反映
-        // this.checkState();
+        //非同期で初期化処理
+        this.#initAsync();
+
+        // 最初の画面
+        this.#checkApplicationState();
     }
 
-    /**実行中の処理 */
+    /**非同期での初期化 */
+    async #initAsync() {
+
+        //非同期でデータの取得
+        await this.loadJsonDataAsync(App.dataFilePath).then(res => {
+            App.filePathList.push(res);
+        });
+    }
+
+    /**実行 */
     run() {
-        this.titleUpdate();
-        this.levelSelectUpdate();
-        this.problemAnswerUpdate();
-        this.finishUpdate();
+
+        switch (App.state) {
+            case applicationState.title:
+                break;
+        }
+        this.titleUpdate()
+
+        this.#checkApplicationState();
+
     }
 
-    /**状態のチェック */
-    checkState() {
-        // アプリケーション内のsection要素をすべて取得
-        const appSections = Array.from(document.querySelectorAll("section"));
-
-        //全てを一回表示状態にする
-        appSections.forEach(section => {
-            section.style.display = "block";
-        })
-
-        /**stateと不一致するオブジェクトを取得 */
-        const disActiveStates = appSections.filter(item => item.className != App.state);
-
-        /**一致しないオブジェクトは非表示にする */
-        disActiveStates.forEach(disActiveState => {
-            disActiveState.style.display = "none";
-        })
-
-        console.log("現在表示state:" + App.state);
-    }
 
     /**タイトル画面の更新処理 */
     titleUpdate() {
@@ -96,7 +71,7 @@ class App {
         titleSectionObjects.forEach(object => {
             object.addEventListener("click", () => {
                 //レベルの選択
-                this.#mathLevel = object.className;
+                App.mathLevel = object.className;
 
                 //状態の遷移
                 App.state = applicationState.levelSelect;
@@ -105,27 +80,25 @@ class App {
                 const levelSelectTitleText = document.querySelector(".levelSelect").querySelector("h2");
 
                 // levelSelectの表示タイトルの変更
-                if (this.#mathLevel == applicationMathLevel.highSchool)
+                if (App.mathLevel == applicationMathLevel.highSchool)
                     // 名前の変更
                     levelSelectTitleText.textContent = "高校数学";
 
-                else if (this.#mathLevel == applicationMathLevel.university)
+                else if (App.mathLevel == applicationMathLevel.university)
                     levelSelectTitleText.textContent = "大学数学";
 
-                //jsonのデータの初期化
-                this.#initJsonData();
-
                 // 更新
-                // this.checkState();
+                this.#checkApplicationState();
             })
         });
     }
+
 
     /**難易度の選択更新処理 */
     levelSelectUpdate() {
 
         //レベルが選択されていない場合処理をしない
-        if (this.#mathLevel == "")
+        if (App.mathLevel == "")
             return;
 
         // 戻るボタンとランダムにするボタンを取得
@@ -134,14 +107,14 @@ class App {
         const levelSelectTitleText = document.querySelector(".levelSelect");
 
         // 動的にAreaとcategoryを作成する
-        this.#initAreaAndCategory("");
+        // this.#initAreaAndCategory("");
 
         // 戻る処理
         backButton.addEventListener("click", () => {
 
             //タイトルにする　
             App.state = applicationState.title;
-            this.#mathLevel = "";
+            App.mathLevel = applicationState.noSelect;
             levelSelectTitleText.querySelector("h2").textContent = "levelSelect";
 
             //更新
@@ -166,276 +139,93 @@ class App {
         })
     }
 
-    /**問題回答処理の更新処理 */
-    problemAnswerUpdate() {
-
-    }
-
-    /**終了時の更新処理 */
-    finishUpdate() {
-
-    }
-
     /**
-     * データを読み込む非同期関数
+     * jsonのデータを読み込むデータ
+     * @param {読み込むファイルのパス} filePath 
+     * @returns jsonデータ
      */
-    async #loadDataFile() {
+    async loadJsonDataAsync(filePath) {
         try {
+            //データの取得
+            const json = await fetch(filePath);
 
-            //データの一覧を取得
-            const json = await fetch(App.parentJsonFilePath);
-
-            //json形式にして取得
+            //レスポンスを取得
             const res = await json.json();
 
-            // オブジェクトを返却する
+            //取得したデータの返却
             return res;
-            const result = this.getParseJsonResult(res);
-            // App.jsonDatas = urls;
-
-        } catch (err) {
-            console.error(`json取得エラー : ${err}`);
+        }
+        catch (err) {
+            console.error("json Error" + err);
         }
     }
 
-    /**
-     * json形式のオブジェクトを＠
-     * @returns 中断
-     */
-    async #initJsonData() {
-
-        // 何も選択をされていない場合返す
-        if (this.#mathLevel == "")
-            return;
-
-        //選択した方のデータが格納されている場合返却
-        if (this.#mathLevel == applicationMathLevel.highSchool && this.#hs.getJsonData.length != 0
-            || this.#mathLevel == applicationMathLevel.university && this.#univ.getJsonData.length != 0
-        ) {
-            console.log("データが格納されています")
-            return;
-        }
-
-        //jsonの指定された要素以外を取り除く
-        const targetJsonDataArray = App.jsonDatas?.[this.#mathLevel] ?? null;
-
-        //nullチェック
-        if (targetJsonDataArray == null)
-            return;
-
-        // 高校
-        if (this.#mathLevel == applicationMathLevel.highSchool) {
-
-            //それぞれの切り取った配列を格納
-            this.#hs.setJsonData = targetJsonDataArray;
-
-            console.log(targetJsonDataArray)
-
-            //json形式のデータのみを取得
-            // const jsons = this.#hs.getJsonData[0][1];
-            const jsons = [];
-            Object.entries(this.#hs.getJsonData).forEach(([key, json]) => {
-                console.log("キー:", key);
-                jsons.push(this.getParseJsonResult(json));
-            });
-
-            // promise型のオブジェクトを取得
-            const resultObjects = await this.#generateProblem(jsons);
-
-            //問題の生成
-            this.#hs.setPoblemData = this.#getAnalyzeProblemData(resultObjects);
-
-            //範囲の数を取得
-            this.#hs.setAreaNum = this.#hs.getProblemData.length;
-            console.log(this.#hs.setAreaNum)
-
-            // ログの吐き出し
-            console.log(this.#hs.setPoblemData);
-        }
-
-        //大学
-        if (this.#mathLevel == applicationMathLevel.university) {
-
-            // データの格納
-            App.univJsonDatas = targetJsonDataArray;
-
-            //jsonのデータを切り取って取得
-            const jsons = App.univJsonDatas[0][1];
-
-            // promise型のオブジェクトを取得
-            const resultObjects = await this.#generateProblem(jsons);
-
-            //問題の生成
-            App.univProblemDatas = this.#getAnalyzeProblemData(resultObjects);
-
-            // ログの吐き出し
-            console.log(App.univProblemDatas);
-        }
-
-        //
-    }
-
-    /**
-     * Promiseが返却される全ての問題オブジェクト
-     * @param {全てのファイルパスデータの取得} jsons 
-     * @returns 
-     */
-    async #generateProblem(jsons) {
-
-        console.log(jsons);
-
-        //大門のキー取得
-        const mainKeys = Object.keys(jsons);
-
-        // 返却するオブジェクトの作成
-        const returnObject = [];
-
-        for (const mainKey of mainKeys) {
-
-            // 小分類のキー (equation, sequence, exponent_log ...)
-            const subKeys = Object.keys(jsons[mainKey]);
-
-            //結果を格納する配列変数
-            const result = [];
-
-            for (const subKey of subKeys) {
-                const path = jsons[mainKey][subKey];
-                const res = this.loadDataProblemFile(path);
-                result.push(res);
-            }
-
-            returnObject.push(result);
-        }
-
-        return returnObject;
-    }
-
-    /**
-     * 取得したデータを解析する関数
-     * @param {解析するオブジェクト} results 
-     * @returns 
-     */
-    #getAnalyzeProblemData(results) {
-
-        // 返却するオブジェクト
-        const returnArrayObjects = [];
-
-        // 大門をひとつずつ取り出す処理
-        results.forEach(objects => {
-
-            // 一時的に格納する配列
-            const returnObjects = [];
-
-            //小門を一つずつ取り出す
-            objects.forEach(Object => {
-
-                //成功した場合としっぱ委した場合
-                Object.then(result => {
-                    returnObjects.push(result);
-                }).catch(err => {
-                    console.error(err);
-                })
-            });
-
-            //返却するオブジェクトに格納
-            returnArrayObjects.push(returnObjects);
-        });
-
-        // console.log(returnArrayObjects);
-
-        return returnArrayObjects;
-    }
-
-    /**
-     * 問題ファイルを読み込んでデータを返却する変数
-     * @param {読み込むjsonのパス} jsonData 
-     * @returns 
-     */
-    async loadDataProblemFile(jsonData) {
-
-        let problemObject = [];
-
-        try {
-            //レスポンスを取得してjsonに変換
-            const res = await fetch(jsonData);
-            const json = await res.json();
-
-            problemObject = Object.entries(json);
-            //配列に格納
-
-        } catch (err) {
-            console.error(`json取得エラー${err}`);
-        }
-
-        return problemObject[0][1];
-
-    }
-
-    async getParseJsonResult(json) {
-        return json.then(result => result).catch(err => {
+    static async getJsonParseObject(json) {
+        return json.then(res => res).catch(err => {
             console.error(err);
-            return null;
-        });
+        })
     }
 
-    /**
-     * 選択肢の初期化,生成
-     */
-    #initOptions() {
-        // 親を生成
-        const options = document.querySelector(".options");
 
-        // 指定した回数文forを回して親に子を配置する
-        for (let i = 0; i < App.optionsNum; i++) {
+    /**アプリケーションのすべての状態を管理する */
+    #checkApplicationState() {
 
-            // 選択肢の生成
-            const newOption = document.createElement("div");
+        // アプリケーション内のsection要素をすべて取得
+        const appSections = Array.from(document.querySelectorAll("section"));
 
-            // クラスを付与
-            newOption.className = "option btn btn-outline-secondary m-2";
+        //全てを一回表示状態にする
+        appSections.forEach(section => {
+            section.style.display = "block";
+        })
 
-            //初期のテキスト
-            newOption.textContent = `選択肢:${i + 1}`;
+        /**stateと不一致するオブジェクトを取得 */
+        const disActiveStates = appSections.filter(item => item.className != App.state);
 
-            //親に子をつける
-            options.appendChild(newOption);
-        }
+        /**一致しないオブジェクトは非表示にする */
+        disActiveStates.forEach(disActiveState => {
+            disActiveState.style.display = "none";
+        })
+
+        console.log("現在表示state:" + App.state);
     }
 
-    #initAreaAndCategory(problems) {
 
-        //配置する箱を取得
-        const container = document.querySelector(".selectAreaAndCategory");
+    /**データのすべてのファイルパス */
+    static dataFilePath = "../data/dataFiles.json";
 
-        console.log(container)
+    /**アプリケーションの状態 */
+    static state = applicationState.title;
 
-        //問題の数だけareaを付ける
-        for (let i = 0; i < this.#maxAreaNum; i++) {
+    static mathLevel = applicationMathLevel.NoSelect;
 
-            //liのタグを動的に作成
-            const areaLi = document.createElement("li");
+    /**問題をランダムにするかのフラグ */
+    static isShuffleOrder = false;
 
-            //最初のクラスを割り当てる
-            areaLi.className = "option btn btn-outline-secondary m-2";
+    /**ファイルのパスを格納する配列 */
+    static filePathList = [];
 
-            //データを格納するdivタグを作成
-            const areaDiv = document.createElement("div");
+    /**高校数学の情報を格納する変数 */
+    #hs = new ProblemCollection();
 
-            //クラスの割り当て
-            areaDiv.className = "area";
+    /**大学数学の情報を格納する変数 */
+    #univ = new ProblemCollection();
 
-            //テキストの配置
-            areaDiv.textContent = `範囲:${i + 1}`;
-
-            //
-            areaLi.appendChild(areaDiv);
-
-
-
-            container.appendChild(area);
-        }
-    }
 }
 
 const app = new App();
 app.run();
+
+
+// this.titleManager.update();
+
+
+// /**問題を管理するマネージャー */
+// titleManager = new TitleManager();
+
+// /**問題を管理するための */
+// problemManager = new ProblemManager();
+
+// /**問題解答の管理 */
+// problemAnswerManager = new ProblemAnserManager();
+
+// finish = new FinishManager();

@@ -1,7 +1,7 @@
 export class ProblemCollection {
 
     /**コンストラクタ */
-    constructor(){
+    constructor() {
 
     }
 
@@ -56,6 +56,6 @@ export class ProblemCollection {
     #areaNum = 0;
 
     /**大門の数だけ確保した配列に入っている配列 */
-    #categoryArray = [];
+    #categoryArray = {};
 
 }

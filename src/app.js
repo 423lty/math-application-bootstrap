@@ -1,5 +1,5 @@
-// import { JsonHandler } from "./components/jsonHandler.js"
 import { ProblemCollection } from "./components/problemCollection.js"
+// import { JsonHandler } from "./components/jsonHandler.js"
 // import { ProblemManager } from "./components/problemManager.js"
 // import { TitleManager } from "./components/titleManager.js";
 // import { ProblemAnserManager } from "./components/problemAnswerManager.js";
@@ -33,8 +33,7 @@ export class App {
         //非同期で初期化処理
         this.#initAsync();
 
-        // 最初の画面
-        this.#checkApplicationState();
+
     }
 
     /**非同期での初期化 */
@@ -46,16 +45,79 @@ export class App {
         });
     }
 
+
+    /**
+     * 選択肢の初期化,生成
+     */
+    #initOptions() {
+        // 親を生成
+        const options = document.querySelector(".options");
+
+        // 指定した回数文forを回して親に子を配置する
+        for (let i = 0; i < App.optionsNum; i++) {
+
+            // 選択肢の生成
+            const newOption = document.createElement("div");
+
+            // クラスを付与
+            newOption.className = "option btn btn-outline-secondary m-2";
+
+            //初期のテキスト
+            newOption.textContent = `選択肢:${i + 1}`;
+
+            //親に子をつける
+            options.appendChild(newOption);
+        }
+    }
+
+
+    /**
+     * 取得したものによってデータの持ちを変える
+     * @param {problemCollectionの要素} problemCollection 
+     */
+    #initAreaAndCategory(problemCollection) {
+
+        //配置する箱を取得
+        const container = document.querySelector(".selectAreaAndCategory");
+
+        console.log(problemCollection.getAreaNum)
+
+        //問題の数だけareaを付ける
+        for (let i = 0; i < problemCollection.getAreaNum; i++) {
+
+            //liのタグを動的に作成
+            const areaLi = document.createElement("li");
+
+            //最初のクラスを割り当てる
+            areaLi.className = "option btn btn-outline-secondary m-2";
+
+            //データを格納するdivタグを作成
+            const areaDiv = document.createElement("div");
+
+            //クラスの割り当て
+            areaDiv.className = "area";
+
+            //テキストの配置
+            areaDiv.textContent = `範囲:${i + 1}`;
+
+            //
+            areaLi.appendChild(areaDiv);
+
+
+
+            container.appendChild(area);
+        }
+    }
+
     /**実行 */
     run() {
 
-        switch (App.state) {
-            case applicationState.title:
-                break;
-        }
-        this.titleUpdate()
+        //それぞれの処理の更新
+        this.titleUpdate();
+        this.levelSelectUpdate();
 
-        this.#checkApplicationState();
+        //表示するオブジェクトの処理
+        // this.#checkApplicationState();
 
     }
 
@@ -65,27 +127,62 @@ export class App {
 
         // タイトルのオブジェクトを全て取得
         const titleSection = document.querySelector(".title");
-        const titleSectionObjects = titleSection.querySelectorAll("div");
+        const titleSectionObjects = titleSection.querySelectorAll("div div");
+
 
         //どちらの数学をするか選択
         titleSectionObjects.forEach(object => {
             object.addEventListener("click", () => {
+
                 //レベルの選択
                 App.mathLevel = object.className;
 
                 //状態の遷移
                 App.state = applicationState.levelSelect;
 
-                //レベルレベル
-                const levelSelectTitleText = document.querySelector(".levelSelect").querySelector("h2");
+                //レベルのテキスト
+                const levelSelect = document.querySelector(".levelSelect");
 
                 // levelSelectの表示タイトルの変更
-                if (App.mathLevel == applicationMathLevel.highSchool)
-                    // 名前の変更
-                    levelSelectTitleText.textContent = "高校数学";
+                const levelSelectText = levelSelect.querySelector("h2");
+                levelSelectText.textContent = object.textContent;
 
-                else if (App.mathLevel == applicationMathLevel.university)
-                    levelSelectTitleText.textContent = "大学数学";
+                //クラスの付与
+                const levelSelectNav = levelSelect.querySelector("nav");
+                levelSelectNav.className = object.className;
+
+                //problemCollectionを動的に確保して初期化
+                const problemCollection = new ProblemCollection();
+
+                //jsonのデータを抽出
+                const json = App.filePathList.map(obj =>
+                    obj[levelSelectNav.className]
+                ).filter(Boolean);
+
+                //データの長さを取得(大門)
+                const jsonAreaLength = Object.keys(json[0]).length;
+
+                //小門の数を取得 keyとともに格納
+                const categoryArray = {};
+                json.forEach(area => {
+                    for (const category in area)
+                        categoryArray[category] = Object.keys(area[category]).length;
+                })
+
+                //抽出したデータを格納
+                problemCollection.setJsonData = json;
+
+                //データの格納
+                problemCollection.setAreaNum = jsonAreaLength;
+
+                //小門の大きさをkeyとともに格納
+                problemCollection.setCategoryArray = categoryArray;
+
+                //データを格納する
+                this.#setProblemCollection(levelSelectNav.className, problemCollection);
+
+                //stateの状態を変更
+                App.state = applicationState.levelSelect;
 
                 // 更新
                 this.#checkApplicationState();
@@ -101,13 +198,16 @@ export class App {
         if (App.mathLevel == "")
             return;
 
+        //
+
         // 戻るボタンとランダムにするボタンを取得
-        const backButton = document.querySelector(".back");
-        const randomButton = document.querySelector(".random");
-        const levelSelectTitleText = document.querySelector(".levelSelect");
+        const levelSelect = document.querySelector(".levelSelect");
+        const targetClassName = levelSelect.querySelector("nav").className;
+        const backButton = levelSelect.querySelector(".back");
+        const randomButton = levelSelect.querySelector(".random");
 
         // 動的にAreaとcategoryを作成する
-        // this.#initAreaAndCategory("");
+        this.#initAreaAndCategory(this.#getProblemCollection(targetClassName));
 
         // 戻る処理
         backButton.addEventListener("click", () => {
@@ -115,17 +215,17 @@ export class App {
             //タイトルにする　
             App.state = applicationState.title;
             App.mathLevel = applicationState.noSelect;
-            levelSelectTitleText.querySelector("h2").textContent = "levelSelect";
-
+            levelSelect.querySelector("h2").textContent = "levelSelect";
+            console.clear();
             //更新
-            // this.checkState();
+            this.#checkApplicationState();
         });
 
         // ランダムボタンをクリックしたときの処理
         randomButton.addEventListener("click", () => {
 
             // true/falseの切り替え
-            App.isRandomProblem = !App.isRandomProblem;
+            App.isShuffleOrder = !App.isShuffleOrder;
 
             // ランダムボタンの縁の色の変更するためのクラス取得
             const levelSelectSidebarElement = levelSelectTitleText.querySelectorAll("li");
@@ -134,8 +234,6 @@ export class App {
             //ランダムの縁の変更
             levelSelectRandomButton.classList.toggle("btn-outline-secondary");
             levelSelectRandomButton.classList.toggle("btn-outline-success");
-
-            console.log("問題生成ランダム:" + App.isRandomProblem);
         })
     }
 
@@ -187,6 +285,31 @@ export class App {
         })
 
         console.log("現在表示state:" + App.state);
+    }
+
+    /**
+     * 問題を格納するオブジェクトを取得するメソッド
+     * @param {*} className 
+     * @returns 指定した問題を格納するメソッドを返却
+     */
+    #getProblemCollection(className) {
+        if (className == applicationMathLevel.highSchool)
+            return this.#hs;
+        else if (className == applicationMathLevel.university)
+            return this.#univ;
+        return new ProblemCollection();
+    }
+
+    /**
+     * 指定したオブジェクトにデータを設定する
+     * @param {データを格納する対象} className 
+     * @param {格納するデータ} setObject 
+     */
+    #setProblemCollection(className, setObject) {
+        if (className == applicationMathLevel.highSchool)
+            this.#hs = setObject;
+        else if (className == applicationMathLevel.university)
+            this.#univ = setObject;
     }
 
 

@@ -1,4 +1,4 @@
-import { applicationState, applicationMathLevel, App } from "../app.js"
+import { applicationState, applicationMathLevel, App } from "../src/app.js"
 
 export class TitleManager {
 

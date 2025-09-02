@@ -15,7 +15,7 @@ export class ProblemCollection {
         this.#jsonDataArray = jsonDataArray;
     }
 
-    /**jsonの情報を取得する */
+    /**問題の情報を取得する */
     get getProblemData() {
         return this.#problemDataArray;
     }
@@ -23,6 +23,16 @@ export class ProblemCollection {
     /**jsonの情報を設定する */
     set setPoblemData(problemDataArray) {
         this.#problemDataArray = problemDataArray;
+    }
+
+    /**jsonの情報を取得する */
+    get getNameDataArray() {
+        return this.#nameDataArray;
+    }
+
+    /**jsonの情報を設定する */
+    set setNameDataArray(nameDataArray) {
+        this.#nameDataArray = nameDataArray;
     }
 
     /**大門の数の情報を取得する */
@@ -51,6 +61,9 @@ export class ProblemCollection {
 
     /**問題の情報を格納する変数 */
     #problemDataArray = [];
+
+    /**名前やカテゴリーの格納配列 */
+    #nameDataArray = [];
 
     /**大門の数を格納する変数 */
     #areaNum = 0;

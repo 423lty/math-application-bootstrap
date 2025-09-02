@@ -1,0 +1,46 @@
+{
+    "hs": {
+        "alg": {
+            "name": "代数",
+            "equation": "方程式",
+            "sequence": "数列",
+            "explog": "指数対数"
+        },
+        "geo": {
+            "name": "幾何",
+            "geometry": "図形",
+            "trigonometry": "三角比",
+            "vector": "ベクトル"
+        },
+        "analysis": {
+            "name": "解析",
+            "analysis": "関数",
+            "integration": "微積分入門"
+        },
+        "logic": {
+            "name": "確率・論理",
+            "logic": "確率",
+            "advanced": "場合の数"
+        }
+    },
+    "univ": {
+        "basic": {
+            "name": "基礎",
+            "calculus": "微積",
+            "algebra": "線形代数",
+            "logic": "確率"
+        },
+        "applied": {
+            "name": "応用",
+            "ode": "常微分方程式",
+            "pde": "偏微分",
+            "complex": "複素数",
+            "probability": "確率論"
+        },
+        "abstract": {
+            "name": "抽象",
+            "algebra": "群・環・体",
+            "topology": "位相空間"
+        }
+    }
+}

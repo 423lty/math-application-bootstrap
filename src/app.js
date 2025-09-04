@@ -88,7 +88,7 @@ export class App {
      */
     #initAreaAndCategory(problemCollection) {
 
-
+        //問題データが入っていない場合スキップ
         if (problemCollection == null)
             return;
 
@@ -96,18 +96,18 @@ export class App {
         const container = document.querySelector(".selectAreaAndCategory");
 
         //データの抽出
-        const jsonsData = problemCollection.getJsonData;
+        const jsonData = problemCollection.getJsonData;
         const categoryArray = problemCollection.getCategoryArray;
         const nameArray = problemCollection.getNameDataArray;
 
-        console.log(categoryArray)
         // 一つずつ取り出して格納
-        jsonsData.forEach(jsons => {
+        jsonData.forEach(json => {
             for (const category in categoryArray) {
 
                 //長さと名前の取得
                 const length = categoryArray[category];
                 const areaName = nameArray[category].name;
+                const categories = nameArray[category].category;
 
                 //liのタグを動的に作成
                 const inner = document.createElement("li");
@@ -128,15 +128,23 @@ export class App {
                 //範囲を入れる
                 inner.appendChild(area);
 
-                // //カテゴリーの生成
-                // const categorys = document.createElement("div");
+                for (const category in categories) {
+                    
+                    //内部の小門を作成
+                    const innerCategory = document.createElement("div");
+                    
+                    //
+                    
+                }
 
-                // //クラス名の設定
-                // categorys.className = "categorys";
+                //カテゴリーの生成
 
-                console.log(jsons[category])
+                //クラス名の設定
+
+                console.log(json[category])
                 console.log(length)
                 console.log(areaName)
+                console.log(categories)
 
                 container.appendChild(inner);
             }

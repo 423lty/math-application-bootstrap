@@ -21,7 +21,7 @@ export class ProblemCollection {
     }
 
     /**jsonの情報を設定する */
-    set setPoblemData(problemDataArray) {
+    set setProblemData(problemDataArray) {
         this.#problemDataArray = problemDataArray;
     }
 
@@ -54,7 +54,6 @@ export class ProblemCollection {
     set setCategoryArray(categoryArray) {
         this.#categoryArray = categoryArray;
     }
-
 
     /**jsonの情報を格納する変数 */
     #jsonDataArray = [];

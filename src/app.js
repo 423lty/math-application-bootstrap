@@ -29,6 +29,9 @@ export class App {
 
         // 選択肢の初期化
         this.#initOptions()
+
+        //表示の設定
+        this.#checkApplicationState();
     }
 
     /**非同期での初期化 */
@@ -95,6 +98,21 @@ export class App {
         //配置する箱を取得
         const container = document.querySelector(".selectAreaAndCategory");
 
+        //子要素が存在している場合消す
+        if (container.hasChildNodes()) {
+
+            //内部に存在している場合削除
+            const inners = document.querySelectorAll(".selectAreaButtonInner");
+
+            //一つずつ取り出して削除する
+            inners.forEach(inner => {
+                container.removeChild(inner);
+            });
+        }
+
+        //ulの●ぽつを消す
+        container.style.listStyle = "none"
+
         //データの抽出
         const jsonData = problemCollection.getJsonData;
         const categoryArray = problemCollection.getCategoryArray;
@@ -102,18 +120,22 @@ export class App {
 
         // 一つずつ取り出して格納
         jsonData.forEach(json => {
+
             for (const category in categoryArray) {
 
                 //長さと名前の取得
-                const length = categoryArray[category];
                 const areaName = nameArray[category].name;
                 const categories = nameArray[category].category;
 
                 //liのタグを動的に作成
                 const inner = document.createElement("li");
 
-                //最初のクラスを割り当てる
-                inner.className = "btn btn-outline-secondary m-2 fs-3";
+                //area全体のクラスを割り当てる
+                inner.className = "selectAreaButtonInner";
+
+                //ボタンのクラス
+                const areaButton = document.createElement("div");
+                areaButton.className = "btn btn-outline-secondary m-2 fs-3";
 
                 //データを格納するdivタグを作成
                 const area = document.createElement("div");
@@ -122,66 +144,47 @@ export class App {
                 area.className = "area";
 
                 //テキストの配置
-                // area.textContent = `範囲:${i + 1}`;
                 area.textContent = areaName;
 
                 //範囲を入れる
-                inner.appendChild(area);
+                areaButton.appendChild(area);
+                inner.appendChild(areaButton);
+
+                //categoryのボタンを作成
+                const categoryButtons = document.createElement("div");
+
+                //categotyの親のクラスを作成
+                categoryButtons.className = "selectCategoryButtonInner";
+
+                //小門を非表示にする
+                categoryButtons.style.display = "none";
 
                 for (const category in categories) {
-                    
+
+                    //ボタン
+                    const button = document.createElement("div");
+                    button.className = "btn btn-outline-secondary m-2 fs-6";
+
                     //内部の小門を作成
                     const innerCategory = document.createElement("div");
-                    
-                    //
-                    
+                    innerCategory.className = "category";
+                    innerCategory.textContent = categories[category];
+
+                    //配置
+                    button.appendChild(innerCategory);
+                    categoryButtons.appendChild(button);
                 }
 
-                //カテゴリーの生成
+                //innerに配置
+                inner.appendChild(categoryButtons);
 
-                //クラス名の設定
-
-                console.log(json[category])
-                console.log(length)
-                console.log(areaName)
-                console.log(categories)
-
+                //liの情報をulタグに配置
                 container.appendChild(inner);
             }
 
         });
 
-        //問題の数だけareaを付けるf
-        // for (let i = 0; i < problemCollection.getAreaNum; i++) {
 
-        //     //liのタグを動的に作成
-        //     const inner = document.createElement("li");
-
-        //     //最初のクラスを割り当てる
-        //     inner.className = "btn btn-outline-secondary m-2 fs-3";
-
-        //     //データを格納するdivタグを作成
-        //     const area = document.createElement("div");
-
-        //     //クラスの割り当て
-        //     area.className = "area";
-
-        //     //テキストの配置
-        //     area.textContent = `範囲:${i + 1}`;
-
-        //     //範囲を入れる
-        //     inner.appendChild(area);
-
-        //     //カテゴリーの生成
-        //     const categorys = document.createElement("div");
-
-        //     //クラス名の設定
-        //     categorys.className = "categorys";
-
-        //     //カテゴリーの数だけ回す
-
-        //     container.appendChild(inner);
-        // }
     }
 
     /**実行 */
@@ -192,7 +195,7 @@ export class App {
         this.levelSelectUpdate();
 
         //表示するオブジェクトの処理
-        // this.#checkApplicationState();
+        this.#checkApplicationState();
 
     }
 
@@ -267,8 +270,9 @@ export class App {
 
                 // 動的にAreaとcategoryを作成する
                 this.#initAreaAndCategory(problemCollection);
+
                 // 更新
-                // this.#checkApplicationState();
+                this.#checkApplicationState();
             })
         });
     }
@@ -278,7 +282,7 @@ export class App {
     levelSelectUpdate() {
 
         //レベルが選択されていない場合処理をしない
-        if (this.#mathLevel == applicationMathLevel.noSelect)
+        if (this.#mathLevel === applicationMathLevel.noSelect)
             return;
 
         // 戻るボタンとランダムにするボタンを取得
@@ -286,9 +290,9 @@ export class App {
         const targetClassName = levelSelect.querySelector("nav").className;
         const backButton = levelSelect.querySelector(".back");
         const randomButton = levelSelect.querySelector(".random");
+        const areaInners = document.querySelector(".selectAreaAndCategory");
 
-        console.log(targetClassName)
-
+        let problemTheme = "";
         // 戻る処理
         backButton.addEventListener("click", () => {
 
@@ -296,9 +300,20 @@ export class App {
             this.#state = applicationState.title;
             this.#mathLevel = applicationState.noSelect;
             levelSelect.querySelector("h2").textContent = "levelSelect";
+
+            //選択しを消す
+            const areaParent = document.querySelector(".selectAreaAndCategory");
+            const inners = document.querySelectorAll(".selectAreaButtonInner");
+
+            //一つずつ取り出して削除する
+            inners.forEach(inner => {
+                areaParent.removeChild(inner);
+            });
+
             console.clear();
+
             //更新
-            // this.#checkApplicationState();
+            this.#checkApplicationState();
         });
 
         // ランダムボタンをクリックしたときの処理
@@ -314,7 +329,43 @@ export class App {
             //ランダムの縁の変更
             levelSelectRandomButton.classList.toggle("btn-outline-secondary");
             levelSelectRandomButton.classList.toggle("btn-outline-success");
+
+
         })
+
+        //ランダムボタンが押されている場合次の処理に進
+        if (App.isShuffleOrder) {
+            //stateの設定
+            this.#state = applicationState.problemAnswer;
+            this.#checkApplicationState();
+        }
+
+        areaInners.addEventListener("click", (e) => {
+            //動的に確保
+            // const areaInnerElement = e.target.closest(".selectAreaButtonInner");
+
+            // areaInnerElement.addEventListener("click",()=>{
+            //     const categoryButton = areaInnerElement.querySelector(".selectCategoryButtonInner");
+            //     // categoryButton.toggle("display")
+            //     categoryButton.style.display = "block";
+            // })
+            
+            //ボタンの表示
+            // areaInnerElements.forEach(element => {
+            //     element.addEventListener("click", () => {
+            //         const categoryButton = element.querySelector(".selectCategoryButtonInner");
+            //         console.log(categoryButton)
+            //         categoryButton.style.display = "block"
+            //     })
+            // })
+        })
+
+
+
+
+        console.log("テーマ")
+
+
     }
 
     /**

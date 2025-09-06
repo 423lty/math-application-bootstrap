@@ -198,7 +198,6 @@ export class App {
         const titleSection = document.querySelector(".title");
         const titleSectionObjects = titleSection.querySelectorAll("div div");
 
-
         //どちらの数学をするか選択
         titleSectionObjects.forEach(object => {
             object.addEventListener("click", () => {
@@ -277,6 +276,7 @@ export class App {
         const randomButton = levelSelect.querySelector(".random");
         const areaInners = document.querySelector(".selectAreaAndCategory");
 
+        //問題のテーマ
         let problemTheme = "";
 
         // 戻る処理
@@ -401,38 +401,56 @@ export class App {
         }
     }
 
-    static async getJsonParseObject(json) {
-        return json.then(res => res).catch(err => {
-            console.error(err);
-        })
-    }
-
-    #generateProblem(problemTheme, problemCollection, isShuffleOrder = false) {
+    async #generateProblem(problemTheme, problemCollection, isShuffleOrder = false) {
         //問題のjsonを取得
         const jsonData = problemCollection.getJsonData;
         const nameData = problemCollection.getNameDataArray;
 
+        //名前のキー配列
+        let nameKey;
+
+        //問題のを管理する
+        let problemData;
+
+        //問題内容を格納
+        const problemArray = [];
+
         //ランダムでする場合
         if (isShuffleOrder === true) {
-            let nameKey;
 
+            //一致するオブジェクトの取得
             for (const name in nameData) {
                 if (nameData[name].name === problemTheme) {
                     nameKey = nameData[name];
+                    problemData = jsonData[name];
                 }
             }
 
-            console.log(nameKey)
-            // const nameKey = nameData.map(key => { return key.name === problemTheme });
-            // console.log(nameKey.name[])
+            //存在のキーのみを最初に保存
+            problemArray.push(nameKey.name)
+
+            //一つずつ取り出して問題を取得
+            for (const problem in problemData) {
+                const json = problemData[problem];
+                await this.loadJsonDataAsync(json).then(result => {
+                    problemArray.push(result);
+                })
+            }
         }
         else if (isShuffleOrder === false) {
         }
+        const problemCollectionProblemData = problemCollection.getProblemData;
+        //指定したオブジェクトが存在しない場合問題内容を格納
+        if (!problemCollectionProblemData.includes(problemArray)) {
+            //格納するデータのプッシュ
+            problemCollectionProblemData.push(problemArray);
+            problemCollection.setProblemData = problemCollectionProblemData;
+            const levelSelect = document.querySelector(".levelSelect");
+            const targetClassName = levelSelect.querySelector("nav").className;
+            this.#setProblemCollection(targetClassName, problemCollection);
+        }
 
-
-        console.log(jsonData);
-        console.log(nameData)
-        console.log(problemTheme)
+        console.log(problemArray)
     }
 
     /**アプリケーションのすべての状態を管理する */

@@ -1,4 +1,6 @@
 import { ProblemCollection } from "./components/problemCollection.js"
+import { posedProblem } from "./components/posedProblem.js"
+
 
 /**アプリケーションの状態 */
 export const applicationState = Object.freeze({
@@ -37,12 +39,12 @@ export class App {
     /**非同期での初期化 */
     async #initAsync() {
 
-        //非同期でデータの取得
+        //非同期でファイルのパスデータの取得
         await this.loadJsonDataAsync(App.dataFilePath).then(res => {
             App.filePathList = res;
-            // App.filePathList.push(res);
         });
 
+        //名前のデータを取り出す
         await this.loadJsonDataAsync(App.nameDataFilePath).then(res => {
             App.nameDataList = res;
         })
@@ -103,9 +105,7 @@ export class App {
             const inners = document.querySelectorAll(".selectAreaButtonInner");
 
             //一つずつ取り出して削除する
-            inners.forEach(inner => {
-                container.removeChild(inner);
-            });
+            inners.forEach(inner => container.removeChild(inner));
         }
 
         //ulの●ぽつを消す
@@ -154,9 +154,10 @@ export class App {
             //小門を非表示にする
             categoryButtons.style.display = "none";
 
+            //カテゴリーを全て取り出して回す
             for (const category in categories) {
 
-                //ボタン
+                //ボタンの設定
                 const button = document.createElement("div");
                 button.className = "btn btn-outline-secondary m-2 fs-6";
 
@@ -165,7 +166,7 @@ export class App {
                 innerCategory.className = "category";
                 innerCategory.textContent = categories[category];
 
-                //配置
+                //子に付ける
                 button.appendChild(innerCategory);
                 categoryButtons.appendChild(button);
             }
@@ -317,14 +318,15 @@ export class App {
 
         //選択s
         areaInners.addEventListener("click", (e) => {
+
             //動的に確保
             const areaInnerElement = e.target.closest(".selectAreaButtonInner");
             const problemAnswerTitle = document.querySelector(".problemAnswer").querySelector(".areaAndCategory");
             const targetClassName = levelSelect.querySelector("nav").className;
             const mathLevel = document.querySelector(".levelSelect").querySelector("h2").textContent;
             const problemCollection = this.#getProblemCollection(targetClassName);
-
             const areaName = areaInnerElement.querySelector(".area").textContent;
+
             //ランダムボタンが押されている場合次の処理に進
             if (App.isShuffleOrder === true) {
                 //テーマの取得
@@ -337,7 +339,7 @@ export class App {
                 const problemTitle = `${mathLevel} / ${problemTheme}`;
                 problemAnswerTitle.textContent = problemTitle;
 
-                //stateの設定
+                //stateの更新
                 this.#state = applicationState.problemAnswer;
                 this.#checkApplicationState();
             }
@@ -346,11 +348,13 @@ export class App {
                 //ボタンの表示
                 const categoryButton = areaInnerElement.querySelector(".selectCategoryButtonInner");
 
+                //詳細の表示画面
                 if (categoryButton.style.display === "block")
                     categoryButton.style.display = "none";
                 else if (categoryButton.style.display === "none")
                     categoryButton.style.display = "block";
 
+                //innerのオブジェクトを取得
                 const categories = categoryButton.querySelectorAll(".category");
 
                 categories.forEach(category => {
@@ -372,11 +376,17 @@ export class App {
                     })
                 });
             }
+
+
         })
     }
 
     /**問題解答更新 */
     problemAnswerUpdate() {
+        const problemAnswer = document.querySelector(".problemAnswer");
+        const problemText = problemAnswer.querySelector(".problemText");
+        const options = problemAnswer.querySelector(".options");
+        const choices = options.querySelectorAll(".choices");
 
     }
 
@@ -401,7 +411,14 @@ export class App {
         }
     }
 
+    /**
+     * 問題を生成する処理
+     * @param {問題の範囲} problemTheme 
+     * @param {問題を格納する変数} problemCollection 
+     * @param {シャッフルしているかのフラグ} isShuffleOrder 
+     */
     async #generateProblem(problemTheme, problemCollection, isShuffleOrder = false) {
+
         //問題のjsonを取得
         const jsonData = problemCollection.getJsonData;
         const nameData = problemCollection.getNameDataArray;
@@ -412,16 +429,22 @@ export class App {
         //問題のを管理する
         let problemData;
 
-        //問題内容を格納
+        // 問題内容を格納
         const problemArray = [];
 
         //ランダムでする場合
         if (isShuffleOrder === true) {
 
-            //一致するオブジェクトの取得
+            // 一致するオブジェクトの取得
             for (const name in nameData) {
+
+                //全部の中で問題の範囲と一致するものを取り出す
                 if (nameData[name].name === problemTheme) {
+
+                    // 問題の名前
                     nameKey = nameData[name];
+
+                    // 問題のデータ
                     problemData = jsonData[name];
                 }
             }
@@ -438,8 +461,40 @@ export class App {
             }
         }
         else if (isShuffleOrder === false) {
+
+            //大門を一つ一つ取り出してデータを格納
+            for (const area in nameData) {
+
+                //一つの範囲のキーを全て取得
+                const keys = Object.keys(nameData[area].category)
+
+                //結果をundefinedかどうかで取得
+                const result = keys.find(key => nameData[area].category[key] === problemTheme)
+
+                //結果が存在している場合
+                if (result) {
+
+                    //対象のjsonの範囲を取得
+                    const targetAreaJsonData = jsonData[area];
+
+                    //問題のデータを設定
+                    problemData = targetAreaJsonData[result];
+
+                    //nameを設定
+                    problemArray.push(nameData[area].category[result])
+
+                    //データを取得
+                    await this.loadJsonDataAsync(problemData).then(res => {
+                        problemArray.push(res);
+                    })
+                }
+            }
+
         }
+
+        //problemCollectionに存在しているデータを全て取得
         const problemCollectionProblemData = problemCollection.getProblemData;
+
         //指定したオブジェクトが存在しない場合問題内容を格納
         if (!problemCollectionProblemData.includes(problemArray)) {
             //格納するデータのプッシュ
@@ -451,6 +506,14 @@ export class App {
         }
 
         console.log(problemArray)
+    }
+
+    /**
+     * 出題する問題の設定
+     * @param {出題する問題の配列データ} problemArray 
+     */
+    #setPosedProblem(problemArray) {
+
     }
 
     /**アプリケーションのすべての状態を管理する */
@@ -513,6 +576,9 @@ export class App {
 
     /**問題をランダムにするかのフラグ */
     static isShuffleOrder = false;
+
+    /**出題する問題の格納配列 */
+    static posedProblemList = [];
 
     /**ファイルのパスを格納する配列 */
     static filePathList = [];

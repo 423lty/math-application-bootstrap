@@ -189,7 +189,6 @@ export class App {
 
         //表示するオブジェクトの処理
         this.#checkApplicationState();
-
     }
 
     /**タイトル画面の更新処理 */
@@ -381,24 +380,62 @@ export class App {
 
     /**問題解答更新 */
     problemAnswerUpdate() {
+
         //それぞれのdoucmentでデータを取得
         const problemAnswer = document.querySelector(".problemAnswer");
         const problemText = problemAnswer.querySelector(".problemText");
         const options = problemAnswer.querySelector(".options");
+        const nextProblemButton = problemAnswer.querySelector(".nextProblemButton");
+        const explanation = problemAnswer.querySelector(".explanation");
 
+        let count = 0;
 
+        //クリックした場合のイベント
         options.addEventListener("click", (e) => {
-            const choices = e.target.closest(".choices");
-            choices.addEventListener("click",()=>{
-                console.log(choices)
-            })
-        })
 
+            //すべての選択しを取得
+            const choices = Array.from(problemAnswer.querySelectorAll(".choices"));
 
-        for (const posedProblem of App.posedProblemList) {
+            //クリックしたオブジェクトを取得
+            const choice = e.target.closest(".choices");
 
+            //-1以外の場合
+            if (choice) {
 
-        }
+                //現在のインデックス番号を取得
+                const index = choices.findIndex(c => c === choice);
+
+                console.log("選択された index:", index);
+
+                //正解不正解の処理
+                if (index === App.posedAnswer) {
+                    console.log("正解")
+                }
+
+                //問題の解説を表示
+                explanation.textContent = App.explanation;
+            }
+        });
+
+        //問題のスキップ
+        nextProblemButton.addEventListener("click", () => {
+
+            //問題文の長さを上回るまで続ける
+            if (App.posedProblemList[0].length > count) {
+                const choices = problemAnswer.querySelectorAll(".choices");
+
+                //問題の解答などの設定
+                this.#setProblemAnswerText(problemText, choices, count);
+                count++;
+
+                // 問題の解説を非表示にする
+                explanation.textContent = "";
+            }
+            else{
+                
+            }
+        });
+
     }
 
     /**
@@ -421,6 +458,38 @@ export class App {
             console.error("json Error" + err);
         }
     }
+
+    /**
+     * 問題の答えなどを設定する関数
+     * @param {問題文を管理するElement要素} problemText 
+     * @param {選択しを管理するElement要素} choices 
+     * @param {現在の出題番号目} i 
+     */
+    #setProblemAnswerText(problemText, choices, i) {
+
+        //要素を詳しく取得する
+        const posedProblem = App.posedProblemList[0][i];
+
+        //問題文の設定
+        problemText.textContent = posedProblem.getQuestion;
+
+        //選択しの設定
+        if (choices.length === posedProblem.getChoices.length) {
+            posedProblem.getChoices.forEach((text, index) => {
+                choices[index].textContent = text;
+            });
+        }
+
+        //解説
+        App.explanation = posedProblem.getExplanation;
+
+        // 答え
+        App.posedAnswer = posedProblem.getAnswer;
+        console.log(App.posedAnswer)
+        console.log(App.explanation)
+    }
+
+
 
     /**
      * 問題を生成する処理
@@ -620,7 +689,6 @@ export class App {
             this.#univ = setObject;
     }
 
-
     /**データのすべてのファイルパス */
     static dataFilePath = "../data/problemDataFiles.json";
     static nameDataFilePath = "../data/nameDataFiles.json";
@@ -636,6 +704,12 @@ export class App {
 
     /**出題する問題の格納配列 */
     static posedProblemList = [];
+
+    /**問題の正答を管理する場所 */
+    static posedAnswer = -1;
+
+    /**解説を管理する変数 */
+    static explanation = "";
 
     /**ファイルのパスを格納する配列 */
     static filePathList = [];

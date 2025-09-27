@@ -54,7 +54,7 @@ export class ProblemCollection {
     set setCategoryArray(categoryArray) {
         this.#categoryArray = categoryArray;
     }
-    
+
     /**小門の情報を取得する */
     get getPosedProblemList() {
         return this.#posedProblemList;
@@ -81,6 +81,6 @@ export class ProblemCollection {
     #categoryArray = {};
 
     /**問題の最終的なデータを保管する変数 */
-    #posedProblemList = {};
+    #posedProblemList = [];
 
 }

@@ -376,18 +376,29 @@ export class App {
                     })
                 });
             }
-
-
         })
     }
 
     /**問題解答更新 */
     problemAnswerUpdate() {
+        //それぞれのdoucmentでデータを取得
         const problemAnswer = document.querySelector(".problemAnswer");
         const problemText = problemAnswer.querySelector(".problemText");
         const options = problemAnswer.querySelector(".options");
-        const choices = options.querySelectorAll(".choices");
 
+
+        options.addEventListener("click", (e) => {
+            const choices = e.target.closest(".choices");
+            choices.addEventListener("click",()=>{
+                console.log(choices)
+            })
+        })
+
+
+        for (const posedProblem of App.posedProblemList) {
+
+
+        }
     }
 
     /**
@@ -419,101 +430,147 @@ export class App {
      */
     async #generateProblem(problemTheme, problemCollection, isShuffleOrder = false) {
 
-        //問題のjsonを取得
-        const jsonData = problemCollection.getJsonData;
-        const nameData = problemCollection.getNameDataArray;
+        //problemCollectionに存在しているデータを全て取得
+        const problemCollectionPosedProblemList = problemCollection.getPosedProblemList || {};
 
-        //名前のキー配列
-        let nameKey;
+        //指定したオブジェクトが存在しない場合問題内容を格納
+        if (!(problemTheme in problemCollectionPosedProblemList)) {
 
-        //問題のを管理する
-        let problemData;
+            //問題のjsonを取得
+            const jsonData = problemCollection.getJsonData;
+            const nameData = problemCollection.getNameDataArray;
 
-        // 問題内容を格納
-        const problemArray = [];
+            //名前のキー配列
+            let nameKey;
 
-        //ランダムでする場合
-        if (isShuffleOrder === true) {
+            //問題のを管理する
+            let problemData;
 
-            // 一致するオブジェクトの取得
-            for (const name in nameData) {
+            // 問題内容を格納
+            const problemArray = [];
 
-                //全部の中で問題の範囲と一致するものを取り出す
-                if (nameData[name].name === problemTheme) {
+            //ランダムでする場合
+            if (isShuffleOrder === true) {
 
-                    // 問題の名前
-                    nameKey = nameData[name];
+                // 一致するオブジェクトの取得
+                for (const name in nameData) {
 
-                    // 問題のデータ
-                    problemData = jsonData[name];
+                    //全部の中で問題の範囲と一致するものを取り出す
+                    if (nameData[name].name === problemTheme) {
+
+                        // 問題の名前
+                        nameKey = nameData[name];
+
+                        // 問題のデータ
+                        problemData = jsonData[name];
+                    }
                 }
-            }
 
-            //存在のキーのみを最初に保存
-            problemArray.push(nameKey.name)
+                //存在のキーのみを最初に保存
+                problemArray.push(nameKey.name)
 
-            //一つずつ取り出して問題を取得
-            for (const problem in problemData) {
-                const json = problemData[problem];
-                await this.loadJsonDataAsync(json).then(result => {
-                    problemArray.push(result);
-                })
-            }
-        }
-        else if (isShuffleOrder === false) {
-
-            //大門を一つ一つ取り出してデータを格納
-            for (const area in nameData) {
-
-                //一つの範囲のキーを全て取得
-                const keys = Object.keys(nameData[area].category)
-
-                //結果をundefinedかどうかで取得
-                const result = keys.find(key => nameData[area].category[key] === problemTheme)
-
-                //結果が存在している場合
-                if (result) {
-
-                    //対象のjsonの範囲を取得
-                    const targetAreaJsonData = jsonData[area];
-
-                    //問題のデータを設定
-                    problemData = targetAreaJsonData[result];
-
-                    //nameを設定
-                    problemArray.push(nameData[area].category[result])
-
-                    //データを取得
-                    await this.loadJsonDataAsync(problemData).then(res => {
-                        problemArray.push(res);
+                //一つずつ取り出して問題を取得
+                for (const problem in problemData) {
+                    const json = problemData[problem];
+                    await this.loadJsonDataAsync(json).then(result => {
+                        problemArray.push(result);
                     })
                 }
             }
+            else if (isShuffleOrder === false) {
 
-        }
+                //大門を一つ一つ取り出してデータを格納
+                for (const area in nameData) {
 
-        //problemCollectionに存在しているデータを全て取得
-        const problemCollectionProblemData = problemCollection.getProblemData;
+                    //一つの範囲のキーを全て取得
+                    const keys = Object.keys(nameData[area].category)
 
-        //指定したオブジェクトが存在しない場合問題内容を格納
-        if (!problemCollectionProblemData.includes(problemArray)) {
+                    //結果をundefinedかどうかで取得
+                    const result = keys.find(key => nameData[area].category[key] === problemTheme)
+
+                    //結果が存在している場合
+                    if (result) {
+
+                        //対象のjsonの範囲を取得
+                        const targetAreaJsonData = jsonData[area];
+
+                        //問題のデータを設定
+                        problemData = targetAreaJsonData[result];
+
+                        //nameを設定
+                        problemArray.push(nameData[area].category[result])
+
+                        //データを取得
+                        await this.loadJsonDataAsync(problemData).then(res => {
+                            problemArray.push(res);
+                        })
+                    }
+                }
+            }
+
+            //問題の内容を格納するオブジェクト
+            const posedProblemList = [];
+
+            //文字列以外の処理を繰り返す
+            for (const problem of problemArray) {
+
+                //型が文字列の場合
+                if (typeof problem === "string")
+                    continue;
+
+                //問題のquestionデータを取得
+                const q = problem.questions;
+
+                //データを取得
+                const posed = this.#setPosedProblem(q);
+
+                //データをpush
+                posedProblemList.push(posed);
+            }
+
             //格納するデータのプッシュ
-            problemCollectionProblemData.push(problemArray);
-            problemCollection.setProblemData = problemCollectionProblemData;
+            problemCollectionPosedProblemList[problemTheme] = posedProblemList;
+            problemCollection.setPosedProblemList = problemCollectionPosedProblemList;
+
+            //格納する情報の取得
             const levelSelect = document.querySelector(".levelSelect");
             const targetClassName = levelSelect.querySelector("nav").className;
+
+            //問題を格納    
             this.#setProblemCollection(targetClassName, problemCollection);
         }
 
-        console.log(problemArray)
+        //問題を設定
+        App.posedProblemList = problemCollection.getPosedProblemList[problemTheme];
     }
 
     /**
      * 出題する問題の設定
      * @param {出題する問題の配列データ} problemArray 
+     * @returns 格納されたデータを返却する
      */
     #setPosedProblem(problemArray) {
 
+        //まとめた全ての要素
+        const posedProblemList = [];
+
+        //まとめられたブロックから一つずつの要素を取り出す
+        for (const problem of problemArray) {
+
+            //問題を格納するデータ要素
+            const storagedProblem = new posedProblem();
+
+            //問題の要素を取得して格納
+            storagedProblem.setAnswer = problem.answer;
+            storagedProblem.setExplanation = problem.explanation;
+            storagedProblem.setQuestion = problem.question;
+            storagedProblem.setChoices = problem.choices;
+
+            //格納したデータを問題配列に格納
+            posedProblemList.push(storagedProblem);
+        }
+
+        return posedProblemList;
     }
 
     /**アプリケーションのすべての状態を管理する */

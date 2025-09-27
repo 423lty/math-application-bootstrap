@@ -54,6 +54,16 @@ export class ProblemCollection {
     set setCategoryArray(categoryArray) {
         this.#categoryArray = categoryArray;
     }
+    
+    /**小門の情報を取得する */
+    get getPosedProblemList() {
+        return this.#posedProblemList;
+    }
+
+    /**小門の情報を設定する */
+    set setPosedProblemList(posedProblemList) {
+        this.#posedProblemList = posedProblemList;
+    }
 
     /**jsonの情報を格納する変数 */
     #jsonDataArray = [];
@@ -69,5 +79,8 @@ export class ProblemCollection {
 
     /**大門の数だけ確保した配列に入っている配列 */
     #categoryArray = {};
+
+    /**問題の最終的なデータを保管する変数 */
+    #posedProblemList = {};
 
 }

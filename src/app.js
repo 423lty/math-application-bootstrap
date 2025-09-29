@@ -186,6 +186,7 @@ export class App {
         this.titleUpdate();
         this.levelSelectUpdate();
         this.problemAnswerUpdate();
+        this.finish();
 
         //表示するオブジェクトの処理
         this.#checkApplicationState();
@@ -387,11 +388,19 @@ export class App {
         const options = problemAnswer.querySelector(".options");
         const nextProblemButton = problemAnswer.querySelector(".nextProblemButton");
         const explanation = problemAnswer.querySelector(".explanation");
+        const video = problemAnswer.querySelector("video");
 
         let count = 0;
 
         //クリックした場合のイベント
         options.addEventListener("click", (e) => {
+
+            //問題を回答開始していない場合処理をしない
+            if (!App.#isFirstProblemAnswerButtonClicked) {
+                // デフォルト動作を止める
+                e.preventDefault();
+                return;
+            }
 
             //すべての選択しを取得
             const choices = Array.from(problemAnswer.querySelectorAll(".choices"));
@@ -405,12 +414,19 @@ export class App {
                 //現在のインデックス番号を取得
                 const index = choices.findIndex(c => c === choice);
 
-                console.log("選択された index:", index);
+                //正答の場合動画を再生する要素
+                let src = "";
 
                 //正解不正解の処理
                 if (index === App.posedAnswer) {
                     console.log("正解")
+                    src = this.#correctAnswerVideoPath;
                 }
+                else {
+                    console.log("不正解")
+                    src = this.#incorrectAnswerVideoPath;
+                }
+                video.src = src;
 
                 //問題の解説を表示
                 explanation.textContent = App.explanation;
@@ -420,21 +436,103 @@ export class App {
         //問題のスキップ
         nextProblemButton.addEventListener("click", () => {
 
+            //
+            if (!App.#isFirstProblemAnswerButtonClicked) {
+                App.#isFirstProblemAnswerButtonClicked = true
+
+                return;
+            }
+
             //問題文の長さを上回るまで続ける
             if (App.posedProblemList[0].length > count) {
                 const choices = problemAnswer.querySelectorAll(".choices");
 
-                //問題の解答などの設定
+                //問題の解答の設定
                 this.#setProblemAnswerText(problemText, choices, count);
+
+                //問題数のカウント増加
                 count++;
 
                 // 問題の解説を非表示にする
                 explanation.textContent = "";
+
+                //動画の素材をnullにする
+                video.src = ""
             }
-            else{
-                
+            //終了時の処理
+            else {
+                //終了画面への遷移 
+                //stateの状態を変更
+                this.#state = applicationState.finish;
+
+                // 更新
+                this.#checkApplicationState();
             }
         });
+
+    }
+
+    /**
+     * 終了時の処理
+     */
+    finish() {
+        //それぞれのボタンを取得
+        const buttons = [
+            document.querySelector(".returnTitle"),
+            document.querySelector(".returnProblemSelect"),
+            document.querySelector(".answerProblemAgain")
+        ]
+
+        //クリックした時の処理
+        document.addEventListener("click", (e) => {
+
+            //クリックされた要素を取得
+            const onclickButton = e.target;
+
+            //指定した要素に一致市内場合処理をスキップ
+            if (buttons.includes(onclickButton)) {
+                console.log("hit:", onclickButton.className);
+                // this.#finishButtonEvent(onclickButton.className);
+            }
+
+        })
+
+    }
+
+    /**
+     * 終了の処理中にボタンを押したときの処理
+     * @param {任意のボタン要素} onclickButtonClassName 
+     */
+    #finishButtonEvent(onclickButtonClassName) {
+
+        //タイトルに戻る場合
+        if (onclickButtonClassName === "returnTitle") {
+            //stateの状態を変更
+            this.#state = applicationState.title;
+            this.#checkApplicationState();
+
+        }
+        else {
+            //タイトルに戻らずに問題をサイド解く場合
+            if (onclickButtonClassName === "returnProblemSelect") {
+
+                this.levelSelectUpdate();
+
+                //stateの状態を変更
+                this.#state = applicationState.levelSelect;
+                this.#checkApplicationState();
+
+            }
+            else if (onclickButtonClassName === "answerProblemAgain") {
+
+                App.posedProblemList = this.#getProblemCollection(this.#mathLevel).getPosedProblemList[problemTheme];
+
+                //
+                this.#state = applicationState.problemAnswer;
+                this.#checkApplicationState();
+            }
+        }
+
 
     }
 
@@ -473,7 +571,7 @@ export class App {
         //問題文の設定
         problemText.textContent = posedProblem.getQuestion;
 
-        //選択しの設定
+        //選択の設定
         if (choices.length === posedProblem.getChoices.length) {
             posedProblem.getChoices.forEach((text, index) => {
                 choices[index].textContent = text;
@@ -488,8 +586,6 @@ export class App {
         console.log(App.posedAnswer)
         console.log(App.explanation)
     }
-
-
 
     /**
      * 問題を生成する処理
@@ -545,6 +641,8 @@ export class App {
                         problemArray.push(result);
                     })
                 }
+
+                console.log(problemArray)
             }
             else if (isShuffleOrder === false) {
 
@@ -611,6 +709,16 @@ export class App {
 
         //問題を設定
         App.posedProblemList = problemCollection.getPosedProblemList[problemTheme];
+    }
+
+    #CheckIsFirstNextProblemButtonClicked(nextProblemButton, options) {
+
+        //問題の回答を開始していない場合ボタンの処理を不可能にする
+        options.addEventListener("click", (e) => {
+
+        })
+
+
     }
 
     /**
@@ -720,12 +828,20 @@ export class App {
     /**選択しの数 */
     static optionsNum = 4;
 
+    /**問題回答時に最初にボタンをクリックしたかどうか */
+    static #isFirstProblemAnswerButtonClicked = false;
+
     /**高校数学の情報を格納する変数 */
     #hs = new ProblemCollection();
 
     /**大学数学の情報を格納する変数 */
     #univ = new ProblemCollection();
 
+    /**正解の動画のパスを保管する変数 */
+    #correctAnswerVideoPath = "../video/seikai.mp4";
+
+    /**不正解の動画のパスを保管する変数 */
+    #incorrectAnswerVideoPath = "../video/fuseikai.mp4";
 }
 
 const app = new App();

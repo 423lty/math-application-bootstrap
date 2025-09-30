@@ -50,9 +50,7 @@ export class App {
         })
     }
 
-    /**
-     * 選択肢の初期化,生成
-     */
+    /** 選択肢の初期化,生成 */
     #initOptions() {
 
         // 親を生成
@@ -388,9 +386,13 @@ export class App {
         const options = problemAnswer.querySelector(".options");
         const nextProblemButton = problemAnswer.querySelector(".nextProblemButton");
         const explanation = problemAnswer.querySelector(".explanation");
-        const video = problemAnswer.querySelector("video");
+        const parentVideo = problemAnswer.querySelector(".parentVideo");
 
+        // 現在の問題数をカウントする変数
         let count = 0;
+
+        //問題を一回クリックした場合フラグを切り替える
+        let isOneClickedAnswer = false;
 
         //クリックした場合のイベント
         options.addEventListener("click", (e) => {
@@ -401,6 +403,10 @@ export class App {
                 e.preventDefault();
                 return;
             }
+
+            //問題を解答時に一回解答していた場合スキップする
+            if (isOneClickedAnswer)
+                return;
 
             //すべての選択しを取得
             const choices = Array.from(problemAnswer.querySelectorAll(".choices"));
@@ -414,19 +420,38 @@ export class App {
                 //現在のインデックス番号を取得
                 const index = choices.findIndex(c => c === choice);
 
+                //videoの要素を動的に作成 
+                const video = document.createElement("video");
+
+                //クラス名を付与
+                video.className = "m-5 p-2 fw-bold fs-4";
+
+                //video要素を設定
+                video.height = 180;
+                video.width = 320;
+                video.muted = true;
+                video.autoplay = true;
+
                 //正答の場合動画を再生する要素
                 let src = "";
 
+                //問題を解答したフラグを変更
+                isOneClickedAnswer = true;
+
+                //問題に正解したかどうかを取得
+                const isCorrectProblem = index === App.posedAnswer;
+
                 //正解不正解の処理
-                if (index === App.posedAnswer) {
-                    console.log("正解")
+                if (isCorrectProblem)
                     src = this.#correctAnswerVideoPath;
-                }
-                else {
-                    console.log("不正解")
+                else
                     src = this.#incorrectAnswerVideoPath;
-                }
+
+                //動画の要素を付与する
                 video.src = src;
+
+                //要素を親要素に付与する
+                parentVideo.appendChild(video);
 
                 //問題の解説を表示
                 explanation.textContent = App.explanation;
@@ -436,12 +461,21 @@ export class App {
         //問題のスキップ
         nextProblemButton.addEventListener("click", () => {
 
-            //
+            //問題解答開始のフラグを変更
             if (!App.#isFirstProblemAnswerButtonClicked) {
                 App.#isFirstProblemAnswerButtonClicked = true
-
                 return;
             }
+
+            //問題の解答フラグを戻す
+            isOneClickedAnswer = false;
+
+            //子要素が存在するかどうかを確認する
+            const hasChild = parentVideo.hasChildNodes();
+
+            //parentVideoに子要素が存在している場合取り除く
+            if (hasChild)
+                parentVideo.removeChild(parentVideo.firstElementChild)
 
             //問題文の長さを上回るまで続ける
             if (App.posedProblemList[0].length > count) {
@@ -456,8 +490,6 @@ export class App {
                 // 問題の解説を非表示にする
                 explanation.textContent = "";
 
-                //動画の素材をnullにする
-                video.src = ""
             }
             //終了時の処理
             else {
@@ -642,7 +674,71 @@ export class App {
                     })
                 }
 
+                //全ての要素を一つの配列に格納する配列
+                const singleProblemArray = [];
+
+                //全ての要素を一つの配列に変換
+                for (const problem of problemArray) {
+
+                    //型が文字列の場合
+                    if (typeof problem === "string")
+                        continue;
+
+                    //全ての要素を一つに格納
+                    for (const p of problem.questions)
+                        singleProblemArray.push(p);
+                }
+
+                //全ての問題を格納した配列の長さを取得
+                const singleProblemArrayLength = singleProblemArray.length;
+
+                //問題を格納する変数をの内部を削除
+                problemArray.splice(0);
+
+                //内部にnameとquestionを生成
+                problemArray.push(nameKey.name)
+
+                const questions = [];
+                questions.name = "questions"
+
+                //問題数の数だけ回してランダムな問題を取得
+                for (let count = 0; count < App.solveProblemNum; count++) {
+
+                    //一致しない問題を格納するために無限ループ
+                    while (true) {
+
+                        //問題を抽出する
+                        const problem = singleProblemArray[this.#getRandomInt(singleProblemArrayLength)]
+
+                        //重複する問題が存在しているかをチェック
+                        const isExistPosedProblemArray = problemArray.includes(problem);
+
+                        //存在していない場合問題を格納
+                        if (!isExistPosedProblemArray) {
+                            questions.push(problem)
+                            break;
+                        }
+                    }
+                }
+
+                //問題データを格納
+                problemArray.push(questions)
+
+                //問題を指定したオブジェクトに変換
+                problemArray.map(p => {
+
+                    //それぞれのデータを取得
+                    const title = p[0];
+                    const data = p[1];
+
+                    //dataの型がobject型かつnullではない場合 変換して格納
+                    return {
+                        title, questions: (typeof data === "object" && data !== null) ? data.questions : data
+                    }
+                })
+
                 console.log(problemArray)
+
             }
             else if (isShuffleOrder === false) {
 
@@ -671,6 +767,7 @@ export class App {
                         await this.loadJsonDataAsync(problemData).then(res => {
                             problemArray.push(res);
                         })
+                        console.log(problemArray)
                     }
                 }
             }
@@ -685,8 +782,11 @@ export class App {
                 if (typeof problem === "string")
                     continue;
 
+                //問題のデータを格納するオブジェクト
+                let q;
+
                 //問題のquestionデータを取得
-                const q = problem.questions;
+                q = problem.questions;
 
                 //データを取得
                 const posed = this.#setPosedProblem(q);
@@ -709,16 +809,6 @@ export class App {
 
         //問題を設定
         App.posedProblemList = problemCollection.getPosedProblemList[problemTheme];
-    }
-
-    #CheckIsFirstNextProblemButtonClicked(nextProblemButton, options) {
-
-        //問題の回答を開始していない場合ボタンの処理を不可能にする
-        options.addEventListener("click", (e) => {
-
-        })
-
-
     }
 
     /**
@@ -748,6 +838,15 @@ export class App {
         }
 
         return posedProblemList;
+    }
+
+    /**
+     * 0～指定した数字未満の数字を生成する
+     * @param {最大値} max 
+     * @returns ランダムなint型の整数
+     */
+    #getRandomInt(max) {
+        return Math.floor(Math.random() * max);
     }
 
     /**アプリケーションのすべての状態を管理する */
@@ -800,6 +899,7 @@ export class App {
     /**データのすべてのファイルパス */
     static dataFilePath = "../data/problemDataFiles.json";
     static nameDataFilePath = "../data/nameDataFiles.json";
+    static resolvingProblemFilePath = "../data/";
 
     /**アプリケーションの状態 */
     #state = applicationState.title;
@@ -827,6 +927,8 @@ export class App {
 
     /**選択しの数 */
     static optionsNum = 4;
+
+    static solveProblemNum = 10;
 
     /**問題回答時に最初にボタンをクリックしたかどうか */
     static #isFirstProblemAnswerButtonClicked = false;

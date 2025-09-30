@@ -380,7 +380,7 @@ export class App {
     /**問題解答更新 */
     problemAnswerUpdate() {
 
-        //それぞれのdoucmentでデータを取得
+        //それぞれのdocumentでデータを取得
         const problemAnswer = document.querySelector(".problemAnswer");
         const problemText = problemAnswer.querySelector(".problemText");
         const options = problemAnswer.querySelector(".options");
@@ -414,41 +414,32 @@ export class App {
             //クリックしたオブジェクトを取得
             const choice = e.target.closest(".choices");
 
+            //videoの要素を動的に作成 
+            const video = document.createElement("video");
+
+            //クラス名を付与
+            video.className = "m-5 p-2 fw-bold fs-4";
+
+            //video要素を設定
+            video.height = 180;
+            video.width = 320;
+            video.muted = true;
+            video.autoplay = true;
+
             //-1以外の場合
             if (choice) {
 
                 //現在のインデックス番号を取得
                 const index = choices.findIndex(c => c === choice);
 
-                //videoの要素を動的に作成 
-                const video = document.createElement("video");
-
-                //クラス名を付与
-                video.className = "m-5 p-2 fw-bold fs-4";
-
-                //video要素を設定
-                video.height = 180;
-                video.width = 320;
-                video.muted = true;
-                video.autoplay = true;
-
-                //正答の場合動画を再生する要素
-                let src = "";
-
                 //問題を解答したフラグを変更
-                isOneClickedAnswer = true;
+                // isOneClickedAnswer = true;
 
                 //問題に正解したかどうかを取得
                 const isCorrectProblem = index === App.posedAnswer;
 
-                //正解不正解の処理
-                if (isCorrectProblem)
-                    src = this.#correctAnswerVideoPath;
-                else
-                    src = this.#incorrectAnswerVideoPath;
-
                 //動画の要素を付与する
-                video.src = src;
+                video.src = isCorrectProblem ? this.#correctAnswerVideoPath : this.#incorrectAnswerVideoPath;
 
                 //要素を親要素に付与する
                 parentVideo.appendChild(video);
@@ -504,10 +495,9 @@ export class App {
 
     }
 
-    /**
-     * 終了時の処理
-     */
+    /**終了時の処理 */
     finish() {
+
         //それぞれのボタンを取得
         const buttons = [
             document.querySelector(".returnTitle"),
@@ -526,9 +516,7 @@ export class App {
                 console.log("hit:", onclickButton.className);
                 // this.#finishButtonEvent(onclickButton.className);
             }
-
         })
-
     }
 
     /**
@@ -542,14 +530,11 @@ export class App {
             //stateの状態を変更
             this.#state = applicationState.title;
             this.#checkApplicationState();
-
         }
         else {
             //タイトルに戻らずに問題をサイド解く場合
             if (onclickButtonClassName === "returnProblemSelect") {
-
                 this.levelSelectUpdate();
-
                 //stateの状態を変更
                 this.#state = applicationState.levelSelect;
                 this.#checkApplicationState();
@@ -558,14 +543,10 @@ export class App {
             else if (onclickButtonClassName === "answerProblemAgain") {
 
                 App.posedProblemList = this.#getProblemCollection(this.#mathLevel).getPosedProblemList[problemTheme];
-
-                //
                 this.#state = applicationState.problemAnswer;
                 this.#checkApplicationState();
             }
         }
-
-
     }
 
     /**
@@ -698,8 +679,8 @@ export class App {
                 //内部にnameとquestionを生成
                 problemArray.push(nameKey.name)
 
+                /**問題キーに格納するオブジェクト */
                 const questions = [];
-                questions.name = "questions"
 
                 //問題数の数だけ回してランダムな問題を取得
                 for (let count = 0; count < App.solveProblemNum; count++) {
@@ -722,23 +703,7 @@ export class App {
                 }
 
                 //問題データを格納
-                problemArray.push(questions)
-
-                //問題を指定したオブジェクトに変換
-                problemArray.map(p => {
-
-                    //それぞれのデータを取得
-                    const title = p[0];
-                    const data = p[1];
-
-                    //dataの型がobject型かつnullではない場合 変換して格納
-                    return {
-                        title, questions: (typeof data === "object" && data !== null) ? data.questions : data
-                    }
-                })
-
-                console.log(problemArray)
-
+                problemArray.push({ questions: questions })
             }
             else if (isShuffleOrder === false) {
 
@@ -778,15 +743,12 @@ export class App {
             //文字列以外の処理を繰り返す
             for (const problem of problemArray) {
 
-                //型が文字列の場合
+                //型が文字列の場合処理をスキップ
                 if (typeof problem === "string")
                     continue;
 
-                //問題のデータを格納するオブジェクト
-                let q;
-
                 //問題のquestionデータを取得
-                q = problem.questions;
+                const q = problem.questions;
 
                 //データを取得
                 const posed = this.#setPosedProblem(q);
@@ -845,9 +807,8 @@ export class App {
      * @param {最大値} max 
      * @returns ランダムなint型の整数
      */
-    #getRandomInt(max) {
-        return Math.floor(Math.random() * max);
-    }
+    #getRandomInt = (max) =>
+        Math.floor(Math.random() * max);
 
     /**アプリケーションのすべての状態を管理する */
     #checkApplicationState() {
@@ -876,13 +837,8 @@ export class App {
      * @param {*} className 
      * @returns 指定した問題を格納するメソッドを返却
      */
-    #getProblemCollection(className) {
-        if (className == applicationMathLevel.highSchool)
-            return this.#hs;
-        else if (className == applicationMathLevel.university)
-            return this.#univ;
-        return new ProblemCollection();
-    }
+    #getProblemCollection = (className) =>
+        this.#problemCollections[className] ??= new ProblemCollection()
 
     /**
      * 指定したオブジェクトにデータを設定する
@@ -890,10 +846,8 @@ export class App {
      * @param {格納するデータ} setObject 
      */
     #setProblemCollection(className, setObject) {
-        if (className == applicationMathLevel.highSchool)
-            this.#hs = setObject;
-        else if (className == applicationMathLevel.university)
-            this.#univ = setObject;
+        if (className in this.#problemCollections)
+            this.#problemCollections[className] = setObject;
     }
 
     /**データのすべてのファイルパス */
@@ -901,7 +855,7 @@ export class App {
     static nameDataFilePath = "../data/nameDataFiles.json";
     static resolvingProblemFilePath = "../data/";
 
-    /**アプリケーションの状態 */
+    /**アプリケーションの状態 初期状態をtitleにする*/
     #state = applicationState.title;
 
     /**数学のレベル */
@@ -928,16 +882,23 @@ export class App {
     /**選択しの数 */
     static optionsNum = 4;
 
+    /**解く問題数 */
     static solveProblemNum = 10;
 
     /**問題回答時に最初にボタンをクリックしたかどうか */
     static #isFirstProblemAnswerButtonClicked = false;
 
-    /**高校数学の情報を格納する変数 */
-    #hs = new ProblemCollection();
+    // /**高校数学の情報を格納する変数 */
+    // #hs = new ProblemCollection();
 
-    /**大学数学の情報を格納する変数 */
-    #univ = new ProblemCollection();
+    // /**大学数学の情報を格納する変数 */
+    // #univ = new ProblemCollection();
+
+    /**情報を格納するコレクション */
+    #problemCollections = {
+        [applicationMathLevel.highSchool]: new ProblemCollection(),
+        [applicationMathLevel.university]: new ProblemCollection()
+    }
 
     /**正解の動画のパスを保管する変数 */
     #correctAnswerVideoPath = "../video/seikai.mp4";
@@ -946,7 +907,10 @@ export class App {
     #incorrectAnswerVideoPath = "../video/fuseikai.mp4";
 }
 
+/** 実行アプリケーションをインスタンス化*/
 const app = new App();
+
+/**実行 */
 app.run();
 
 // import { JsonHandler } from "./components/jsonHandler.js"
@@ -956,8 +920,6 @@ app.run();
 // import { FinishManager } from "./components/FinishManager.js";
 
 // this.titleManager.update();
-
-
 // /**問題を管理するマネージャー */
 // titleManager = new TitleManager();
 

@@ -6,7 +6,12 @@
       "area": "応用",
       "category": "偏微分",
       "question": "関数 f(x, y) = x²y + y³ の偏微分 ∂f/∂x は？",
-      "choices": ["2xy", "x² + 3y²", "2xy + y³", "3y²"],
+      "choices": [
+        "2xy",
+        "3y²",
+        "x² + 3y²",
+        "2xy + y³"
+      ],
       "answer": 0,
       "explanation": "x で偏微分すると 2xy。y³ は定数扱いで 0。",
       "type": "選択式"
@@ -17,8 +22,13 @@
       "area": "応用",
       "category": "偏微分",
       "question": "f(x, y) = e^{xy} の偏微分 ∂f/∂y は？",
-      "choices": ["x e^{xy}", "y e^{xy}", "e^{xy}", "xy e^{xy}"],
-      "answer": 0,
+      "choices": [
+        "e^{xy}",
+        "x e^{xy}",
+        "y e^{xy}",
+        "xy e^{xy}"
+      ],
+      "answer": 1,
       "explanation": "∂/∂y[e^{xy}] = x e^{xy}。",
       "type": "選択式"
     },
@@ -28,8 +38,13 @@
       "area": "応用",
       "category": "偏微分",
       "question": "z = x² + y² の 2階偏導関数 ∂²z/∂x² の値は？",
-      "choices": ["2", "4x", "0", "x²"],
-      "answer": 0,
+      "choices": [
+        "0",
+        "2",
+        "4x",
+        "x²"
+      ],
+      "answer": 1,
       "explanation": "1階偏導関数は 2x、さらに x で微分して 2。",
       "type": "選択式"
     },
@@ -39,7 +54,12 @@
       "area": "応用",
       "category": "偏微分",
       "question": "∂u/∂t = k ∂²u/∂x² は何の方程式？",
-      "choices": ["熱方程式", "波動方程式", "ラプラス方程式", "ポアソン方程式"],
+      "choices": [
+        "熱方程式",
+        "波動方程式",
+        "ラプラス方程式",
+        "ポアソン方程式"
+      ],
       "answer": 0,
       "explanation": "これは熱伝導を表す偏微分方程式。",
       "type": "選択式"
@@ -50,8 +70,13 @@
       "area": "応用",
       "category": "偏微分",
       "question": "f(x, y) = xy + y² の ∂f/∂y は？",
-      "choices": ["x + 2y", "y + 2x", "xy", "x"],
-      "answer": 0,
+      "choices": [
+        "x",
+        "xy",
+        "x + 2y",
+        "y + 2x"
+      ],
+      "answer": 2,
       "explanation": "xy を y で微分すると x、y² を微分して 2y。",
       "type": "選択式"
     },
@@ -61,8 +86,13 @@
       "area": "応用",
       "category": "偏微分",
       "question": "∂²f/∂x∂y = ∂²f/∂y∂x となる条件は？",
-      "choices": ["fが2階連続微分可能", "fが可微分", "fが有界", "xとyが独立"],
-      "answer": 0,
+      "choices": [
+        "fが有界",
+        "fが可微分",
+        "xとyが独立",
+        "fが2階連続微分可能"
+      ],
+      "answer": 3,
       "explanation": "2階偏導関数の混合微分は連続で交換可能。",
       "type": "選択式"
     },
@@ -72,7 +102,12 @@
       "area": "応用",
       "category": "偏微分",
       "question": "波動方程式はどれ？",
-      "choices": ["∂²u/∂t² = c² ∂²u/∂x²", "∂u/∂t = k ∂²u/∂x²", "∇²u = 0", "∇²u = f(x)"],
+      "choices": [
+        "∂²u/∂t² = c² ∂²u/∂x²",
+        "∂u/∂t = k ∂²u/∂x²",
+        "∇²u = 0",
+        "∇²u = f(x)"
+      ],
       "answer": 0,
       "explanation": "時間2階、空間2階の形が波動方程式。",
       "type": "選択式"
@@ -83,8 +118,13 @@
       "area": "応用",
       "category": "偏微分",
       "question": "関数 f(x, y) = sin(xy) の ∂f/∂x は？",
-      "choices": ["y cos(xy)", "x cos(xy)", "y sin(xy)", "cos(xy)"],
-      "answer": 0,
+      "choices": [
+        "cos(xy)",
+        "y sin(xy)",
+        "x cos(xy)",
+        "y cos(xy)"
+      ],
+      "answer": 3,
       "explanation": "合成関数の微分で係数 y がつく。",
       "type": "選択式"
     },
@@ -94,8 +134,13 @@
       "area": "応用",
       "category": "偏微分",
       "question": "ポアソン方程式はどれ？",
-      "choices": ["∇²u = f(x)", "∇²u = 0", "∂u/∂t = k∂²u/∂x²", "∂²u/∂t² = c² ∂²u/∂x²"],
-      "answer": 0,
+      "choices": [
+        "∇²u = 0",
+        "∇²u = f(x)",
+        "∂u/∂t = k∂²u/∂x²",
+        "∂²u/∂t² = c² ∂²u/∂x²"
+      ],
+      "answer": 1,
       "explanation": "ラプラス方程式 ∇²u = 0 の一般化。",
       "type": "選択式"
     },
@@ -105,8 +150,13 @@
       "area": "応用",
       "category": "偏微分",
       "question": "f(x,y) = ln(x² + y²) の ∂f/∂x は？",
-      "choices": ["2x / (x² + y²)", "2x", "ln(x)", "1/(x² + y²)"],
-      "answer": 0,
+      "choices": [
+        "2x",
+        "ln(x)",
+        "1/(x² + y²)",
+        "2x / (x² + y²)"
+      ],
+      "answer": 3,
       "explanation": "合成関数の微分を使って求める。",
       "type": "選択式"
     }

@@ -6,8 +6,13 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "微分方程式 dy/dx = 3y の一般解は？",
-      "choices": ["y = Ce^{3x}", "y = 3Ce^x", "y = Ce^{x/3}", "y = 3Ce^{3x}"],
-      "answer": 0,
+      "choices": [
+        "y = Ce^{x/3}",
+        "y = Ce^{3x}",
+        "y = 3Ce^x",
+        "y = 3Ce^{3x}"
+      ],
+      "answer": 1,
       "explanation": "分離変数法により、一般解は y = Ce^{3x}。",
       "type": "選択式"
     },
@@ -17,7 +22,12 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "微分方程式 dy/dx + 2y = 0 の特解は？",
-      "choices": ["y = Ce^{-2x}", "y = 2Ce^{-x}", "y = Ce^{2x}", "y = 2Ce^x"],
+      "choices": [
+        "y = Ce^{-2x}",
+        "y = Ce^{2x}",
+        "y = 2Ce^{-x}",
+        "y = 2Ce^x"
+      ],
       "answer": 0,
       "explanation": "同次線形方程式の解は指数関数形。",
       "type": "選択式"
@@ -28,8 +38,13 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "初期条件 y(0)=1 のもとで dy/dx = 4y の解は？",
-      "choices": ["y = e^{4x}", "y = 4e^x", "y = 4e^{4x}", "y = e^x"],
-      "answer": 0,
+      "choices": [
+        "y = e^x",
+        "y = e^{4x}",
+        "y = 4e^x",
+        "y = 4e^{4x}"
+      ],
+      "answer": 1,
       "explanation": "C=1 より y = e^{4x}。",
       "type": "選択式"
     },
@@ -39,8 +54,13 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "d²y/dx² - 4dy/dx + 4y = 0 の一般解は？",
-      "choices": ["y = (C1 + C2x)e^{2x}", "y = C1e^{2x} + C2e^{-2x}", "y = C1e^{4x} + C2e^{-4x}", "y = C1x² + C2x"],
-      "answer": 0,
+      "choices": [
+        "y = C1x² + C2x",
+        "y = (C1 + C2x)e^{2x}",
+        "y = C1e^{2x} + C2e^{-2x}",
+        "y = C1e^{4x} + C2e^{-4x}"
+      ],
+      "answer": 1,
       "explanation": "重解を持つため、(C1 + C2x)e^{2x}。",
       "type": "選択式"
     },
@@ -50,7 +70,12 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "dy/dx + y = e^x の一般解は？",
-      "choices": ["y = Ce^{-x} + xe^x", "y = Ce^x + xe^x", "y = Ce^{-x} + e^x", "y = Ce^x + e^{-x}"],
+      "choices": [
+        "y = Ce^{-x} + xe^x",
+        "y = Ce^x + xe^x",
+        "y = Ce^{-x} + e^x",
+        "y = Ce^x + e^{-x}"
+      ],
       "answer": 0,
       "explanation": "積分因子を使って解く。",
       "type": "選択式"
@@ -61,8 +86,13 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "dy/dx = x²y の一般解は？",
-      "choices": ["y = Ce^{x^3/3}", "y = Ce^{x²/2}", "y = Ce^{3x³}", "y = Ce^{x³}"],
-      "answer": 0,
+      "choices": [
+        "y = Ce^{x³}",
+        "y = Ce^{x²/2}",
+        "y = Ce^{x³/3}",
+        "y = Ce^{3x³}"
+      ],
+      "answer": 2,
       "explanation": "分離変数法により y = Ce^{x³/3}。",
       "type": "選択式"
     },
@@ -72,8 +102,13 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "dy/dx = y/x の一般解は？",
-      "choices": ["y = Cx", "y = Ce^x", "y = C/x", "y = C"],
-      "answer": 0,
+      "choices": [
+        "y = C/x",
+        "y = C",
+        "y = Cx",
+        "y = Ce^x"
+      ],
+      "answer": 2,
       "explanation": "dy/y = dx/x → y = Cx。",
       "type": "選択式"
     },
@@ -83,7 +118,12 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "dy/dx = 5 - y の一般解は？",
-      "choices": ["y = 5 + Ce^{-x}", "y = 5 - Ce^{-x}", "y = Ce^{5x}", "y = 5Ce^{-x}"],
+      "choices": [
+        "y = 5 + Ce^{-x}",
+        "y = 5 - Ce^{-x}",
+        "y = Ce^{5x}",
+        "y = 5Ce^{-x}"
+      ],
       "answer": 1,
       "explanation": "定数変化法を使う。",
       "type": "選択式"
@@ -94,7 +134,12 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "d²y/dx² + y = 0 の一般解は？",
-      "choices": ["y = C1 cos(x) + C2 sin(x)", "y = C1e^x + C2e^{-x}", "y = C1x + C2", "y = C1e^{ix} + C2e^{-ix}"],
+      "choices": [
+        "y = C1 cos(x) + C2 sin(x)",
+        "y = C1e^x + C2e^{-x}",
+        "y = C1x + C2",
+        "y = C1e^{ix} + C2e^{-ix}"
+      ],
       "answer": 0,
       "explanation": "三角関数で表現される。",
       "type": "選択式"
@@ -105,8 +150,13 @@
       "area": "応用",
       "category": "常微分方程式",
       "question": "初期条件 y(0)=2, y'(0)=0 を満たす y'' + 4y = 0 の解は？",
-      "choices": ["y = 2 cos(2x)", "y = 2 sin(2x)", "y = cos(2x)", "y = sin(2x)"],
-      "answer": 0,
+      "choices": [
+        "y = cos(2x)",
+        "y = sin(2x)",
+        "y = 2 cos(2x)",
+        "y = 2 sin(2x)"
+      ],
+      "answer": 2,
       "explanation": "cos項のみ残る。",
       "type": "選択式"
     }

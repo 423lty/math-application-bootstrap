@@ -1,7 +1,6 @@
 import { ProblemCollection } from "./components/problemCollection.js"
 import { posedProblem } from "./components/posedProblem.js"
 
-
 /**アプリケーションの状態 */
 export const applicationState = Object.freeze({
     noSelect: "noSelect",
@@ -21,7 +20,7 @@ export const applicationMathLevel = Object.freeze({
 /**
  * 実行クラス
  */
-export class App {
+class App {
 
     /**コンストラクタ */
     constructor() {
@@ -387,12 +386,18 @@ export class App {
         const nextProblemButton = problemAnswer.querySelector(".nextProblemButton");
         const explanation = problemAnswer.querySelector(".explanation");
         const parentVideo = problemAnswer.querySelector(".parentVideo");
+        const answerRateDocument = document.querySelector(".answerRate");
 
         // 現在の問題数をカウントする変数
         let count = 0;
 
         //問題を一回クリックした場合フラグを切り替える
         let isOneClickedAnswer = false;
+
+        let isCorrectProblem = false
+
+        //間違えた問題を格納する変数
+        let mistakeProblem = [];
 
         //クリックした場合のイベント
         options.addEventListener("click", (e) => {
@@ -433,10 +438,10 @@ export class App {
                 const index = choices.findIndex(c => c === choice);
 
                 //問題を解答したフラグを変更
-                // isOneClickedAnswer = true;
+                isOneClickedAnswer = true;
 
                 //問題に正解したかどうかを取得
-                const isCorrectProblem = index === App.posedAnswer;
+                isCorrectProblem = (index === App.posedAnswer);
 
                 //動画の要素を付与する
                 video.src = isCorrectProblem ? this.#correctAnswerVideoPath : this.#incorrectAnswerVideoPath;
@@ -481,16 +486,39 @@ export class App {
                 // 問題の解説を非表示にする
                 explanation.textContent = "";
 
+                //スキップした場合も含み間違えた場合変数に格納
+                if (!isCorrectProblem)
+                    mistakeProblem.push(App.posedProblemList[0][count]);
             }
             //終了時の処理
             else {
-                //終了画面への遷移 
                 //stateの状態を変更
                 this.#state = applicationState.finish;
+
+                //問題のカウントをリセット
+                count = 0;
+
+                //間違えた問題の長さを取得
+                const mistakeProblemLength = mistakeProblem.length;
+
+                //正答率を更新
+                App.answerRate = this.#answerRate(mistakeProblemLength);
+
+                //正答率の表示
+                answerRateDocument.textContent = `正答率 : ${App.answerRate}%`;
+
+                //間違えた問題をjson形式で保存
+                this.#setResolveProblem(mistakeProblem);
+
+                //間違えたオブジェクトの内部を消す
+                mistakeProblem = [];
 
                 // 更新
                 this.#checkApplicationState();
             }
+
+            // 回答の正答フラグを切る
+            isCorrectProblem = false
         });
 
     }
@@ -514,7 +542,7 @@ export class App {
             //指定した要素に一致市内場合処理をスキップ
             if (buttons.includes(onclickButton)) {
                 console.log("hit:", onclickButton.className);
-                // this.#finishButtonEvent(onclickButton.className);
+                this.#finishButtonEvent(onclickButton.className);
             }
         })
     }
@@ -534,15 +562,13 @@ export class App {
         else {
             //タイトルに戻らずに問題をサイド解く場合
             if (onclickButtonClassName === "returnProblemSelect") {
-                this.levelSelectUpdate();
+                // this.levelSelectUpdate();
                 //stateの状態を変更
                 this.#state = applicationState.levelSelect;
                 this.#checkApplicationState();
 
             }
             else if (onclickButtonClassName === "answerProblemAgain") {
-
-                App.posedProblemList = this.#getProblemCollection(this.#mathLevel).getPosedProblemList[problemTheme];
                 this.#state = applicationState.problemAnswer;
                 this.#checkApplicationState();
             }
@@ -571,6 +597,33 @@ export class App {
     }
 
     /**
+     * 間違えた問題をjsonに変換して保存する
+     * @param {間違えた問題の配列} mistakeProblem 
+     */
+    #setResolveProblem(mistakeProblem) {
+        //jsonに変換
+        const json = JSON.stringify(mistakeProblem);
+
+        fetch(App.resolvingProblemFilePath, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'Application/json'
+            },
+            body: json
+        }).then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.error(err))
+    }
+
+    /**
+     * 回答したときの正答率を算出する関数
+     * @param {間違えた数} mistakeProblemLength 
+     * @returns 正答率
+     */
+    #answerRate = (mistakeProblemLength) =>
+        mistakeProblemLength != 0 ? ((App.posedProblemList[0].length - mistakeProblemLength) * this.#answerRateCorrect) : this.#answerRateCorrect;
+
+    /**
      * 問題の答えなどを設定する関数
      * @param {問題文を管理するElement要素} problemText 
      * @param {選択しを管理するElement要素} choices 
@@ -596,8 +649,8 @@ export class App {
 
         // 答え
         App.posedAnswer = posedProblem.getAnswer;
-        console.log(App.posedAnswer)
-        console.log(App.explanation)
+        console.log(`答え : ${App.posedAnswer}`)
+        console.log(`解説 : ${App.explanation}`)
     }
 
     /**
@@ -798,7 +851,6 @@ export class App {
             //格納したデータを問題配列に格納
             posedProblemList.push(storagedProblem);
         }
-
         return posedProblemList;
     }
 
@@ -853,7 +905,7 @@ export class App {
     /**データのすべてのファイルパス */
     static dataFilePath = "../data/problemDataFiles.json";
     static nameDataFilePath = "../data/nameDataFiles.json";
-    static resolvingProblemFilePath = "../data/";
+    static resolvingProblemFilePath = "../data/resolvingProblemFiles.json";
 
     /**アプリケーションの状態 初期状態をtitleにする*/
     #state = applicationState.title;
@@ -885,14 +937,14 @@ export class App {
     /**解く問題数 */
     static solveProblemNum = 10;
 
+    /**正答率 */
+    static answerRate = 0;
+
+    /**正答率の補正 */
+    #answerRateCorrect = 100;
+
     /**問題回答時に最初にボタンをクリックしたかどうか */
     static #isFirstProblemAnswerButtonClicked = false;
-
-    // /**高校数学の情報を格納する変数 */
-    // #hs = new ProblemCollection();
-
-    // /**大学数学の情報を格納する変数 */
-    // #univ = new ProblemCollection();
 
     /**情報を格納するコレクション */
     #problemCollections = {

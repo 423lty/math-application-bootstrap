@@ -1,49 +1,31 @@
 export class posedProblem {
 
     /**コンストラクタ */
-    constructor() {
-
-    }
+    constructor() { }
 
     /**問題の情報を取得する */
-    get getChoices() {
-        return this.#choices;
-    }
+    get getChoices() { return this.#choices; }
 
     /**jsonの情報を設定する */
-    set setChoices(choices) {
-        this.#choices = choices;
-    }
+    set setChoices(choices) { this.#choices = choices; }
 
     /**jsonの情報を取得する */
-    get getQuestion() {
-        return this.#question;
-    }
+    get getQuestion() { return this.#question; }
 
     /**jsonの情報を設定する */
-    set setQuestion(question) {
-        this.#question = question;
-    }
+    set setQuestion(question) { this.#question = question; }
 
     /**大門の数の情報を取得する */
-    get getExplanation() {
-        return this.#explanation;
-    }
+    get getExplanation() { return this.#explanation; }
 
     /**大門の情報を設定する */
-    set setExplanation(explanation) {
-        this.#explanation = explanation;
-    }
+    set setExplanation(explanation) { this.#explanation = explanation; }
 
     /**小門の情報を取得する */
-    get getAnswer() {
-        return this.#answer;
-    }
+    get getAnswer() { return this.#answer; }
 
     /**小門の情報を設定する */
-    set setAnswer(answer) {
-        this.#answer = answer;
-    }
+    set setAnswer(answer) { this.#answer = answer; }
 
     /**選択しを格納する変数 */
     #choices = [];

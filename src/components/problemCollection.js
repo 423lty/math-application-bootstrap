@@ -1,69 +1,43 @@
 export class ProblemCollection {
 
     /**コンストラクタ */
-    constructor() {
-
-    }
+    constructor() { }
 
     /**jsonの情報を取得する */
-    get getJsonData() {
-        return this.#jsonDataArray;
-    }
+    get getJsonData() { return this.#jsonDataArray; }
 
     /**jsonの情報を設定する */
-    set setJsonData(jsonDataArray) {
-        this.#jsonDataArray = jsonDataArray;
-    }
+    set setJsonData(jsonDataArray) { this.#jsonDataArray = jsonDataArray; }
 
     /**問題の情報を取得する */
-    get getProblemData() {
-        return this.#problemDataArray;
-    }
+    get getProblemData() { return this.#problemDataArray; }
 
     /**jsonの情報を設定する */
-    set setProblemData(problemDataArray) {
-        this.#problemDataArray = problemDataArray;
-    }
+    set setProblemData(problemDataArray) { this.#problemDataArray = problemDataArray; }
 
     /**jsonの情報を取得する */
-    get getNameDataArray() {
-        return this.#nameDataArray;
-    }
+    get getNameDataArray() { return this.#nameDataArray; }
 
     /**jsonの情報を設定する */
-    set setNameDataArray(nameDataArray) {
-        this.#nameDataArray = nameDataArray;
-    }
+    set setNameDataArray(nameDataArray) { this.#nameDataArray = nameDataArray; }
 
     /**大門の数の情報を取得する */
-    get getAreaNum() {
-        return this.#areaNum;
-    }
+    get getAreaNum() { return this.#areaNum; }
 
     /**大門の情報を設定する */
-    set setAreaNum(areaNum) {
-        this.#areaNum = areaNum;
-    }
+    set setAreaNum(areaNum) { this.#areaNum = areaNum; }
 
     /**小門の情報を取得する */
-    get getCategoryArray() {
-        return this.#categoryArray;
-    }
+    get getCategoryArray() { return this.#categoryArray; }
 
     /**小門の情報を設定する */
-    set setCategoryArray(categoryArray) {
-        this.#categoryArray = categoryArray;
-    }
+    set setCategoryArray(categoryArray) { this.#categoryArray = categoryArray; }
 
     /**小門の情報を取得する */
-    get getPosedProblemList() {
-        return this.#posedProblemList;
-    }
+    get getPosedProblemList() { return this.#posedProblemList; }
 
     /**小門の情報を設定する */
-    set setPosedProblemList(posedProblemList) {
-        this.#posedProblemList = posedProblemList;
-    }
+    set setPosedProblemList(posedProblemList) { this.#posedProblemList = posedProblemList; }
 
     /**jsonの情報を格納する変数 */
     #jsonDataArray = [];

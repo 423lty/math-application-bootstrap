@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/jpg" href="./img/icon.jpg">
+    <title>数学統合演習</title>
+    <link rel="stylesheet" href="style.css">
+<style></style></head>
+
+<body>
+    <!-- ヘッダー -->
+    <header>
+    </header>
+
+    <main class="w-auto h-auto">
+        <!-- タイトル -->
+        <section class="title" id="">
+            <div class="m-5 text-center align-items-center">
+                <h2 class="fw-bold fs-1">数学統合演習</h2>
+                <button type="button" class="btn btn-outline-secondary m-5 p-2 fw-bold fs-4">
+                    <div class="hs">高校数学</div>
+                </button>
+                <button type="button" class="btn btn-outline-secondary m-5 p-2 fw-bold fs-4">
+                    <div class="univ">大学数学</div>
+                </button>
+            </div>
+        </section>
+
+        <!-- 難易度選択 -->
+        <section class="levelSelect">
+            <div class="m-5 text-center  fw-bold">
+                <h2 class="fs-2 fw-bold">levelSelect</h2>
+                <nav class="">
+                    <ul class="sidebar ">
+                        <li class="btn btn-outline-secondary m-5 p-2 fs-4">
+                            <div class="back">戻る</div>
+                        </li>
+                        <li class="btn btn-outline-secondary m-5 p-2 fs-4">
+                            <div class="random">ランダム</div>
+                        </li>
+                    </ul>
+                    <ul class="selectAreaAndCategory"></ul>
+                </nav>
+            </div>
+
+        </section>
+
+        <!-- 問題回答 -->
+        <section class="problemAnswer">
+            <div class="m-5 text-center fs-2 fw-bold ">
+
+                <!-- 単元や問題番目 -->
+                <div class="areaAndCategory">problemAnswer</div>
+
+                <!-- 問題を格納する -->
+                <div class="m-4">
+                    <div class="problemText">次の問題ボタンを押して初めてください</div>
+                </div>
+
+                <!-- 選択肢一覧まとまり -->
+                <div class="options"></div>
+
+                <!-- 正答 -->
+                <div class="parentVideo"></div>
+
+                <!-- 解説 -->
+                <div class="">
+                    <div class="explanation"></div>
+                </div>
+
+                <!-- 次の問題のボタン -->
+                <div class="btn btn-outline-secondary m-5 p-2 fw-bold fs-4">
+                    <div class="nextProblemButton">次の問題</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 終了画面 -->
+        <section class="finish">
+            <div class="m-5 text-center fs-2 fw-bold">
+                <div>問題回答終了</div>
+            </div>
+
+            <div class="m-5 text-center fs-2 fw-bold">
+                <div class="answerRate"></div>
+            </div>
+
+            <div class="choiceGroup text-center">
+                <div class="btn btn-outline-secondary m-5 p-2 fs-4">
+                    <div class="returnTitle">
+                        タイトルに戻る
+                    </div>
+                </div>
+                <div class="btn btn-outline-secondary m-5 p-2 fs-4">
+                    <div class="returnProblemSelect">
+                        問題選択に戻る
+                    </div>
+                </div>
+                <div class="btn btn-outline-secondary m-5 p-2 fs-4">
+                    <div class="answerProblemAgain">
+                        もう一度問題を解く
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="m-5 text-center">
+        Copyright 2025 Haduki Shimoo
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+        integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+        crossorigin="anonymous"></script>
+    <script type="module" src="./src/main.js"></script>
+<script>import aysnc from "./components/aysnc.js"
+import instance from "./components/singleton.js"
+import title from "./components/app/titleComponent.js"
+import levelSelect from "./components/app/levelSelectComponent.js"
+import problemAnswer from "./components/app/problemAnswerComponent.js"
+import finish from "./components/app/finishComponent.js"
+
+/**
+ * 実行クラス
+ */
+class App {
+
+    /**コンストラクタ */
+    constructor() {
+
+        //非同期で初期化処理
+        this.#initAsync();
+
+        // 選択肢の初期化
+        this.#initOptions();
+
+        //表示の設定
+        instance.checkApplicationState();
+    }
+
+    /**非同期での初期化 */
+    async #initAsync() {
+
+        //非同期でファイルのパスデータの取得
+        await aysnc.loadJsonDataAsync(instance.dataFilePath).then(res => instance.setFilePathList = res);
+
+        //名前のデータを取り出す
+        await aysnc.loadJsonDataAsync(instance.nameDataFilePath).then(res => instance.setNameDataList = res)
+    }
+
+    /** 選択肢の初期化,生成 */
+    #initOptions = () => {
+
+        // 親を生成
+        const problemAnswer = document.querySelector(".problemAnswer");
+        const options = problemAnswer.querySelector(".options");
+
+        // 指定した回数文forを回して親に子を配置する
+        for (let i = 0; i < instance.getOptionsNum; i++) {
+
+            // 選択肢の生成
+            const newOption = document.createElement("div");
+
+            // クラスを付与
+            newOption.className = "option btn btn-outline-secondary m-2";
+
+            // 内部の設定
+            const inner = document.createElement("div");
+
+            // 選択肢専用のクラス
+            inner.className = "choices";
+
+            //初期のテキスト
+            inner.textContent = `選択肢:${i + 1}`;
+
+            // 内部要素を選択肢クラスに配置
+            newOption.appendChild(inner);
+
+            //親に子をつける
+            options.appendChild(newOption);
+        }
+
+        //選択支を非表示にする
+        options.style.display = "none"
+    }
+
+    /**実行 */
+    run = () =>
+        this.#components.forEach(component => component.update())
+
+    /**読み込むデータの配列 */
+    #components = [
+        title,
+        levelSelect,
+        problemAnswer,
+        finish
+    ];
+}
+
+/** 実行アプリケーションをインスタンス化*/
+const app = new App();
+
+/**実行 */
+app.run();
+</script></body>
+
+</html>

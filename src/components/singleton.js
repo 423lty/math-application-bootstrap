@@ -1,5 +1,4 @@
-import { ProblemCollection } from "../problemCollection.js"
-import { posedProblem } from "../posedProblem.js"
+import ProblemCollection from "./Collections/problemCollection.js"
 
 class singletonAppObject {
 
@@ -18,6 +17,7 @@ class singletonAppObject {
         if (singletonAppObject.#instance === null)
             singletonAppObject.#instance = new singletonAppObject();
 
+        //オブジェクトのインスタンスを返す
         return singletonAppObject.#instance;
     }
 
@@ -56,35 +56,20 @@ class singletonAppObject {
         disActiveStates.forEach(disActiveState => {
             disActiveState.style.display = "none";
         })
-
         console.log("現在表示state:" + this.#state);
     }
 
     /**アプリの状態を管理するgetter */
-    get getApplicationState() {
-        Object.freeze({
-            noSelect: "noSelect",
-            title: "title",
-            levelSelect: "levelSelect",
-            problemAnswer: "problemAnswer",
-            finish: "finish",
-        });
-    }
+    get getApplicationState() { return singletonAppObject.applicationState; }
 
     /**アプリの数学のレベルを管理するオブジェクト */
-    get getApplicationMathLevel() {
-        Object.freeze({
-            noSelect: "noSelect",
-            highSchool: "hs",
-            university: "univ"
-        })
-    }
+    get getApplicationMathLevel() { return singletonAppObject.applicationMathLevel; }
 
     /**アプリケーションの状態 初期状態をtitleにする*/
-    #state = applicationState.title;
+    #state = singletonAppObject.applicationState.title;
 
     /**数学のレベル */
-    #mathLevel = applicationMathLevel.NoSelect;
+    #mathLevel = singletonAppObject.applicationMathLevel.NoSelect;
 
     /**問題をランダムにするかのフラグ */
     #isShuffleOrder = false;
@@ -109,9 +94,25 @@ class singletonAppObject {
 
     /**情報を格納するコレクション */
     #problemCollections = {
-        [applicationMathLevel.highSchool]: new ProblemCollection(),
-        [applicationMathLevel.university]: new ProblemCollection()
+        [singletonAppObject.applicationMathLevel.highSchool]: new ProblemCollection(),
+        [singletonAppObject.applicationMathLevel.university]: new ProblemCollection()
     }
+
+    /**アプリケーションの状態管理 */
+    static applicationState = Object.freeze({
+        noSelect: "noSelect",
+        title: "title",
+        levelSelect: "levelSelect",
+        problemAnswer: "problemAnswer",
+        finish: "finish",
+    });
+
+    /**アプリケーションの数学のレベル */
+    static applicationMathLevel = Object.freeze({
+        noSelect: "noSelect",
+        highSchool: "hs",
+        university: "univ"
+    })
 
     /**アプリケーションの状態を取得する */
     get getState() { return this.#state; }

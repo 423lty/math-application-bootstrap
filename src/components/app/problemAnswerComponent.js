@@ -1,4 +1,4 @@
-import instance from "./singleton.js"
+import instance from "../singleton.js"
 
 class problemAnswerComponent {
 
@@ -178,8 +178,6 @@ class problemAnswerComponent {
         console.log(`答え : ${instance.getExplanation}`)
         console.log(`解説 : ${instance.getexplanation}`)
     }
-
 }
-
 
 export default new problemAnswerComponent()

@@ -1,4 +1,5 @@
-import instance from "./singleton.js"
+import ProblemCollection from "../Collections/problemCollection.js"
+import instance from "../singleton.js"
 
 class titleComponent {
 
@@ -29,9 +30,9 @@ class titleComponent {
 
                 //problemCollectionを動的に確保して初期化
                 const problemCollection = new ProblemCollection();
-
+                
                 //jsonのデータを抽出
-                const json = instance.getFilePathList[levelSelectNav.className]
+                const json = instance.getFilePathList[object.className];
 
                 //データの長さを取得(大門)
                 const jsonAreaLength = Object.keys(json).length;
@@ -42,7 +43,7 @@ class titleComponent {
                     categoryArray[category] = Object.keys(json[category]).length;
 
                 //名前のデータ
-                const nameDataArray = App.nameDataList[levelSelectNav.className];
+                const nameDataArray = instance.getNameDataList[levelSelectNav.className];
 
                 //抽出したデータを格納
                 problemCollection.setJsonData = json;
@@ -78,8 +79,7 @@ class titleComponent {
     #initAreaAndCategory(problemCollection) {
 
         //問題データが入っていない場合スキップ
-        if (problemCollection == null)
-            return;
+        if (problemCollection == null) return;
 
         //配置する箱を取得
         const container = document.querySelector(".selectAreaAndCategory");

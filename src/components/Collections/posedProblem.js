@@ -1,7 +1,5 @@
-export class posedProblem {
+export default class posedProblem {
 
-    /**コンストラクタ */
-    constructor() { }
 
     /**問題の情報を取得する */
     get getChoices() { return this.#choices; }

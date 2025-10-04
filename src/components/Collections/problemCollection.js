@@ -1,7 +1,4 @@
-export class ProblemCollection {
-
-    /**コンストラクタ */
-    constructor() { }
+export default class ProblemCollection {
 
     /**jsonの情報を取得する */
     get getJsonData() { return this.#jsonDataArray; }
@@ -56,5 +53,4 @@ export class ProblemCollection {
 
     /**問題の最終的なデータを保管する変数 */
     #posedProblemList = [];
-
 }

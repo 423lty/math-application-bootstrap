@@ -1,4 +1,6 @@
-import instance from "./singleton.js"
+import instance from "../singleton.js"
+import posedProblem from "../Collections/posedProblem.js"
+import aysnc from "../aysnc.js";
 
 class levelSelectComponent {
 
@@ -6,8 +8,7 @@ class levelSelectComponent {
     update() {
 
         //レベルが選択されていない場合処理をしない
-        if (instance.getMathLevel === instance.getApplicationMathLevel.noSelect)
-            return;
+        if (instance.getMathLevel === instance.getApplicationMathLevel.noSelect) return;
 
         // 戻るボタンとランダムにするボタンを取得
         const levelSelect = document.querySelector(".levelSelect");
@@ -30,9 +31,7 @@ class levelSelectComponent {
             const inners = document.querySelectorAll(".selectAreaButtonInner");
 
             //一つずつ取り出して削除する
-            inners.forEach(inner => {
-                areaParent.removeChild(inner);
-            });
+            inners.forEach(inner => areaParent.removeChild(inner));
 
             console.clear();
 
@@ -43,7 +42,7 @@ class levelSelectComponent {
         // ランダムボタンをクリックしたときの処理
         randomButton.addEventListener("click", () => {
             // true/falseの切り替え
-            App.isShuffleOrder = !App.isShuffleOrder;
+            instance.setIsShuffleOrder = !instance.getIsShuffleOrder;
 
             // ランダムボタンの縁の色の変更するためのクラス取得
             const levelSelectSidebarElement = levelSelect.querySelectorAll("li");
@@ -52,7 +51,7 @@ class levelSelectComponent {
             //ランダムの縁の変更
             levelSelectRandomButton.classList.toggle("btn-outline-secondary");
             levelSelectRandomButton.classList.toggle("btn-outline-success");
-        })
+        });
 
         //選択s
         areaInners.addEventListener("click", (e) => {
@@ -67,6 +66,7 @@ class levelSelectComponent {
 
             //ランダムボタンが押されている場合次の処理に進
             if (instance.getIsShuffleOrder === true) {
+
                 //テーマの取得
                 problemTheme = areaName;
 
@@ -167,9 +167,8 @@ class levelSelectComponent {
                 //一つずつ取り出して問題を取得
                 for (const problem in problemData) {
                     const json = problemData[problem];
-                    await this.loadJsonDataAsync(json).then(result => {
-                        problemArray.push(result);
-                    })
+                    await this.loadJsonDataAsync(json).then(result =>
+                        problemArray.push(result))
                 }
 
                 //全ての要素を一つの配列に格納する配列
@@ -179,8 +178,7 @@ class levelSelectComponent {
                 for (const problem of problemArray) {
 
                     //型が文字列の場合
-                    if (typeof problem === "string")
-                        continue;
+                    if (typeof problem === "string") continue;
 
                     //全ての要素を一つに格納
                     for (const p of problem.questions)
@@ -200,7 +198,7 @@ class levelSelectComponent {
                 const questions = [];
 
                 //問題数の数だけ回してランダムな問題を取得
-                for (let count = 0; count < App.solveProblemNum; count++) {
+                for (let count = 0; count < instance.getSolveProblemNum; count++) {
 
                     //一致しない問題を格納するために無限ループ
                     while (true) {
@@ -246,10 +244,7 @@ class levelSelectComponent {
                         problemArray.push(nameData[area].category[result])
 
                         //データを取得
-                        await this.loadJsonDataAsync(problemData).then(res => {
-                            problemArray.push(res);
-                        })
-                        console.log(problemArray)
+                        await aysnc.loadJsonDataAsync(problemData).then(res => problemArray.push(res))
                     }
                 }
             }
@@ -261,8 +256,7 @@ class levelSelectComponent {
             for (const problem of problemArray) {
 
                 //型が文字列の場合処理をスキップ
-                if (typeof problem === "string")
-                    continue;
+                if (typeof problem === "string") continue;
 
                 //問題のquestionデータを取得
                 const q = problem.questions;
@@ -287,8 +281,9 @@ class levelSelectComponent {
         }
 
         //問題を設定
-        App.posedProblemList = problemCollection.getPosedProblemList[problemTheme];
+        instance.setPosedProblemList = problemCollection.getPosedProblemList[problemTheme];
     }
+
     /**
         * 出題する問題の設定
         * @param {出題する問題の配列データ} problemArray 
@@ -325,4 +320,4 @@ class levelSelectComponent {
     #getRandomInt = (max) => Math.floor(Math.random() * max);
 }
 
-export default new titleComponent();
+export default new levelSelectComponent();

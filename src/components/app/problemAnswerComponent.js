@@ -3,7 +3,7 @@ import instance from "../singleton.js"
 class problemAnswerComponent {
 
     /**問題解答更新 */
-    update() {
+    update = () => {
 
         //それぞれのdocumentでデータを取得
         const problemAnswer = document.querySelector(".problemAnswer");
@@ -20,7 +20,7 @@ class problemAnswerComponent {
         //問題を一回クリックした場合フラグを切り替える
         let isOneClickedAnswer = false;
 
-        let isCorrectProblem = false
+        let isCorrectProblem = null;
 
         //間違えた問題を格納する変数
         let mistakeProblem = [];
@@ -85,7 +85,7 @@ class problemAnswerComponent {
             //問題解答開始のフラグを変更
             if (!instance.getIsFirstProblemAnswerButtonClicked) {
                 instance.setIsFirstProblemAnswerButtonClicked = true
-                return;
+                options.style.display = "block"
             }
 
             //問題の解答フラグを戻す
@@ -99,23 +99,25 @@ class problemAnswerComponent {
 
             //問題文の長さを上回るまで続ける
             if (instance.getPosedProblemList[0].length > count) {
+
+                //すべての選択の状態を取得  
                 const choices = problemAnswer.querySelectorAll(".choices");
 
                 //問題の解答の設定
                 this.#setProblemAnswerText(problemText, choices, count);
 
+                //スキップした場合も含み間違えた場合変数に格納
+                if (isCorrectProblem === false && instance.getIsFirstProblemAnswerButtonClicked)
+                    mistakeProblem.push(instance.getPosedProblemList[0][count]);
+
                 //問題数のカウント増加
                 count++;
-
-                // 問題の解説を非表示にする
-                explanation.textContent = "";
-
-                //スキップした場合も含み間違えた場合変数に格納
-                if (!isCorrectProblem)
-                    mistakeProblem.push(instance.getPosedProblemList[0][count]);
             }
             //終了時の処理
             else {
+
+                instance.setIsFirstProblemAnswerButtonClicked = !instance.getIsFirstProblemAnswerButtonClicked;
+
                 //stateの状態を変更
                 instance.setState = instance.getApplicationState.finish;
 
@@ -129,20 +131,30 @@ class problemAnswerComponent {
                 instance.setAnswerRate = this.#answerRate(mistakeProblemLength);
 
                 //正答率の表示
-                answerRateDocument.textContent = `正答率 : ${App.answerRate}%`;
-
+                answerRateDocument.textContent = `正答率 : ${instance.getAnswerRate}%`;
 
                 //間違えたオブジェクトの内部を消す
                 mistakeProblem = [];
+
+                //正答フラグを消す
+                isCorrectProblem = null;
+
+                //問題文を消す
+                problemText.textContent = "次の問題ボタンを押して初めてください"
+
+                //選択支を非表示にする
+                options.style.display = "none"
 
                 // 更新
                 instance.checkApplicationState();
             }
 
+            // 問題の解説を非表示にする
+            explanation.textContent = "";
+
             // 回答の正答フラグを切る
             isCorrectProblem = false
         });
-
     }
 
     /**
@@ -150,7 +162,7 @@ class problemAnswerComponent {
      * @param {間違えた数} mistakeProblemLength 
      * @returns 正答率
      */
-    #answerRate = (mistakeProblemLength) => mistakeProblemLength != 0 ? ((instance.getPosedProblemList[0].length - mistakeProblemLength) * instance.getAnswerRateCorrect) : instance.getAnswerRateCorrect;
+    #answerRate = (mistakeProblemLength) => (instance.getPosedProblemList[0].length - mistakeProblemLength) * instance.getAnswerRateCorrect;
 
     /**
      * 問題の答えなどを設定する関数
@@ -158,25 +170,25 @@ class problemAnswerComponent {
      * @param {選択しを管理するElement要素} choices 
      * @param {現在の出題番号目} i 
      */
-    #setProblemAnswerText(problemText, choices, i) {
+    #setProblemAnswerText = (problemText, choices, i) => {
 
         //要素を詳しく取得する
-        const posedProblem = App.posedProblemList[0][i];
+        const p = instance.getPosedProblemList[0][i];
 
         //問題文の設定
-        problemText.textContent = posedProblem.getQuestion;
+        problemText.textContent = p.question;
 
         //選択の設定
-        if (choices.length === posedProblem.getChoices.length)
-            posedProblem.getChoices.forEach((text, index) => choices[index].textContent = text);
+        if (choices.length === p.choices.length)
+            p.choices.forEach((text, index) => choices[index].textContent = text);
 
         //解説
-        instance.setExplanation = posedProblem.getExplanation;
+        instance.setExplanation = p.explanation;
 
         // 答え
-        instance.getPosedAnswer = posedProblem.getAnswer;
-        console.log(`答え : ${instance.getExplanation}`)
-        console.log(`解説 : ${instance.getexplanation}`)
+        instance.setPosedAnswer = p.answer;
+        console.log(`答え : ${instance.getPosedAnswer}`)
+        console.log(`解説 : ${instance.getExplanation}`)
     }
 }
 

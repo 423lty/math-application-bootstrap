@@ -2,14 +2,7 @@ import instance from "../singleton.js"
 
 class finishComponent {
     /**終了時の処理 */
-    update() {
-
-        //それぞれのボタンを取得
-        const buttons = [
-            document.querySelector(".returnTitle"),
-            document.querySelector(".returnProblemSelect"),
-            document.querySelector(".answerProblemAgain")
-        ]
+    update = () => {
 
         //クリックした時の処理
         document.addEventListener("click", (e) => {
@@ -18,39 +11,49 @@ class finishComponent {
             const onclickButton = e.target;
 
             //指定した要素に一致市内場合処理をスキップ
-            if (buttons.includes(onclickButton)) {
-                console.log("hit:", onclickButton.className);
+            if (this.#buttons.includes(onclickButton))
                 this.#finishButtonEvent(onclickButton.className);
-            }
         })
     }
 
     /**
-        * 終了の処理中にボタンを押したときの処理
-        * @param {任意のボタン要素} onclickButtonClassName 
-        */
-    #finishButtonEvent(onclickButtonClassName) {
+    * 終了の処理中にボタンを押したときの処理
+    * @param {任意のボタン要素} onclickButtonClassName 
+    */
+    #finishButtonEvent = (onclickButtonClassName) => {
 
-        //タイトルに戻る場合
-        if (onclickButtonClassName === "returnTitle") {
-            //stateの状態を変更
-            instance.setState = instance.getApplicationState.title;
-            instance.checkApplicationState();
-        }
-        else {
-            //タイトルに戻らずに問題をサイド解く場合
-            if (onclickButtonClassName === "returnProblemSelect") {
-                // this.levelSelectUpdate();
-                //stateの状態を変更
-                instance.setState = instance.getApplicationState.levelSelect;
-                instance.checkApplicationState();
-            }
-            else if (onclickButtonClassName === "answerProblemAgain") {
-                instance.setState = instance.getApplicationState.problemAnswer;
-                instance.checkApplicationState();
-            }
-        }
+        //指定したオブジェクトを取得
+        const handler = this.#handler[onclickButtonClassName]
+
+        //存在する場合のみ実行
+        if (handler)
+            handler();
+
+        //遷移
+        instance.checkApplicationState();
     }
+
+    /**指定したhandlerで実行 */
+    #handler = {
+        returnTitle() {
+            instance.setState = instance.getApplicationState.title
+        },
+        returnProblemSelect() {
+            instance.setState = instance.getApplicationState.levelSelect;
+        },
+        answerProblemAgain() {
+            instance.setState = instance.getApplicationState.problemAnswer;
+        }
+
+    }
+
+    //それぞれのボタンを取得
+    #buttons = [
+        document.querySelector(".returnTitle"),
+        document.querySelector(".returnProblemSelect"),
+        document.querySelector(".answerProblemAgain")
+    ]
+
 }
 
 export default new finishComponent();

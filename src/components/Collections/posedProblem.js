@@ -1,5 +1,15 @@
 export default class posedProblem {
 
+    /**コピーコンストラクタ */
+    constructor(p) {
+
+        if (p instanceof posedProblem) {
+            this.#question = p.getQuestion;
+            this.#choices = [...p.getChoices];
+            this.#explanation = p.getExplanation;
+            this.#answer = p.getAnswer;
+        }
+    }
 
     /**問題の情報を取得する */
     get getChoices() { return this.#choices; }

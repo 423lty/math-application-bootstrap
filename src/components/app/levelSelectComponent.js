@@ -1,11 +1,10 @@
 import instance from "../singleton.js"
-import posedProblem from "../Collections/posedProblem.js"
 import aysnc from "../aysnc.js";
 
 class levelSelectComponent {
 
     /**難易度の選択更新処理 */
-    update() {
+    update = () => {
 
         //レベルが選択されていない場合処理をしない
         if (instance.getMathLevel === instance.getApplicationMathLevel.noSelect) return;
@@ -32,8 +31,6 @@ class levelSelectComponent {
 
             //一つずつ取り出して削除する
             inners.forEach(inner => areaParent.removeChild(inner));
-
-            console.clear();
 
             //更新
             instance.checkApplicationState();
@@ -167,8 +164,7 @@ class levelSelectComponent {
                 //一つずつ取り出して問題を取得
                 for (const problem in problemData) {
                     const json = problemData[problem];
-                    await this.loadJsonDataAsync(json).then(result =>
-                        problemArray.push(result))
+                    await aysnc.loadJsonDataAsync(json).then(result => problemArray.push(result))
                 }
 
                 //全ての要素を一つの配列に格納する配列
@@ -258,14 +254,8 @@ class levelSelectComponent {
                 //型が文字列の場合処理をスキップ
                 if (typeof problem === "string") continue;
 
-                //問題のquestionデータを取得
-                const q = problem.questions;
-
-                //データを取得
-                const posed = this.#setPosedProblem(q);
-
-                //データをpush
-                posedProblemList.push(posed);
+                //問題のquestionデータを取得して格納
+                posedProblemList.push(problem.questions);
             }
 
             //格納するデータのプッシュ
@@ -279,37 +269,10 @@ class levelSelectComponent {
             //問題を格納    
             instance.setProblemCollection(targetClassName, problemCollection);
         }
+        const posed = problemCollection.getPosedProblemList;
 
         //問題を設定
-        instance.setPosedProblemList = problemCollection.getPosedProblemList[problemTheme];
-    }
-
-    /**
-        * 出題する問題の設定
-        * @param {出題する問題の配列データ} problemArray 
-        * @returns 格納されたデータを返却する
-        */
-    #setPosedProblem(problemArray) {
-
-        //まとめた全ての要素
-        const posedProblemList = [];
-
-        //まとめられたブロックから一つずつの要素を取り出す
-        for (const problem of problemArray) {
-
-            //問題を格納するデータ要素
-            const storagedProblem = new posedProblem();
-
-            //問題の要素を取得して格納
-            storagedProblem.setAnswer = problem.answer;
-            storagedProblem.setExplanation = problem.explanation;
-            storagedProblem.setQuestion = problem.question;
-            storagedProblem.setChoices = problem.choices;
-
-            //格納したデータを問題配列に格納
-            posedProblemList.push(storagedProblem);
-        }
-        return posedProblemList;
+        instance.setPosedProblemList = posed[problemTheme];
     }
 
     /**

@@ -45,25 +45,19 @@ class singletonAppObject {
         const appSections = Array.from(document.querySelectorAll("section"));
 
         //全てを一回表示状態にする
-        appSections.forEach(section => {
-            section.style.display = "block";
-        })
+        appSections.forEach(section => section.style.display = "block")
 
         /**stateと不一致するオブジェクトを取得 */
         const disActiveStates = appSections.filter(item => item.className != this.#state);
 
         /**一致しないオブジェクトは非表示にする */
-        disActiveStates.forEach(disActiveState => {
-            disActiveState.style.display = "none";
-        })
+        disActiveStates.forEach(disActiveState => disActiveState.style.display = "none")
+
+        //consoleのクリア
+        console.clear();
+
         console.log("現在表示state:" + this.#state);
     }
-
-    /**アプリの状態を管理するgetter */
-    get getApplicationState() { return singletonAppObject.applicationState; }
-
-    /**アプリの数学のレベルを管理するオブジェクト */
-    get getApplicationMathLevel() { return singletonAppObject.applicationMathLevel; }
 
     /**アプリケーションの状態 初期状態をtitleにする*/
     #state = singletonAppObject.applicationState.title;
@@ -92,6 +86,9 @@ class singletonAppObject {
     /**問題回答時に最初にボタンをクリックしたかどうか */
     #isFirstProblemAnswerButtonClicked = false;
 
+    /**問題の政党率 */
+    #answerRate = 0;
+
     /**情報を格納するコレクション */
     #problemCollections = {
         [singletonAppObject.applicationMathLevel.highSchool]: new ProblemCollection(),
@@ -113,6 +110,12 @@ class singletonAppObject {
         highSchool: "hs",
         university: "univ"
     })
+
+    /**アプリの状態を管理するgetter */
+    get getApplicationState() { return singletonAppObject.applicationState; }
+
+    /**アプリの数学のレベルを管理するオブジェクト */
+    get getApplicationMathLevel() { return singletonAppObject.applicationMathLevel; }
 
     /**アプリケーションの状態を取得する */
     get getState() { return this.#state; }
@@ -179,10 +182,13 @@ class singletonAppObject {
     get getSolveProblemNum() { return 10 }
 
     /**正答率 */
-    get getAnswerRate() { return 0 }
+    set setAnswerRate(answerRate) { this.#answerRate = answerRate }
+
+    /**正答率 */
+    get getAnswerRate() { return this.#answerRate }
 
     /**正答率の補正 */
-    get getAnswerRateCorrect() { return 100 }
+    get getAnswerRateCorrect() { return 10 }
 
     /**正解の動画のパスを保管する変数 */
     get getCorrectAnswerVideoPath() { return "../video/seikai.mp4" }

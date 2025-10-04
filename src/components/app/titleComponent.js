@@ -7,32 +7,37 @@ class titleComponent {
     update() {
 
         // タイトルのオブジェクトを全て取得
-        const titleSection = document.querySelector(".title");
-        const titleSectionObjects = titleSection.querySelectorAll("div div");
+        const title = document.querySelector(".title");
+        const mathLevel = instance.getApplicationMathLevel;
 
-        //どちらの数学をするか選択
-        titleSectionObjects.forEach(object => {
-            object.addEventListener("click", () => {
+        title.addEventListener("click", (e) => {
 
+            //クリックしたオブジェクトを取得
+            const objectName = e.target.className;
+            const ObjectTextcontent = e.target.textContent;
+            const isIncludeObjectKey = Object.values(mathLevel).includes(objectName);
+
+            //存在している場合のみつづきの処理を実行
+            if (isIncludeObjectKey) {
                 //レベルの選択
-                instance.setMathLevel = object.className;
+                instance.setMathLevel = objectName;
 
                 //レベルのテキスト
                 const levelSelect = document.querySelector(".levelSelect");
 
                 // levelSelectの表示タイトルの変更
                 const levelSelectText = levelSelect.querySelector("h2");
-                levelSelectText.textContent = object.textContent;
+                levelSelectText.textContent = ObjectTextcontent;
 
                 //クラスの付与
                 const levelSelectNav = levelSelect.querySelector("nav");
-                levelSelectNav.className = object.className;
+                levelSelectNav.className = objectName;
 
                 //problemCollectionを動的に確保して初期化
                 const problemCollection = new ProblemCollection();
-                
+
                 //jsonのデータを抽出
-                const json = instance.getFilePathList[object.className];
+                const json = instance.getFilePathList[objectName];
 
                 //データの長さを取得(大門)
                 const jsonAreaLength = Object.keys(json).length;
@@ -43,7 +48,7 @@ class titleComponent {
                     categoryArray[category] = Object.keys(json[category]).length;
 
                 //名前のデータ
-                const nameDataArray = instance.getNameDataList[levelSelectNav.className];
+                const nameDataArray = instance.getNameDataList[objectName];
 
                 //抽出したデータを格納
                 problemCollection.setJsonData = json;
@@ -58,7 +63,7 @@ class titleComponent {
                 problemCollection.setNameDataArray = nameDataArray;
 
                 //データを格納する
-                instance.setProblemCollection(levelSelectNav.className, problemCollection);
+                instance.setProblemCollection(objectName, problemCollection);
 
                 //stateの状態を変更
                 instance.setState = instance.getApplicationState.levelSelect;
@@ -68,8 +73,70 @@ class titleComponent {
 
                 // 更新
                 instance.checkApplicationState();
-            })
-        });
+            }
+        })
+
+
+        // //どちらの数学をするか選択
+        // titleSectionObjects.forEach(object => {
+        //     object.addEventListener("click", () => {
+
+        //         //レベルの選択
+        //         instance.setMathLevel = object.className;
+
+        //         //レベルのテキスト
+        //         const levelSelect = document.querySelector(".levelSelect");
+
+        //         // levelSelectの表示タイトルの変更
+        //         const levelSelectText = levelSelect.querySelector("h2");
+        //         levelSelectText.textContent = object.textContent;
+
+        //         //クラスの付与
+        //         const levelSelectNav = levelSelect.querySelector("nav");
+        //         levelSelectNav.className = object.className;
+
+        //         //problemCollectionを動的に確保して初期化
+        //         const problemCollection = new ProblemCollection();
+
+        //         //jsonのデータを抽出
+        //         const json = instance.getFilePathList[object.className];
+
+        //         //データの長さを取得(大門)
+        //         const jsonAreaLength = Object.keys(json).length;
+
+        //         //小門の数を取得 keyとともに格納
+        //         const categoryArray = {};
+        //         for (const category in json)
+        //             categoryArray[category] = Object.keys(json[category]).length;
+
+        //         //名前のデータ
+        //         const nameDataArray = instance.getNameDataList[levelSelectNav.className];
+
+        //         //抽出したデータを格納
+        //         problemCollection.setJsonData = json;
+
+        //         //データの格納
+        //         problemCollection.setAreaNum = jsonAreaLength;
+
+        //         //小門の大きさをkeyとともに格納
+        //         problemCollection.setCategoryArray = categoryArray;
+
+        //         //名前などを格納
+        //         problemCollection.setNameDataArray = nameDataArray;
+
+        //         //データを格納する
+        //         instance.setProblemCollection(levelSelectNav.className, problemCollection);
+
+        //         //stateの状態を変更
+        //         instance.setState = instance.getApplicationState.levelSelect;
+
+        //         // 動的にAreaとcategoryを作成する
+        //         this.#initAreaAndCategory(problemCollection);
+
+        //         // 更新
+        //         instance.checkApplicationState();
+        //     })
+        // });
     }
 
     /**

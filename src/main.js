@@ -34,14 +34,14 @@ class App {
     }
 
     /** 選択肢の初期化,生成 */
-    #initOptions() {
+    #initOptions = () => {
 
         // 親を生成
         const problemAnswer = document.querySelector(".problemAnswer");
         const options = problemAnswer.querySelector(".options");
 
         // 指定した回数文forを回して親に子を配置する
-        for (let i = 0; i < App.optionsNum; i++) {
+        for (let i = 0; i < instance.getOptionsNum; i++) {
 
             // 選択肢の生成
             const newOption = document.createElement("div");
@@ -64,13 +64,14 @@ class App {
             //親に子をつける
             options.appendChild(newOption);
         }
+
+        //選択支を非表示にする
+        options.style.display = "none"
     }
 
     /**実行 */
-    run() {
+    run = () =>
         this.#components.forEach(component => component.update())
-        instance.checkApplicationState();
-    }
 
     /**読み込むデータの配列 */
     #components = [

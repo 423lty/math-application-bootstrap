@@ -1,5 +1,4 @@
 class async {
-
     /**
     * jsonのデータを読み込むデータ
     * @param {読み込むファイルのパス} filePath 

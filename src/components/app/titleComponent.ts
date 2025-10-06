@@ -50,7 +50,7 @@ class titleComponent {
                 const jsonAreaLength = Object.keys(json).length;
 
                 //小門の数を取得 keyとともに格納
-                const categoryArray = {};
+                const categoryArray: string[] = [];
                 for (const category in json)
                     categoryArray[category] = Object.keys(json[category]).length;
 
@@ -88,7 +88,7 @@ class titleComponent {
      * 取得したものによってデータの持ちを変える
      * @param {problemCollectionの要素} problemCollection 
      */
-    #initAreaAndCategory(problemCollection) {
+    #initAreaAndCategory(problemCollection: ProblemCollection) {
 
         //問題データが入っていない場合スキップ
         if (problemCollection == null) return;
@@ -110,7 +110,7 @@ class titleComponent {
         container.style.listStyle = "none"
 
         //データの抽出
-        const categoryArray = problemCollection.getCategoryArray;
+        const categoryArray: { [key: string]: number } = problemCollection.getCategoryArray;
         const nameArray = problemCollection.getNameDataArray;
 
         // 一つずつ取り出して格納

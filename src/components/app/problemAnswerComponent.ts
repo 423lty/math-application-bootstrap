@@ -38,11 +38,16 @@ class problemAnswerComponent {
             //問題を解答時に一回解答していた場合スキップする
             if (isOneClickedAnswer) return;
 
+            //targetの内部を取得
+            const target = e.target as Element | null;
+
+            if (target === null) return;
+
             //すべての選択しを取得
             const choices = Array.from(problemAnswer.querySelectorAll(".choices"));
 
             //クリックしたオブジェクトを取得
-            const choice = e.target.closest(".choices");
+            const choice = target.closest(".choices");
 
             //videoの要素を動的に作成 
             const video = document.createElement("video");
@@ -162,7 +167,7 @@ class problemAnswerComponent {
      * @param {間違えた数} mistakeProblemLength 
      * @returns 正答率
      */
-    #answerRate = (mistakeProblemLength) => (instance.getPosedProblemList[0].length - mistakeProblemLength) * instance.getAnswerRateCorrect;
+    #answerRate = (mistakeProblemLength: number) => (instance.getPosedProblemList[0].length - mistakeProblemLength) * instance.getAnswerRateCorrect;
 
     /**
      * 問題の答えなどを設定する関数
@@ -170,7 +175,7 @@ class problemAnswerComponent {
      * @param {選択しを管理するElement要素} choices 
      * @param {現在の出題番号目} i 
      */
-    #setProblemAnswerText = (problemText, choices, i) => {
+    #setProblemAnswerText = (problemText: Element, choices: NodeList, i: number) => {
 
         //要素を詳しく取得する
         const p = instance.getPosedProblemList[0][i];
@@ -180,7 +185,7 @@ class problemAnswerComponent {
 
         //選択の設定
         if (choices.length === p.choices.length)
-            p.choices.forEach((text, index) => choices[index].textContent = text);
+            p.choices.forEach((text: string, index: number) => choices[index].textContent = text);
 
         //解説
         instance.setExplanation = p.explanation;

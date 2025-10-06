@@ -1,5 +1,6 @@
 import instance from "../singleton.js"
 import aysnc from "../aysnc.js";
+import ProblemCollection from "../Collections/problemCollection.js";
 
 class levelSelectComponent {
 
@@ -122,7 +123,7 @@ class levelSelectComponent {
         * @param {問題を格納する変数} problemCollection 
         * @param {シャッフルしているかのフラグ} isShuffleOrder 
         */
-    async #generateProblem(problemTheme, problemCollection, isShuffleOrder = false) {
+    async #generateProblem(problemTheme: string, problemCollection: ProblemCollection, isShuffleOrder = false) {
 
         //problemCollectionに存在しているデータを全て取得
         const problemCollectionPosedProblemList = problemCollection.getPosedProblemList || {};
@@ -150,7 +151,7 @@ class levelSelectComponent {
                 for (const name in nameData) {
 
                     //全部の中で問題の範囲と一致するものを取り出す
-                    if (nameData[name].name === problemTheme) {
+                    if (nameData.name === problemTheme) {
 
                         // 問題の名前
                         nameKey = nameData[name];

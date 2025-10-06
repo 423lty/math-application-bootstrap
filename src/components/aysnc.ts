@@ -4,7 +4,7 @@ class async {
     * @param {読み込むファイルのパス} filePath 
     * @returns jsonデータ
     */
-    async loadJsonDataAsync(filePath) {
+    async loadJsonDataAsync(filePath: string) {
         try {
             //データの取得
             const json = await fetch(filePath);

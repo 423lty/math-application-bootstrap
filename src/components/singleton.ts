@@ -1,5 +1,6 @@
 import posedProblem from "./Collections/posedProblem.js";
 import ProblemCollection from "./Collections/problemCollection.js"
+import { MathStructureJson } from "./interface/jsonFilesInterface.js";
 
 class singletonAppObject {
 
@@ -106,7 +107,7 @@ class singletonAppObject {
     #explanation: string = "";
 
     /**ファイルのパスを格納する配列 */
-    #filePathList: string[] = [];
+    #filePathList!: MathStructureJson;
 
     /**全ての名前を格納するリスト型配列 */
     #nameDataList: string[] = [];
@@ -169,7 +170,7 @@ class singletonAppObject {
     get getFilePathList(): string[] { return this.#filePathList; }
 
     /**アプリケーションの状態を設定する */
-    set setFilePathList(filePathList: string[]) { this.#filePathList = filePathList; }
+    set setFilePathList(filePathList: MathStructureJson) { this.#filePathList = filePathList; }
 
     /**アプリケーションの状態を取得する */
     get getNameDataList() { return this.#nameDataList; }

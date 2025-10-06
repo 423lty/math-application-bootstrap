@@ -3,7 +3,6 @@ import instance from "../singleton.js"
 class finishComponent {
     /**終了時の処理 */
     update = () => {
-
         //クリックした時の処理
         document.addEventListener("click", (e) => {
 
@@ -11,7 +10,7 @@ class finishComponent {
             const target = e?.target as HTMLElement | null
             const onclickButton = target;
 
-            //nullcheck
+            //null check
             if (onclickButton === null) return;
 
             //指定した要素に一致市内場合処理をスキップ
@@ -38,7 +37,7 @@ class finishComponent {
     }
 
     /**指定したhandlerで実行 */
-    #handler: { [key: string]: () => void; } = {
+    #handler: { [key: string]: () => void } = {
         returnTitle() {
             instance.setState = instance.getApplicationState.title
         },

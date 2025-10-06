@@ -1,3 +1,4 @@
+import { MathStructureJson } from "../interface/jsonFilesInterface";
 import posedProblem from "./posedProblem";
 
 export default class ProblemCollection {
@@ -6,25 +7,25 @@ export default class ProblemCollection {
     get getJsonData(): string[] { return this.#jsonDataArray; }
 
     /**jsonの情報を設定する */
-    set setJsonData(jsonDataArray:string[]) { this.#jsonDataArray = jsonDataArray; }
+    set setJsonData(jsonDataArray: string[]) { this.#jsonDataArray = jsonDataArray; }
 
-    /**問題の情報を取得する */
-    get getProblemData() { return this.#problemDataArray; }
+    // /**問題の情報を取得する */
+    // get getProblemData() { return this.#problemDataArray; }
 
-    /**jsonの情報を設定する */
-    set setProblemData(problemDataArray) { this.#problemDataArray = problemDataArray; }
+    // /**jsonの情報を設定する */
+    // set setProblemData(problemDataArray) { this.#problemDataArray = problemDataArray; }
 
     /**jsonの情報を取得する */
     get getNameDataArray() { return this.#nameDataArray; }
 
     /**jsonの情報を設定する */
-    set setNameDataArray(nameDataArray) { this.#nameDataArray = nameDataArray; }
+    set setNameDataArray(nameDataArray: MathStructureJson) { this.#nameDataArray = nameDataArray; }
 
     /**大門の数の情報を取得する */
     get getAreaNum() { return this.#areaNum; }
 
     /**大門の情報を設定する */
-    set setAreaNum(areaNum) { this.#areaNum = areaNum; }
+    set setAreaNum(areaNum: number) { this.#areaNum = areaNum; }
 
     /**小門の情報を取得する */
     get getCategoryArray() { return this.#categoryArray; }
@@ -36,22 +37,22 @@ export default class ProblemCollection {
     get getPosedProblemList() { return this.#posedProblemList; }
 
     /**小門の情報を設定する */
-    set setPosedProblemList(posedProblemList) { this.#posedProblemList = posedProblemList; }
+    set setPosedProblemList(posedProblemList: posedProblem[]) { this.#posedProblemList = posedProblemList; }
 
     /**jsonの情報を格納する変数 */
-    #jsonDataArray: string[];
+    #jsonDataArray: string[] = [];
 
     /**問題の情報を格納する変数 */
-    #problemDataArray = [];
+    // #problemDataArray = [];
 
     /**名前やカテゴリーの格納配列 */
-    #nameDataArray = [];
+    #nameDataArray!: MathStructureJson;
 
     /**大門の数を格納する変数 */
-    #areaNum: number;
+    #areaNum: number = 0;
 
     /**大門の数だけ確保した配列に入っている配列 */
-    #categoryArray = {};
+    #categoryArray: { [key: string]: number } = {};
 
     /**問題の最終的なデータを保管する変数 */
     #posedProblemList: posedProblem[] = [];

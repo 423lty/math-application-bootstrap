@@ -25,14 +25,14 @@ export default class posedProblem {
     set setAnswer(answer: number) { this.#answer = answer; }
 
     /**選択しを格納する変数 */
-    #choices: number[];
+    #choices: number[] = [];
 
     /**問題の内容を格納する変数 */
-    #question: string;
+    #question: string = "";
 
     /**解説の内容を格納する変数 */
-    #explanation: string;
+    #explanation: string = "";
 
     /**回答を格納する変数 */
-    #answer: number;
+    #answer: number = 0;
 }

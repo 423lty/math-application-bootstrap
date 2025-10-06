@@ -1,10 +1,12 @@
+import posedProblem from "./posedProblem";
+
 export default class ProblemCollection {
 
     /**jsonの情報を取得する */
-    get getJsonData() { return this.#jsonDataArray; }
+    get getJsonData(): string[] { return this.#jsonDataArray; }
 
     /**jsonの情報を設定する */
-    set setJsonData(jsonDataArray) { this.#jsonDataArray = jsonDataArray; }
+    set setJsonData(jsonDataArray:string[]) { this.#jsonDataArray = jsonDataArray; }
 
     /**問題の情報を取得する */
     get getProblemData() { return this.#problemDataArray; }
@@ -37,7 +39,7 @@ export default class ProblemCollection {
     set setPosedProblemList(posedProblemList) { this.#posedProblemList = posedProblemList; }
 
     /**jsonの情報を格納する変数 */
-    #jsonDataArray = [];
+    #jsonDataArray: string[];
 
     /**問題の情報を格納する変数 */
     #problemDataArray = [];
@@ -46,11 +48,11 @@ export default class ProblemCollection {
     #nameDataArray = [];
 
     /**大門の数を格納する変数 */
-    #areaNum = 0;
+    #areaNum: number;
 
     /**大門の数だけ確保した配列に入っている配列 */
     #categoryArray = {};
 
     /**問題の最終的なデータを保管する変数 */
-    #posedProblemList = [];
+    #posedProblemList: posedProblem[] = [];
 }

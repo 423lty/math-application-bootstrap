@@ -10,27 +10,27 @@ class levelSelectComponent {
         if (instance.getMathLevel === instance.getApplicationMathLevel.noSelect) return;
 
         // 戻るボタンとランダムにするボタンを取得
-        const levelSelect = document.querySelector(".levelSelect");
-        const backButton = levelSelect.querySelector(".back");
-        const randomButton = levelSelect.querySelector(".random");
-        const areaInners = document.querySelector(".selectAreaAndCategory");
+        const levelSelect = instance.getElement<Element>(".levelSelect");
+        const levelSelectTitle = instance.getElement<Element>("h2", levelSelect);
+        const backButton = instance.getElement<Element>(".back", levelSelect);
+        const randomButton = instance.getElement<Element>(".random", levelSelect);
+        const areaInners = instance.getElement<Element>(".selectAreaAndCategory");
 
         //問題のテーマ
-        let problemTheme = "";
+        let problemTheme: string | null;
 
         // 戻る処理
         backButton.addEventListener("click", () => {
             //タイトルにする　
             instance.setState = instance.getApplicationState.title;
             instance.setMathLevel = instance.getApplicationMathLevel.noSelect;
-            levelSelect.querySelector("h2").textContent = "levelSelect";
+            levelSelectTitle.textContent = "levelSelect";
 
             //選択しを消す
-            const areaParent = document.querySelector(".selectAreaAndCategory");
             const inners = document.querySelectorAll(".selectAreaButtonInner");
 
             //一つずつ取り出して削除する
-            inners.forEach(inner => areaParent.removeChild(inner));
+            inners.forEach(inner => areaInners.removeChild(inner));
 
             //更新
             instance.checkApplicationState();
@@ -54,12 +54,14 @@ class levelSelectComponent {
         areaInners.addEventListener("click", (e) => {
 
             //動的に確保
-            const areaInnerElement = e.target.closest(".selectAreaButtonInner");
-            const problemAnswerTitle = document.querySelector(".problemAnswer").querySelector(".areaAndCategory");
-            const targetClassName = levelSelect.querySelector("nav").className;
-            const mathLevel = document.querySelector(".levelSelect").querySelector("h2").textContent;
+            const target = e.target as HTMLElement;
+            const areaInnerElement = instance.getElement(".selectAreaButtonInner", target);
+            const problemAnswer = instance.getElement(".problemAnswer")
+            const problemAnswerTitle = instance.getElement(".areaAndCategory", problemAnswer);
+            const targetClassName = instance.getElement("nav", levelSelect).className;
+            const mathLevel = levelSelectTitle.textContent;
             const problemCollection = instance.getProblemCollection(targetClassName);
-            const areaName = areaInnerElement.querySelector(".area").textContent;
+            const areaName = instance.getElement(".area", areaInnerElement).textContent;
 
             //ランダムボタンが押されている場合次の処理に進
             if (instance.getIsShuffleOrder === true) {
@@ -81,7 +83,7 @@ class levelSelectComponent {
             else if (instance.getIsShuffleOrder === false) {
 
                 //ボタンの表示
-                const categoryButton = areaInnerElement.querySelector(".selectCategoryButtonInner");
+                const categoryButton = instance.getElement<HTMLElement>(".selectCategoryButtonInner", areaInnerElement);
 
                 //詳細の表示画面
                 if (categoryButton.style.display === "block")
@@ -139,7 +141,7 @@ class levelSelectComponent {
             let problemData;
 
             // 問題内容を格納
-            const problemArray = [];
+            const problemArray: string[] = [];
 
             //ランダムでする場合
             if (isShuffleOrder === true) {
@@ -191,7 +193,7 @@ class levelSelectComponent {
                 problemArray.push(nameKey.name)
 
                 /**問題キーに格納するオブジェクト */
-                const questions = [];
+                const questions: string[] = [];
 
                 //問題数の数だけ回してランダムな問題を取得
                 for (let count = 0; count < instance.getSolveProblemNum; count++) {
@@ -263,8 +265,8 @@ class levelSelectComponent {
             problemCollection.setPosedProblemList = problemCollectionPosedProblemList;
 
             //格納する情報の取得
-            const levelSelect = document.querySelector(".levelSelect");
-            const targetClassName = levelSelect.querySelector("nav").className;
+            const levelSelect = instance.getElement(".levelSelect");
+            const targetClassName = instance.getElement("nav", levelSelect).className;
 
             //問題を格納    
             instance.setProblemCollection(targetClassName, problemCollection);

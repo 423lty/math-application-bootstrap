@@ -8,7 +8,11 @@ class finishComponent {
         document.addEventListener("click", (e) => {
 
             //クリックされた要素を取得
-            const onclickButton = e.target;
+            const target = e?.target as HTMLElement | null
+            const onclickButton = target;
+
+            //nullcheck
+            if (onclickButton === null) return;
 
             //指定した要素に一致市内場合処理をスキップ
             if (this.#buttons.includes(onclickButton))
@@ -20,10 +24,10 @@ class finishComponent {
     * 終了の処理中にボタンを押したときの処理
     * @param {任意のボタン要素} onclickButtonClassName 
     */
-    #finishButtonEvent = (onclickButtonClassName) => {
+    #finishButtonEvent = (onclickButtonClassName: string) => {
 
         //指定したオブジェクトを取得
-        const handler = this.#handler[onclickButtonClassName]
+        const handler: Function = this.#handler[onclickButtonClassName]
 
         //存在する場合のみ実行
         if (handler)
@@ -34,7 +38,7 @@ class finishComponent {
     }
 
     /**指定したhandlerで実行 */
-    #handler = {
+    #handler: { [key: string]: () => void; } = {
         returnTitle() {
             instance.setState = instance.getApplicationState.title
         },
@@ -48,10 +52,10 @@ class finishComponent {
     }
 
     //それぞれのボタンを取得
-    #buttons = [
-        document.querySelector(".returnTitle"),
-        document.querySelector(".returnProblemSelect"),
-        document.querySelector(".answerProblemAgain")
+    #buttons: (Element | null)[] = [
+        instance.getElement(".returnTitle"),
+        instance.getElement(".returnProblemSelect"),
+        instance.getElement(".answerProblemAgain"),
     ]
 
 }

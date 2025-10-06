@@ -6,13 +6,13 @@ class problemAnswerComponent {
     update = () => {
 
         //それぞれのdocumentでデータを取得
-        const problemAnswer = document.querySelector(".problemAnswer");
-        const problemText = problemAnswer.querySelector(".problemText");
-        const options = problemAnswer.querySelector(".options");
-        const nextProblemButton = problemAnswer.querySelector(".nextProblemButton");
-        const explanation = problemAnswer.querySelector(".explanation");
-        const parentVideo = problemAnswer.querySelector(".parentVideo");
-        const answerRateDocument = document.querySelector(".answerRate");
+        const problemAnswer = instance.getElement(".problemAnswer");
+        const problemText = instance.getElement(".problemText", problemAnswer);
+        const options = instance.getElement<HTMLElement>(".options", problemAnswer);
+        const nextProblemButton = instance.getElement(".nextProblemButton", problemAnswer);
+        const explanation = instance.getElement(".explanation", problemAnswer);
+        const parentVideo = instance.getElement<HTMLElement>(".parentVideo", problemAnswer);
+        const answerRateDocument = instance.getElement(".answerRate");
 
         // 現在の問題数をカウントする変数
         let count = 0;
@@ -20,7 +20,7 @@ class problemAnswerComponent {
         //問題を一回クリックした場合フラグを切り替える
         let isOneClickedAnswer = false;
 
-        let isCorrectProblem = null;
+        let isCorrectProblem: boolean | null = null;
 
         //間違えた問題を格納する変数
         let mistakeProblem = [];

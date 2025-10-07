@@ -1,18 +1,21 @@
 // build.js
-const fs = require('fs');
+import ts from "typescript";
+import fs from "fs";
+import path from "path";
 
-// HTML / CSS / JS を読み込む
-let html = fs.readFileSync('./index.html', 'utf8');
-let css = fs.readFileSync('./style.css', 'utf8');
-let js = fs.readFileSync('./src/main.js', 'utf8');
+// コンパイル対象
+const filePath = path.resolve("src/main.ts");
+const outDir = "dist";
 
-// CSS を <style> に埋め込む
-html = html.replace('</head>', `<style>${css}</style></head>`);
+// 出力ディレクトリ作成
+if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
 
-// JS を <script> に埋め込む
-html = html.replace('</body>', `<script>${js}</script></body>`);
+// TypeScriptをJavaScriptに変換
+const tsCode = fs.readFileSync(filePath, "utf8");
+const result = ts.transpileModule(tsCode, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 }
+});
 
-// 1つの HTML に書き出す
-fs.writeFileSync('./build/index.html', html);
-
-console.log('single.html を作成しました');
+// 出力ファイルに書き込み
+fs.writeFileSync(path.join(outDir, "main.js"), result.outputText);
+console.log("✅ TypeScriptをJavaScriptに変換しました。");

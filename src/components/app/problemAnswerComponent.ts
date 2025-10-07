@@ -15,10 +15,10 @@ class problemAnswerComponent {
         const answerRateDocument = instance.getElement(".answerRate");
 
         // 現在の問題数をカウントする変数
-        let count = 0;
+        let count: number = 0;
 
         //問題を一回クリックした場合フラグを切り替える
-        let isOneClickedAnswer = false;
+        let isOneClickedAnswer: boolean = false;
 
         let isCorrectProblem: boolean | null = null;
 
@@ -100,10 +100,17 @@ class problemAnswerComponent {
             const hasChild = parentVideo.hasChildNodes();
 
             //parentVideoに子要素が存在している場合取り除く
-            if (hasChild) parentVideo.removeChild(parentVideo.firstElementChild)
+            if (hasChild) {
+                //全ての子要素を取得
+                const elementChildlen = parentVideo.childNodes;
+
+                //全てを削除する
+                for (const child of elementChildlen)
+                    parentVideo.removeChild(child)
+            }
 
             //問題文の長さを上回るまで続ける
-            if (instance.getPosedProblemList[0].length > count) {
+            if (instance.getPosedProblemList.questions.length > count) {
 
                 //すべての選択の状態を取得  
                 const choices = problemAnswer.querySelectorAll(".choices");
@@ -113,7 +120,7 @@ class problemAnswerComponent {
 
                 //スキップした場合も含み間違えた場合変数に格納
                 if (isCorrectProblem === false && instance.getIsFirstProblemAnswerButtonClicked)
-                    mistakeProblem.push(instance.getPosedProblemList[0][count]);
+                    mistakeProblem.push(instance.getPosedProblemList.questions[count]);
 
                 //問題数のカウント増加
                 count++;
@@ -167,7 +174,7 @@ class problemAnswerComponent {
      * @param {間違えた数} mistakeProblemLength 
      * @returns 正答率
      */
-    #answerRate = (mistakeProblemLength: number) => (instance.getPosedProblemList[0].length - mistakeProblemLength) * instance.getAnswerRateCorrect;
+    #answerRate = (mistakeProblemLength: number) => (instance.getPosedProblemList.questions.length - mistakeProblemLength) * instance.getAnswerRateCorrect;
 
     /**
      * 問題の答えなどを設定する関数
@@ -178,7 +185,7 @@ class problemAnswerComponent {
     #setProblemAnswerText = (problemText: Element, choices: NodeList, i: number) => {
 
         //要素を詳しく取得する
-        const p = instance.getPosedProblemList[0][i];
+        const p = instance.getPosedProblemList.questions[i];
 
         //問題文の設定
         problemText.textContent = p.question;

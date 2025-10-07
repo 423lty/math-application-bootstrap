@@ -1,4 +1,6 @@
 import ProblemCollection from "../Collections/problemCollection.js"
+import { MathStructureJson } from "../interface/jsonFilesInterface.js";
+import { Area } from "../interface/nameDataInterface.js";
 import instance from "../singleton.js"
 
 class titleComponent {
@@ -21,7 +23,7 @@ class titleComponent {
             //クリックしたオブジェクトを取得
             const objectName = target.className;
             const ObjectTextcontent = target.textContent;
-            const isIncludeObjectKey = Object.values(mathLevel).includes(objectName);
+            const isIncludeObjectKey = mathLevel.hasOwnProperty(objectName);
 
             //存在している場合のみつづきの処理を実行
             if (isIncludeObjectKey) {
@@ -44,13 +46,14 @@ class titleComponent {
                 const problemCollection = new ProblemCollection();
 
                 //jsonのデータを抽出
-                const json: string[] = instance.getFilePathList[objectName];
+                const filePathList = instance.getFilePathList;
+                const json: MathStructureJson = filePathList;
 
                 //データの長さを取得(大門)
                 const jsonAreaLength = Object.keys(json).length;
 
-                //小門の数を取得 keyとともに格納
-                const categoryArray: string[] = [];
+                //小門の数を取得 string型のkeyとともに格納
+                const categoryArray: Area =  json ;
                 for (const category in json)
                     categoryArray[category] = Object.keys(json[category]).length;
 
@@ -117,7 +120,7 @@ class titleComponent {
         for (const category in categoryArray) {
 
             //長さと名前の取得
-            const areaName = nameArray[category].name;
+            const areaName = nameArray;
             const categories = nameArray[category].category;
 
             //liのタグを動的に作成

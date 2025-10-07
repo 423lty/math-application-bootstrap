@@ -29,8 +29,7 @@ class finishComponent {
         const handler: Function = this.#handler[onclickButtonClassName]
 
         //存在する場合のみ実行
-        if (handler)
-            handler();
+        if (handler) handler();
 
         //遷移
         instance.checkApplicationState();
@@ -47,7 +46,6 @@ class finishComponent {
         answerProblemAgain() {
             instance.setState = instance.getApplicationState.problemAnswer;
         }
-
     }
 
     //それぞれのボタンを取得
@@ -56,7 +54,6 @@ class finishComponent {
         instance.getElement(".returnProblemSelect"),
         instance.getElement(".answerProblemAgain"),
     ]
-
 }
 
 export default new finishComponent();

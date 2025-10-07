@@ -18,7 +18,7 @@ class levelSelectComponent {
         const areaInners = instance.getElement<Element>(".selectAreaAndCategory");
 
         //問題のテーマ
-        let problemTheme: string | null;
+        let problemTheme: string | undefined = "";
 
         // 戻る処理
         backButton.addEventListener("click", () => {
@@ -57,18 +57,21 @@ class levelSelectComponent {
             //動的に確保
             const target = e.target as HTMLElement;
             const areaInnerElement = instance.getElement(".selectAreaButtonInner", target);
+            const area = instance.getElement(".area", areaInnerElement);
             const problemAnswer = instance.getElement(".problemAnswer")
             const problemAnswerTitle = instance.getElement(".areaAndCategory", problemAnswer);
             const targetClassName = instance.getElement("nav", levelSelect).className;
             const mathLevel = levelSelectTitle.textContent;
             const problemCollection = instance.getProblemCollection(targetClassName);
-            const areaName = instance.getElement(".area", areaInnerElement).textContent;
+            const areaName = area.textContent?.toString();
 
             //ランダムボタンが押されている場合次の処理に進
             if (instance.getIsShuffleOrder === true) {
 
                 //テーマの取得
                 problemTheme = areaName;
+
+                if (problemTheme !== null) return;
 
                 //問題の作成
                 this.#generateProblem(problemTheme, problemCollection, true);

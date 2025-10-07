@@ -1,6 +1,9 @@
 import posedProblem from "./Collections/posedProblem.js";
 import ProblemCollection from "./Collections/problemCollection.js"
+import GenericManager from "./genericmanager.js";
 import { MathStructureJson } from "./interface/jsonFilesInterface.js";
+import { MathStructure } from "./interface/nameDataInterface.js";
+import { QuestionData } from "./interface/problemInterface.js";
 
 class singletonAppObject {
 
@@ -90,15 +93,17 @@ class singletonAppObject {
 
     /**アプリケーションの状態 初期状態をtitleにする*/
     #state: string = singletonAppObject.applicationState.title;
+    // #state = singletonAppObject.applicationState.title;
 
     /**数学のレベル */
     #mathLevel: string = singletonAppObject.applicationMathLevel.noSelect;
 
     /**問題をランダムにするかのフラグ */
     #isShuffleOrder: boolean = false;
+    // #isShuffleOrder = new GenericManager<Boolean>(false)
 
     /**出題する問題の格納配列 */
-    #posedProblemList: posedProblem[] = [];
+    #posedProblemList!: QuestionData;
 
     /**問題の正答を管理する場所 */
     #posedAnswer: number = -1;
@@ -110,7 +115,7 @@ class singletonAppObject {
     #filePathList!: MathStructureJson;
 
     /**全ての名前を格納するリスト型配列 */
-    #nameDataList: string[] = [];
+    #nameDataList!: MathStructure;
 
     /**問題回答時に最初にボタンをクリックしたかどうか */
     #isFirstProblemAnswerButtonClicked: boolean = false;
@@ -149,10 +154,10 @@ class singletonAppObject {
     set setIsShuffleOrder(isShuffleOrder: boolean) { this.#isShuffleOrder = isShuffleOrder; }
 
     /**出題する問題の格納配列を取得する */
-    get getPosedProblemList(): posedProblem[] { return this.#posedProblemList; }
+    get getPosedProblemList(): QuestionData { return this.#posedProblemList; }
 
     /**出題する問題の格納配列を設定する */
-    set setPosedProblemList(posedProblemList: posedProblem[]) { this.#posedProblemList = posedProblemList; }
+    set setPosedProblemList(posedProblemList: QuestionData) { this.#posedProblemList = posedProblemList; }
 
     /**出題する問題の格納配列を取得する */
     get getPosedAnswer(): number { return this.#posedAnswer; }
@@ -167,7 +172,7 @@ class singletonAppObject {
     set setExplanation(explanation: string) { this.#explanation = explanation; }
 
     /**アプリケーションの状態を取得する */
-    get getFilePathList(): string[] { return this.#filePathList; }
+    get getFilePathList(): MathStructureJson { return this.#filePathList; }
 
     /**アプリケーションの状態を設定する */
     set setFilePathList(filePathList: MathStructureJson) { this.#filePathList = filePathList; }
@@ -176,7 +181,7 @@ class singletonAppObject {
     get getNameDataList() { return this.#nameDataList; }
 
     /**アプリケーションの状態を設定する */
-    set setNameDataList(nameDataList: string[]) { this.#nameDataList = nameDataList; }
+    set setNameDataList(nameDataList: MathStructure) { this.#nameDataList = nameDataList; }
 
     /**アプリケーションの状態を取得する */
     get getIsFirstProblemAnswerButtonClicked(): boolean { return this.#isFirstProblemAnswerButtonClicked; }

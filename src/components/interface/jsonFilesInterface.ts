@@ -1,6 +1,6 @@
 /** 各カテゴリ情報を表す型 */
 export interface Category {
-    [key: string]: string; 
+    [key: string]: string;
 }
 
 /** 高等数学（高校レベル）全体の構造 */

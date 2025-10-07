@@ -1,9 +1,9 @@
-import posedProblem from "./Collections/posedProblem.js";
-import ProblemCollection from "./Collections/problemCollection.js"
-import GenericManager from "./genericmanager.js";
-import { MathStructureJson } from "./interface/jsonFilesInterface.js";
-import { MathStructure } from "./interface/nameDataInterface.js";
-import { QuestionData } from "./interface/problemInterface.js";
+import posedProblem from "../../remake/components/Collections/posedProblem.js";
+import ProblemCollection from "../../remake/components/Collections/problemCollection.js"
+import createGenericManager from "./genericManager.js";
+import { MathStructureJson } from "../../remake/components/interface/jsonFilesInterface.js";
+import { MathStructure } from "../../remake/components/interface/nameDataInterface.js";
+import { QuestionData } from "../../remake/components/interface/problemInterface.js";
 
 class singletonAppObject {
 
@@ -37,23 +37,6 @@ class singletonAppObject {
         return element!;
     }
 
-    /**
-      * 問題を格納するオブジェクトを取得するメソッド
-      * @param {*} className 
-      * @returns 指定した問題を格納するメソッドを返却
-      */
-    getProblemCollection = (className: string): ProblemCollection => this.#problemCollections[className] ??= new ProblemCollection()
-
-    /**
-     * 指定したオブジェクトにデータを設定する
-     * @param {データを格納する対象} className 
-     * @param {格納するデータ} setObject 
-     */
-    setProblemCollection(className: string, setObject: ProblemCollection): void {
-        if (className in this.#problemCollections)
-            this.#problemCollections[className] = setObject;
-    }
-
     /**アプリケーションのすべての状態を管理する */
     checkApplicationState(): void {
 
@@ -64,7 +47,7 @@ class singletonAppObject {
         appSections.forEach(section => section.style.display = "block")
 
         /**stateと不一致するオブジェクトを取得 */
-        const disActiveStates = appSections.filter(item => item.className != this.#state);
+        const disActiveStates = appSections.filter(item => item.className != this.state);
 
         /**一致しないオブジェクトは非表示にする */
         disActiveStates.forEach(disActiveState => disActiveState.style.display = "none")
@@ -72,7 +55,7 @@ class singletonAppObject {
         //consoleのクリア
         console.clear();
 
-        console.log("現在表示state:" + this.#state);
+        console.log("現在表示state:" + this.state);
     }
 
     /**アプリケーションの状態管理 */
@@ -92,118 +75,25 @@ class singletonAppObject {
     })
 
     /**アプリケーションの状態 初期状態をtitleにする*/
-    #state: string = singletonAppObject.applicationState.title;
-    // #state = singletonAppObject.applicationState.title;
+    state = createGenericManager<String>(singletonAppObject.applicationState.title);
 
     /**数学のレベル */
-    #mathLevel: string = singletonAppObject.applicationMathLevel.noSelect;
+    mathLevel = createGenericManager<String>(singletonAppObject.applicationMathLevel.noSelect);
 
     /**問題をランダムにするかのフラグ */
-    #isShuffleOrder: boolean = false;
-    // #isShuffleOrder = new GenericManager<Boolean>(false)
+    isShuffleOrder = createGenericManager<Boolean>(false)
 
-    /**出題する問題の格納配列 */
-    #posedProblemList!: QuestionData;
-
-    /**問題の正答を管理する場所 */
-    #posedAnswer: number = -1;
-
-    /**解説を管理する変数 */
-    #explanation: string = "";
-
-    /**ファイルのパスを格納する配列 */
-    #filePathList!: MathStructureJson;
-
-    /**全ての名前を格納するリスト型配列 */
-    #nameDataList!: MathStructure;
-
-    /**問題回答時に最初にボタンをクリックしたかどうか */
-    #isFirstProblemAnswerButtonClicked: boolean = false;
-
-    /**問題の政党率 */
-    #answerRate: number = 0;
-
-    /**情報を格納するコレクション */
-    #problemCollections: { [key: string]: ProblemCollection } = {
-        [singletonAppObject.applicationMathLevel.highSchool]: new ProblemCollection(),
-        [singletonAppObject.applicationMathLevel.university]: new ProblemCollection()
-    }
-
-    /**アプリの状態を管理するgetter */
-    get getApplicationState() { return singletonAppObject.applicationState; }
-
-    /**アプリの数学のレベルを管理するオブジェクト */
-    get getApplicationMathLevel() { return singletonAppObject.applicationMathLevel; }
-
-    /**アプリケーションの状態を取得する */
-    get getState(): string { return this.#state; }
-
-    /**アプリケーションの状態を設定する */
-    set setState(state: string) { this.#state = state; }
-
-    /**数学のレベルを取得する */
-    get getMathLevel(): string { return this.#mathLevel; }
-
-    /**数学のレベルを設定する */
-    set setMathLevel(mathLevel: string) { this.#mathLevel = mathLevel; }
-
-    /**問題をランダムにするかのフラグを取得する */
-    get getIsShuffleOrder(): boolean { return this.#isShuffleOrder; }
-
-    /**問題をランダムにするかのフラグを設定する */
-    set setIsShuffleOrder(isShuffleOrder: boolean) { this.#isShuffleOrder = isShuffleOrder; }
-
-    /**出題する問題の格納配列を取得する */
-    get getPosedProblemList(): QuestionData { return this.#posedProblemList; }
-
-    /**出題する問題の格納配列を設定する */
-    set setPosedProblemList(posedProblemList: QuestionData) { this.#posedProblemList = posedProblemList; }
-
-    /**出題する問題の格納配列を取得する */
-    get getPosedAnswer(): number { return this.#posedAnswer; }
-
-    /**出題する問題の格納配列を設定する */
-    set setPosedAnswer(posedAnswer: number) { this.#posedAnswer = posedAnswer; }
-
-    /**アプリケーションの状態を取得する */
-    get getExplanation(): string { return this.#explanation; }
-
-    /**アプリケーションの状態を設定する */
-    set setExplanation(explanation: string) { this.#explanation = explanation; }
-
-    /**アプリケーションの状態を取得する */
-    get getFilePathList(): MathStructureJson { return this.#filePathList; }
-
-    /**アプリケーションの状態を設定する */
-    set setFilePathList(filePathList: MathStructureJson) { this.#filePathList = filePathList; }
-
-    /**アプリケーションの状態を取得する */
-    get getNameDataList() { return this.#nameDataList; }
-
-    /**アプリケーションの状態を設定する */
-    set setNameDataList(nameDataList: MathStructure) { this.#nameDataList = nameDataList; }
-
-    /**アプリケーションの状態を取得する */
-    get getIsFirstProblemAnswerButtonClicked(): boolean { return this.#isFirstProblemAnswerButtonClicked; }
-
-    /**アプリケーションの状態を設定する */
-    set setIsFirstProblemAnswerButtonClicked(isFirstProblemAnswerButtonClicked: boolean) { this.#isFirstProblemAnswerButtonClicked = isFirstProblemAnswerButtonClicked; }
-
-    /**データのすべてのファイルパス */
+    /**問題データ全てを格納しているjsonファイル */
     get dataFilePath(): string { return "../data/problemDataFiles.json" }
+    
+    /**範囲とカテゴリーを格納しているjsonファイル */
     get nameDataFilePath(): string { return "../data/nameDataFiles.json" }
 
-    /**選択しの数 */
+    /**選択肢の数 */
     get getOptionsNum(): number { return 4 }
 
     /**解く問題数 */
     get getSolveProblemNum(): number { return 10 }
-
-    /**正答率 */
-    set setAnswerRate(answerRate: number) { this.#answerRate = answerRate }
-
-    /**正答率 */
-    get getAnswerRate(): number { return this.#answerRate }
 
     /**正答率の補正 */
     get getAnswerRateCorrect(): number { return 10 }

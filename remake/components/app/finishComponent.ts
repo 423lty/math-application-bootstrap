@@ -1,4 +1,4 @@
-import instance from "../singleton.js"
+import instance from "../../../src/components/singleton.js"
 
 class finishComponent {
     /**終了時の処理 */
@@ -38,13 +38,13 @@ class finishComponent {
     /**指定したhandlerで実行 */
     #handler: { [key: string]: () => void } = {
         returnTitle() {
-            instance.setState = instance.getApplicationState.title
+            instance.state = instance.getApplicationState.title
         },
         returnProblemSelect() {
-            instance.setState = instance.getApplicationState.levelSelect;
+            instance.state = instance.getApplicationState.levelSelect;
         },
         answerProblemAgain() {
-            instance.setState = instance.getApplicationState.problemAnswer;
+            instance.state = instance.getApplicationState.problemAnswer;
         }
     }
 

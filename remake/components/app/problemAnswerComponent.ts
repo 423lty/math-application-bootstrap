@@ -1,4 +1,4 @@
-import instance from "../singleton.js"
+import instance from "../../../src/components/singleton.js"
 
 class problemAnswerComponent {
 
@@ -29,7 +29,7 @@ class problemAnswerComponent {
         options.addEventListener("click", (e) => {
 
             //問題を回答開始していない場合処理をしない
-            if (!instance.getIsFirstProblemAnswerButtonClicked) {
+            if (!instance.isFirstProblemAnswerButtonClicked) {
                 // デフォルト動作を止める
                 e.preventDefault();
                 return;
@@ -71,7 +71,7 @@ class problemAnswerComponent {
                 isOneClickedAnswer = true;
 
                 //問題に正解したかどうかを取得
-                isCorrectProblem = (index === instance.getPosedAnswer);
+                isCorrectProblem = (index === instance.posedAnswer);
 
                 //動画の要素を付与する
                 video.src = isCorrectProblem ? instance.getCorrectAnswerVideoPath : instance.getIncorrectAnswerVideoPath;
@@ -80,7 +80,7 @@ class problemAnswerComponent {
                 parentVideo.appendChild(video);
 
                 //問題の解説を表示
-                explanation.textContent = instance.getExplanation;
+                explanation.textContent = instance.explanation.toString();
             }
         });
 
@@ -88,8 +88,8 @@ class problemAnswerComponent {
         nextProblemButton.addEventListener("click", () => {
 
             //問題解答開始のフラグを変更
-            if (!instance.getIsFirstProblemAnswerButtonClicked) {
-                instance.setIsFirstProblemAnswerButtonClicked = true
+            if (!instance.isFirstProblemAnswerButtonClicked) {
+                instance.isFirstProblemAnswerButtonClicked = true
                 options.style.display = "block"
             }
 
@@ -119,7 +119,7 @@ class problemAnswerComponent {
                 this.#setProblemAnswerText(problemText, choices, count);
 
                 //スキップした場合も含み間違えた場合変数に格納
-                if (isCorrectProblem === false && instance.getIsFirstProblemAnswerButtonClicked)
+                if (isCorrectProblem === false && instance.isFirstProblemAnswerButtonClicked)
                     mistakeProblem.push(instance.getPosedProblemList.questions[count]);
 
                 //問題数のカウント増加
@@ -128,10 +128,10 @@ class problemAnswerComponent {
             //終了時の処理
             else {
 
-                instance.setIsFirstProblemAnswerButtonClicked = !instance.getIsFirstProblemAnswerButtonClicked;
+                instance.isFirstProblemAnswerButtonClicked = !instance.isFirstProblemAnswerButtonClicked;
 
                 //stateの状態を変更
-                instance.setState = instance.getApplicationState.finish;
+                instance.state = instance.getApplicationState.finish;
 
                 //問題のカウントをリセット
                 count = 0;
@@ -140,10 +140,10 @@ class problemAnswerComponent {
                 const mistakeProblemLength = mistakeProblem.length;
 
                 //正答率を更新
-                instance.setAnswerRate = this.#answerRate(mistakeProblemLength);
+                instance.answerRate = this.#answerRate(mistakeProblemLength);
 
                 //正答率の表示
-                answerRateDocument.textContent = `正答率 : ${instance.getAnswerRate}%`;
+                answerRateDocument.textContent = `正答率 : ${instance.answerRate}%`;
 
                 //間違えたオブジェクトの内部を消す
                 mistakeProblem = [];
@@ -195,12 +195,12 @@ class problemAnswerComponent {
             p.choices.forEach((text: string, index: number) => choices[index].textContent = text);
 
         //解説
-        instance.setExplanation = p.explanation;
+        instance.explanation = p.explanation;
 
         // 答え
-        instance.setPosedAnswer = p.answer;
-        console.log(`答え : ${instance.getPosedAnswer}`)
-        console.log(`解説 : ${instance.getExplanation}`)
+        instance.posedAnswer = p.answer;
+        console.log(`答え : ${instance.posedAnswer}`)
+        console.log(`解説 : ${instance.explanation}`)
     }
 }
 

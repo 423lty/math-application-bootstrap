@@ -1,7 +1,7 @@
 import ProblemCollection from "../Collections/problemCollection.js"
 import { MathStructureJson } from "../interface/jsonFilesInterface.js";
 import { Area } from "../interface/nameDataInterface.js";
-import instance from "../singleton.js"
+import instance from "../../../src/components/singleton.js"
 
 class titleComponent {
 
@@ -28,13 +28,12 @@ class titleComponent {
             //存在している場合のみつづきの処理を実行
             if (isIncludeObjectKey) {
                 //レベルの選択
-                instance.setMathLevel = objectName;
+                instance.mathLevel = objectName;
 
                 //レベルのテキスト
                 const levelSelect = instance.getElement<HTMLElement>(".levelSelect");
 
                 // levelSelectの表示タイトルの変更
-                // const levelSelectText = levelSelect.querySelector("h2");
                 const levelSelectText = instance.getElement<HTMLHeadingElement>("h2", levelSelect)
                 levelSelectText.textContent = ObjectTextcontent;
 
@@ -42,23 +41,26 @@ class titleComponent {
                 const levelSelectNav = instance.getElement<HTMLElement>("nav", levelSelect);
                 levelSelectNav.className = objectName;
 
+                /**interfaceにアクセスするためのアクセス指定し */
+                const className = objectName as keyof MathStructureJson;
+
                 //problemCollectionを動的に確保して初期化
                 const problemCollection = new ProblemCollection();
 
                 //jsonのデータを抽出
                 const filePathList = instance.getFilePathList;
-                const json: MathStructureJson = filePathList;
+                const json = filePathList[className];
 
                 //データの長さを取得(大門)
                 const jsonAreaLength = Object.keys(json).length;
 
                 //小門の数を取得 string型のkeyとともに格納
-                const categoryArray: Area =  json ;
+                let categoryArray!: typeof json;
                 for (const category in json)
-                    categoryArray[category] = Object.keys(json[category]).length;
+                    categoryArray = Object.keys(json[category]).length;
 
                 //名前のデータ
-                const nameDataArray = instance.getNameDataList[objectName];
+                const nameDataArray = instance.getNameDataList[className];
 
                 //抽出したデータを格納
                 problemCollection.setJsonData = json;
@@ -76,7 +78,7 @@ class titleComponent {
                 instance.setProblemCollection(objectName, problemCollection);
 
                 //stateの状態を変更
-                instance.setState = instance.getApplicationState.levelSelect;
+                instance.state = instance.getApplicationState.levelSelect;
 
                 // 動的にAreaとcategoryを作成する
                 this.#initAreaAndCategory(problemCollection);

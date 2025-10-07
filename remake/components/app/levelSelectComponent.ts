@@ -1,5 +1,5 @@
-import instance from "../singleton.js"
-import aysnc from "../aysnc.js";
+import instance from "../../../src/components/singleton.js"
+import aysnc from "../../../src/components/aysnc.js";
 import ProblemCollection from "../Collections/problemCollection.js";
 
 class levelSelectComponent {
@@ -8,7 +8,7 @@ class levelSelectComponent {
     update = () => {
 
         //レベルが選択されていない場合処理をしない
-        if (instance.getMathLevel === instance.getApplicationMathLevel.noSelect) return;
+        if (instance.mathLevel.valueOf() === instance.getApplicationMathLevel.noSelect) return;
 
         // 戻るボタンとランダムにするボタンを取得
         const levelSelect = instance.getElement<Element>(".levelSelect");
@@ -23,8 +23,8 @@ class levelSelectComponent {
         // 戻る処理
         backButton.addEventListener("click", () => {
             //タイトルにする　
-            instance.setState = instance.getApplicationState.title;
-            instance.setMathLevel = instance.getApplicationMathLevel.noSelect;
+            instance.state = instance.getApplicationState.title;
+            instance.mathLevel = instance.getApplicationMathLevel.noSelect;
             levelSelectTitle.textContent = "levelSelect";
 
             //選択しを消す
@@ -40,7 +40,7 @@ class levelSelectComponent {
         // ランダムボタンをクリックしたときの処理
         randomButton.addEventListener("click", () => {
             // true/falseの切り替え
-            instance.setIsShuffleOrder = !instance.getIsShuffleOrder;
+            instance.isFirstProblemAnswerButtonClicked = !instance.isFirstProblemAnswerButtonClicked;
 
             // ランダムボタンの縁の色の変更するためのクラス取得
             const levelSelectSidebarElement = levelSelect.querySelectorAll("li");
@@ -66,7 +66,7 @@ class levelSelectComponent {
             const areaName = area.textContent?.toString();
 
             //ランダムボタンが押されている場合次の処理に進
-            if (instance.getIsShuffleOrder === true) {
+            if (instance.isFirstProblemAnswerButtonClicked.valueOf() === true) {
 
                 //テーマの取得
                 problemTheme = areaName;
@@ -81,10 +81,10 @@ class levelSelectComponent {
                 problemAnswerTitle.textContent = problemTitle;
 
                 //stateの更新
-                instance.setState = instance.getApplicationState.problemAnswer;
+                instance.state = instance.getApplicationState.problemAnswer;
                 instance.checkApplicationState();
             }
-            else if (instance.getIsShuffleOrder === false) {
+            else if (instance.isShuffleOrder.valueOf() === false) {
 
                 //ボタンの表示
                 const categoryButton = instance.getElement<HTMLElement>(".selectCategoryButtonInner", areaInnerElement);
@@ -112,7 +112,7 @@ class levelSelectComponent {
                         this.#generateProblem(problemTheme, problemCollection);
 
                         //stateの更新
-                        instance.setState = instance.getApplicationState.problemAnswer;
+                        instance.state = instance.getApplicationState.problemAnswer;
                         instance.checkApplicationState();
                     })
                 });

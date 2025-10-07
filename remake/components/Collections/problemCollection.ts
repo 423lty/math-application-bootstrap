@@ -1,13 +1,13 @@
-import { MathStructureJson } from "../interface/jsonFilesInterface";
+import { Category, HighSchoolMathJson, MathStructureJson, UniversityMathJson } from "../interface/jsonFilesInterface";
 import posedProblem from "./posedProblem";
 
 export default class ProblemCollection {
 
     /**jsonの情報を取得する */
-    get getJsonData(): string[] { return this.#jsonDataArray; }
+    get getJsonData(): HighSchoolMathJson | UniversityMathJson { return this.#jsonDataArray; }
 
     /**jsonの情報を設定する */
-    set setJsonData(jsonDataArray: string[]) { this.#jsonDataArray = jsonDataArray; }
+    set setJsonData(jsonDataArray: HighSchoolMathJson | UniversityMathJson) { this.#jsonDataArray = jsonDataArray; }
 
     // /**問題の情報を取得する */
     // get getProblemData() { return this.#problemDataArray; }
@@ -31,7 +31,7 @@ export default class ProblemCollection {
     get getCategoryArray() { return this.#categoryArray; }
 
     /**小門の情報を設定する */
-    set setCategoryArray(categoryArray) { this.#categoryArray = categoryArray; }
+    set setCategoryArray(categoryArray: HighSchoolMathJson | UniversityMathJson) { this.#categoryArray = categoryArray; }
 
     /**小門の情報を取得する */
     get getPosedProblemList() { return this.#posedProblemList; }
@@ -40,7 +40,7 @@ export default class ProblemCollection {
     set setPosedProblemList(posedProblemList: posedProblem[]) { this.#posedProblemList = posedProblemList; }
 
     /**jsonの情報を格納する変数 */
-    #jsonDataArray: string[] = [];
+    #jsonDataArray!: HighSchoolMathJson | UniversityMathJson;
 
     /**問題の情報を格納する変数 */
     // #problemDataArray = [];
@@ -52,7 +52,7 @@ export default class ProblemCollection {
     #areaNum: number = 0;
 
     /**大門の数だけ確保した配列に入っている配列 */
-    #categoryArray: { [key: string]: number } = {};
+    #categoryArray!: HighSchoolMathJson | UniversityMathJson;
 
     /**問題の最終的なデータを保管する変数 */
     #posedProblemList: posedProblem[] = [];

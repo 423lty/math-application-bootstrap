@@ -1,6 +1,3 @@
-import { Category, HighSchoolMathJson, MathStructureJson, UniversityMathJson } from "../interface/jsonFilesInterface";
-import posedProblem from "./posedProblem";
-
 export default class ProblemCollection {
 
     /**jsonの情報を取得する */

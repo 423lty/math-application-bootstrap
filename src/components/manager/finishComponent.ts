@@ -1,4 +1,4 @@
-import instance from "../../../src/components/singleton.js"
+import instance from "../singleton.js"
 
 class finishComponent {
     /**終了時の処理 */
@@ -38,21 +38,21 @@ class finishComponent {
     /**指定したhandlerで実行 */
     #handler: { [key: string]: () => void } = {
         returnTitle() {
-            instance.state = instance.getApplicationState.title
+            instance.state = instance.applicationState.title
         },
         returnProblemSelect() {
-            instance.state = instance.getApplicationState.levelSelect;
+            instance.state = instance.applicationState.levelSelect;
         },
         answerProblemAgain() {
-            instance.state = instance.getApplicationState.problemAnswer;
+            instance.state = instance.applicationState.problemAnswer;
         }
     }
 
     //それぞれのボタンを取得
     #buttons: (Element | null)[] = [
-        instance.getElement(".returnTitle"),
-        instance.getElement(".returnProblemSelect"),
-        instance.getElement(".answerProblemAgain"),
+        instance.createElement(".returnTitle"),
+        instance.createElement(".returnProblemSelect"),
+        instance.createElement(".answerProblemAgain"),
     ]
 }
 

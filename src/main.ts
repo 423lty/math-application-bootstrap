@@ -3,7 +3,7 @@ import instance from "./components/singleton.js"
 import title from "../remake/components/app/titleComponent.js"
 import levelSelect from "../remake/components/app/levelSelectComponent.js"
 import problemAnswer from "../remake/components/app/problemAnswerComponent.js"
-import finish from "../remake/components/app/finishComponent.js"
+import finish from "./components/manager/finishComponent.js"
 
 /**
  * 実行クラス
@@ -27,18 +27,18 @@ class App {
     async #initAsync() {
 
         //非同期でファイルのパスデータの取得
-        await aysnc.loadJsonDataAsync(instance.dataFilePath).then(res => instance.setFilePathList = res);
+        await aysnc.loadJsonDataAsync(instance.problemDataFileJsonPath).then(res => instance.dataFilePath = res);
 
         //名前のデータを取り出す
-        await aysnc.loadJsonDataAsync(instance.nameDataFilePath).then(res => instance.setNameDataList = res)
+        await aysnc.loadJsonDataAsync(instance.nameDataJsonFilePath).then(res => instance.setNameDataList = res)
     }
 
     /** 選択肢の初期化,生成 */
     #initOptions = () => {
 
         // 親を生成
-        const problemAnswer = instance.getElement<HTMLElement>(".problemAnswer");
-        const options = instance.getElement<HTMLElement>(".options", problemAnswer);
+        const problemAnswer = instance.createElement<HTMLElement>(".problemAnswer");
+        const options = instance.createElement<HTMLElement>(".options", problemAnswer);
 
         // 指定した回数文forを回して親に子を配置する
         for (let i = 0; i < instance.getOptionsNum; i++) {

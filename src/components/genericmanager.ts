@@ -1,15 +1,13 @@
-export default function createGenericManager<T extends object>(instance: T): T {
-    return new Proxy(instance, {
-        get(target, key) {
-            if (key in target)
-                return target[key as keyof T];
-        },
-        set(target, key, value) {
-            if (key in target) {
-                target[key as keyof T] = value;
-                return true;
-            }
-            return false;
-        }
-    });
+export function createGenericManager<T extends object>(instance: T): T;
+export function createGenericManager<T>(instance: T): T;
+export function createGenericManager<T>(instance: T): T {
+    if (typeof instance === "object" && instance !== null)
+        return new Proxy(instance, {
+            get: Reflect.get,
+            set: Reflect.set,
+        }) as T;
+    return instance;
 }
+
+
+export default createGenericManager;

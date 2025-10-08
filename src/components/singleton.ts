@@ -1,9 +1,4 @@
-import posedProblem from "../../remake/components/Collections/posedProblem.js";
-import ProblemCollection from "../../remake/components/Collections/problemCollection.js"
-import createGenericManager from "./genericManager.js";
-import { MathStructureJson } from "../../remake/components/interface/jsonFilesInterface.js";
-import { MathStructure } from "../../remake/components/interface/nameDataInterface.js";
-import { QuestionData } from "../../remake/components/interface/problemInterface.js";
+import createGenericManager from "./genericManager";
 
 class singletonAppObject {
 
@@ -31,9 +26,14 @@ class singletonAppObject {
      * @param selector 
      * @returns 
      */
-    getElement<T extends Element>(selector: string, d: ParentNode = document): T {
+    createElement<T extends Element>(selector: string, d: ParentNode = document): T {
+        //生成
         const element = d.querySelector<T>(selector);
-        if (element === null) console.log(`err:${selector}`);
+
+        //生成できなかった場合
+        if (element === null) console.log(`error:${selector}`);
+
+        //アサーション演算子をつけて返す
         return element!;
     }
 
@@ -53,41 +53,42 @@ class singletonAppObject {
         disActiveStates.forEach(disActiveState => disActiveState.style.display = "none")
 
         //consoleのクリア
-        console.clear();
-
-        console.log("現在表示state:" + this.state);
+        console.clear(), console.log("現在表示state:" + this.state);
     }
 
+    /**アプリケーションの数学のレベル */
+    applicationMathLevel = createGenericManager({
+        noSelect: "noSelect",
+        highSchool: "hs",
+        university: "univ"
+    } as const);
+
     /**アプリケーションの状態管理 */
-    static applicationState = Object.freeze({
+    applicationState = createGenericManager({
         noSelect: "noSelect",
         title: "title",
         levelSelect: "levelSelect",
         problemAnswer: "problemAnswer",
         finish: "finish",
-    });
-
-    /**アプリケーションの数学のレベル */
-    static applicationMathLevel = Object.freeze({
-        noSelect: "noSelect",
-        highSchool: "hs",
-        university: "univ"
-    })
+    } as const);
 
     /**アプリケーションの状態 初期状態をtitleにする*/
-    state = createGenericManager<String>(singletonAppObject.applicationState.title);
+    state = createGenericManager<String>(this.applicationState.title);
 
     /**数学のレベル */
-    mathLevel = createGenericManager<String>(singletonAppObject.applicationMathLevel.noSelect);
+    mathLevel = createGenericManager<String>(this.applicationMathLevel.noSelect);
 
     /**問題をランダムにするかのフラグ */
-    isShuffleOrder = createGenericManager<Boolean>(false)
+    isShuffleOrder = createGenericManager<Boolean>(false);
+
+    /**問題を格納する */
+    problemDataFile=createGenericManager();
 
     /**問題データ全てを格納しているjsonファイル */
-    get dataFilePath(): string { return "../data/problemDataFiles.json" }
-    
+    get problemDataFileJsonPath(): string { return "../data/problemDataFiles.json" }
+
     /**範囲とカテゴリーを格納しているjsonファイル */
-    get nameDataFilePath(): string { return "../data/nameDataFiles.json" }
+    get nameDataJsonFilePath(): string { return "../data/nameDataFiles.json" }
 
     /**選択肢の数 */
     get getOptionsNum(): number { return 4 }

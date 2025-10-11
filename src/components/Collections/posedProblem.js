@@ -2,7 +2,6 @@ export default class posedProblem {
 
     /**コピーコンストラクタ */
     constructor(p) {
-
         if (p instanceof posedProblem) {
             this.#question = p.getQuestion;
             this.#choices = [...p.getChoices];
